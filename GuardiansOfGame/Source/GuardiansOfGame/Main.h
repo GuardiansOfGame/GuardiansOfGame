@@ -59,11 +59,11 @@ private:
 	float BaseLookUpRate;
 
 protected:
-	void MoveForward(float Value);
-	void MoveRight(float Value);
+	void MoveForward(const float Value);
+	void MoveRight(const float Value);
 
-	void Turn(float Rate);
-	void LookUp(float Rate);
+	void Turn(const float Rate);
+	void LookUp(const float Rate);
 
 	void Interaction();
 

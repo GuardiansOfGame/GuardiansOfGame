@@ -7,6 +7,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
+#include "MainController.h"
+
 // Sets default values
 AMain::AMain()
 {
@@ -49,7 +51,7 @@ AMain::AMain()
 void AMain::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -64,22 +66,53 @@ void AMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	check(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AMain::Interaction);
+
+	PlayerInputComponent->BindAction("JumpOrRoll", IE_Pressed, this, &AMain::SpaceDown);
+	PlayerInputComponent->BindAction("JumpOrRoll", IE_Released, this, &AMain::SpaceUp);
+
+	PlayerInputComponent->BindAction("ParkourActions", IE_Pressed, this, &AMain::LCtrlDown);
+
+	PlayerInputComponent->BindAxis("MoveForward", this, &AMain::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AMain::MoveRight);
+	PlayerInputComponent->BindAxis("Turn", this, &AMain::Turn);
+	PlayerInputComponent->BindAxis("LookUp", this, &AMain::LookUp);
 }
 
-void AMain::MoveForward(float Value)
+void AMain::MoveForward(const float Value)
 {
+	if (Controller && Value)
+	{
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		AddMovementInput(Direction, Value);
+	}
 }
 
-void AMain::MoveRight(float Value)
+void AMain::MoveRight(const float Value)
 {
+	if (Controller && Value)
+	{
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		AddMovementInput(Direction, Value);
+	}
 }
 
-void AMain::Turn(float Rate)
+void AMain::Turn(const float Rate)
 {
+	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AMain::LookUp(float Rate)
+void AMain::LookUp(const float Rate)
 {
+	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 void AMain::Interaction()
