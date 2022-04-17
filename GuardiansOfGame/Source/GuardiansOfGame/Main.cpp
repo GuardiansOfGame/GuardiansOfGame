@@ -36,6 +36,13 @@ AMain::AMain()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MainMesh(TEXT("SkeletalMesh'/Game/Character/ybot/ybot.ybot'"));
+	if(MainMesh.Succeeded())
+	{
+		GetMesh()->SetSkeletalMesh(MainMesh.Object);
+		GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -93.0f), FRotator(0.0f, -90.0f, 0.0f));
+	}
 }
 
 // Called when the game starts or when spawned
