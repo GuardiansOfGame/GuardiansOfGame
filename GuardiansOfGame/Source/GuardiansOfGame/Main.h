@@ -6,6 +6,25 @@
 #include "GameFramework/Character.h"
 #include "Main.generated.h"
 
+UENUM(BlueprintType)
+enum class EInteractionStatus : uint8
+{
+	EIS_Normal			UMETA(DisplayName = "Normal"),
+	EIS_TalkWithNPC		UMETA(DisplayName = "TalkWithNPC"),
+	EIS_PickUpItem		UMETA(DisplayName = "PickUpItem"),
+
+	EIS_MAX
+};
+
+UENUM(BlueprintType)
+enum class EMovementStatus : uint8
+{
+	EMS_Normal			UMETA(DisplayName = "Normal"),
+	EMS_Parkour			UMETA(DisplayName = "Parkour"),
+
+	EMS_MAX
+};
+
 UCLASS()
 class GUARDIANSOFGAME_API AMain final : public ACharacter
 {
