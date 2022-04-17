@@ -58,6 +58,15 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	float BaseLookUpRate;
 
+	UPROPERTY(VisibleAnywhere, Category = Controller)
+	class AMainController* MainController;
+
+	UPROPERTY(VisibleAnywhere, Category = Status)
+	EInteractionStatus InteractionStatus;
+
+	UPROPERTY(VisibleAnywhere, Category = Status)
+	EMovementStatus MovementStatus;
+
 protected:
 	void MoveForward(const float Value);
 	void MoveRight(const float Value);
@@ -75,4 +84,10 @@ protected:
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	FORCEINLINE EInteractionStatus GetInteractionStatus() const { return InteractionStatus; }
+	FORCEINLINE void SetInteractionStatus(const EInteractionStatus Status) { InteractionStatus = Status; }
+
+	FORCEINLINE EMovementStatus GetMovementStatus() const { return MovementStatus; }
+	FORCEINLINE void SetMovementStatus(const EMovementStatus Status) { MovementStatus = Status; }
 };
