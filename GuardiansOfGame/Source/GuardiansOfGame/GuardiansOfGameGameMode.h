@@ -7,13 +7,10 @@
 #include "GuardiansOfGameGameMode.generated.h"
 
 UCLASS(minimalapi)
-class AGuardiansOfGameGameMode : public AGameModeBase
+class AGuardiansOfGameGameMode final : public AGameModeBase
 {
 	GENERATED_BODY()
 
 public:
 	AGuardiansOfGameGameMode();
 };
-
-
-
