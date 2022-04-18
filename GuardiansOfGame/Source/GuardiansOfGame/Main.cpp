@@ -8,6 +8,7 @@
 #include "GameFramework/SpringArmComponent.h"
 
 #include "MainController.h"
+#include "MainAnimInstance.h"
 
 // Sets default values
 AMain::AMain()
@@ -45,6 +46,12 @@ AMain::AMain()
 		GetMesh()->SetSkeletalMesh(MainMesh.Object);
 		GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -93.0f), FRotator(0.0f, -90.0f, 0.0f));
 	}
+
+	static ConstructorHelpers::FClassFinder<UAnimInstance> MainAnimInstance(TEXT("AnimBlueprint'/Game/Character/Animation/MainAnimInstance_BP.MainAnimInstance_BP_C'"));
+	if(MainAnimInstance.Succeeded())
+	{
+		GetMesh()->SetAnimInstanceClass(MainAnimInstance.Class);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -52,6 +59,8 @@ void AMain::BeginPlay()
 {
 	Super::BeginPlay();
 
+	MainController = Cast<AMainController>(Controller);
+	MainAnim = Cast<UMainAnimInstance>(GetMesh()->GetAnimInstance());
 }
 
 // Called every frame

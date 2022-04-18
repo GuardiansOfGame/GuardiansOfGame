@@ -61,6 +61,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Controller)
 	class AMainController* MainController;
 
+	UPROPERTY(VisibleAnywhere, Category = Animation)
+	class UMainAnimInstance* MainAnim;
+
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	EInteractionStatus InteractionStatus;
 
@@ -84,6 +87,8 @@ protected:
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	FORCEINLINE UMainAnimInstance* GetMainAnim() const { return MainAnim; }
 
 	FORCEINLINE EInteractionStatus GetInteractionStatus() const { return InteractionStatus; }
 	FORCEINLINE void SetInteractionStatus(const EInteractionStatus Status) { InteractionStatus = Status; }
