@@ -30,6 +30,12 @@ ANPC::ANPC()
 		}
 	}
 
+	static ConstructorHelpers::FClassFinder<UAnimInstance> NPCAnimInstance(TEXT("AnimBlueprint'/Game/Character/NPCAnimation/NPCAnimInstance_BP.NPCAnimInstance_BP_C'"));
+	if (NPCAnimInstance.Succeeded())
+	{
+		Mesh->SetAnimInstanceClass(NPCAnimInstance.Class);
+	}
+
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
 	BoxCollision->SetupAttachment(GetRootComponent());
 	BoxCollision->SetBoxExtent(FVector(128.0f, 100.0f, 32.0f));
