@@ -7,13 +7,13 @@ UGOGGameInstance::UGOGGameInstance()
 	MaxQuestNum = MAX_QUEST_NUM;
 	CurQuestNum = 0;
 
-	QuestProgress.QAcceptArr.SetNum(MaxQuestNum);
-	QuestProgress.QSuccessArr.SetNum(MaxQuestNum);
+	QuestProgress.QuestAcceptArr.SetNum(MaxQuestNum);
+	QuestProgress.QuestSuccessArr.SetNum(MaxQuestNum);
 
 	for (int i = 0; i < MaxQuestNum; ++i)
 	{
-		QuestProgress.QAcceptArr[i] = false;
-		QuestProgress.QSuccessArr[i] = false;
+		QuestProgress.QuestAcceptArr[i] = false;
+		QuestProgress.QuestSuccessArr[i] = false;
 	}
 }
 

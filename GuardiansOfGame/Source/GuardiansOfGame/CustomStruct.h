@@ -61,17 +61,17 @@ struct FQuestBooleans
 {
 	GENERATED_BODY()
 
-	FQuestBooleans() : CurQAccept(false), CurQSuccess(false),
-					   QAcceptArr({}), QSuccessArr({})
+	FQuestBooleans() : CurQuestAccept(false), CurQuestSuccess(false),
+					   QuestAcceptArr({}), QuestSuccessArr({})
 	{}
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	bool CurQAccept;
+	bool CurQuestAccept;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	bool CurQSuccess;
+	bool CurQuestSuccess;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TArray<bool> QAcceptArr;
+	TArray<bool> QuestAcceptArr;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TArray<bool> QSuccessArr;
+	TArray<bool> QuestSuccessArr;
 };
