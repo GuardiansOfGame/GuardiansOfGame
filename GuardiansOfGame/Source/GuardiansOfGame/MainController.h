@@ -24,6 +24,11 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Player)
 	class AMain* Main;
 
+	TSubclassOf<class UDialogueWidget> DialogueWidgetClass;
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	UDialogueWidget* DialogueWidget;
+
 public:
-	
+	void BeginChat(const TArray<FString> Strings, const FString Name);
+	void EndChat();
 };

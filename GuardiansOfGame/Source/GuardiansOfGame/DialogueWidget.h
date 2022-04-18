@@ -45,7 +45,7 @@ protected:
 
 public:
 	void Begin(const TArray<FString> Strings, const FString IName);
-	void End();
+	void End() const;
 
 	void SetDialogue();
 };

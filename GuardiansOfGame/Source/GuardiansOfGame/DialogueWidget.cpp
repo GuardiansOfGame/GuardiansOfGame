@@ -42,12 +42,12 @@ void UDialogueWidget::Begin(const TArray<FString> Strings, const FString IName)
 	SetDialogue();
 }
 
-void UDialogueWidget::End()
+void UDialogueWidget::End() const
 {
 	AMainController* Controller = Cast<AMainController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if(Controller)
 	{
-		
+		Controller->EndChat();
 	}
 }
 

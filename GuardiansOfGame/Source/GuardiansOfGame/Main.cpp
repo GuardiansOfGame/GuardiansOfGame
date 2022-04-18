@@ -174,3 +174,7 @@ void AMain::UIOff() const
 		InteractingNPC->GetKeyWidgetComponent()->SetVisibility(false);
 	}
 }
+
+void AMain::SetProgressQuest()
+{
+}

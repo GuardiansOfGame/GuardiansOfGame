@@ -105,4 +105,6 @@ public:
 
 	void UIOn() const;
 	void UIOff() const;
+
+	void SetProgressQuest();
 };
