@@ -70,6 +70,10 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	EMovementStatus MovementStatus;
 
+	UPROPERTY(VisibleAnywhere, Category = Status)
+	class ANPC* InteractingNPC;
+
+
 protected:
 	void MoveForward(const float Value);
 	void MoveRight(const float Value);
@@ -95,4 +99,10 @@ public:
 
 	FORCEINLINE EMovementStatus GetMovementStatus() const { return MovementStatus; }
 	FORCEINLINE void SetMovementStatus(const EMovementStatus Status) { MovementStatus = Status; }
+
+	FORCEINLINE ANPC* GetInteractingNPC() const { return InteractingNPC; }
+	FORCEINLINE void SetInteractingNPC(ANPC* NPC) { InteractingNPC = NPC; }
+
+	void UIOn() const;
+	void UIOff() const;
 };

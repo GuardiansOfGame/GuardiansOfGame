@@ -1,14 +1,16 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Main.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 #include "MainController.h"
 #include "MainAnimInstance.h"
+#include "NPC.h"
 
 // Sets default values
 AMain::AMain()
@@ -126,6 +128,23 @@ void AMain::LookUp(const float Rate)
 
 void AMain::Interaction()
 {
+	switch (InteractionStatus)
+	{
+	case EInteractionStatus::EIS_TalkWithNPC:
+		if(MainController && InteractingNPC)
+		{
+			UIOff();
+		}
+		break;
+
+	case EInteractionStatus::EIS_PickUpItem:
+		// TODO: 아이템 획득 기능 추가하기
+		UE_LOG(LogTemp, Warning, TEXT("EIS_PickUpItem"));
+		break;
+
+	default:
+		break;
+	}
 }
 
 void AMain::SpaceDown()
@@ -138,4 +157,20 @@ void AMain::SpaceUp()
 
 void AMain::LCtrlDown()
 {
+}
+
+void AMain::UIOn() const
+{
+	if(InteractingNPC)
+	{
+		InteractingNPC->GetKeyWidgetComponent()->SetVisibility(true);
+	}
+}
+
+void AMain::UIOff() const
+{
+	if (InteractingNPC)
+	{
+		InteractingNPC->GetKeyWidgetComponent()->SetVisibility(false);
+	}
 }
