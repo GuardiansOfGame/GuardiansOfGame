@@ -40,12 +40,15 @@ ANPC::ANPC()
 void ANPC::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	BoxCollision->OnComponentBeginOverlap.AddDynamic(this, &ANPC::OnBeginOverlap);
+	BoxCollision->OnComponentEndOverlap.AddDynamic(this, &ANPC::OnEndOverlap);
 }
 
 void ANPC::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						  int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	
 }
 
 void ANPC::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
