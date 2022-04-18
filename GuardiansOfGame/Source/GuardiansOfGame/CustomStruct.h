@@ -32,15 +32,19 @@ struct FDialogueStrings
 {
 	GENERATED_BODY()
 
-	FDialogueStrings() : Give({}), Handle({}), Success({})
+	FDialogueStrings() : Name(""), Give({}), Handle({}), Success({})
 	{}
 
-	FDialogueStrings(const TArray<FString> IGive, const TArray<FString> IHandle, const TArray<FString> ISuccess)
+	FDialogueStrings(const FString IName, const TArray<FString> IGive, const TArray<FString> IHandle, const TArray<FString> ISuccess)
 	{
+		Name = IName;
 		Give = IGive;
 		Handle = IHandle;
 		Success = ISuccess;
 	}
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FString Name;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TArray<FString> Give;
