@@ -3,6 +3,10 @@
 #include "NPC.h"
 
 #include "Components/BoxComponent.h"
+#include "Components/WidgetComponent.h"
+
+#include "KeyWidget.h"
+#include "Main.h"
 
 // Sets default values
 ANPC::ANPC()
@@ -40,6 +44,20 @@ ANPC::ANPC()
 	BoxCollision->SetupAttachment(GetRootComponent());
 	BoxCollision->SetBoxExtent(FVector(128.0f, 100.0f, 32.0f));
 	BoxCollision->SetRelativeLocation(FVector(0.0f, 82.0f, 33.0f));
+
+	KeyWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("KeyWidgetComponent"));
+	KeyWidgetComponent->SetupAttachment(GetRootComponent());
+	KeyWidgetComponent->SetRelativeScale3D(FVector(0.4f));
+	KeyWidgetComponent->SetRelativeLocationAndRotation(FVector(-4.0f, 15.0f, 200.0f), FRotator(0.0f, 90.0f, 0.0f));
+
+	static ConstructorHelpers::FClassFinder<UKeyWidget> KeyWidgetAsset(TEXT("WidgetBlueprint'/Game/Widgets/KeyWidget_BP.KeyWidget_BP_C'"));
+	if(KeyWidgetAsset.Succeeded())
+	{
+		KeyWidgetComponent->SetWidgetClass(KeyWidgetAsset.Class);
+		KeyWidgetComponent->InitWidget();
+
+		KeyWidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -49,15 +67,26 @@ void ANPC::BeginPlay()
 
 	BoxCollision->OnComponentBeginOverlap.AddDynamic(this, &ANPC::OnBeginOverlap);
 	BoxCollision->OnComponentEndOverlap.AddDynamic(this, &ANPC::OnEndOverlap);
+
+	KeyWidget = Cast<UKeyWidget>(KeyWidgetComponent->GetUserWidgetObject());
 }
 
 void ANPC::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						  int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	
+	AMain* Main = Cast<AMain>(OtherActor);
+	if(Main)
+	{
+		KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition());
+	}
 }
 
 void ANPC::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						int32 OtherBodyIndex)
 {
+	AMain* Main = Cast<AMain>(OtherActor);
+	if (Main)
+	{
+		KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition(), 0.0f, 1, EUMGSequencePlayMode::Reverse);
+	}
 }
