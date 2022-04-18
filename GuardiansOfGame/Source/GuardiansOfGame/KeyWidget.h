@@ -35,8 +35,8 @@ private:
 	UTexture2D* KeyImage;
 	
 	UPROPERTY(meta = (BindWidgetAnim), Transient)
-	UWidgetAnimation* PopUpAnimation;
+	UWidgetAnimation* PopUp;
 
 public:
-	FORCEINLINE UWidgetAnimation* GetPopUpAnimaition() const { return PopUpAnimation; }
+	FORCEINLINE UWidgetAnimation* GetPopUpAnimaition() const { return PopUp; }
 };
