@@ -11,7 +11,7 @@
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class GUARDIANSOFGAME_API UMainStatComponent : public UActorComponent
+class GUARDIANSOFGAME_API UMainStatComponent final : public UActorComponent
 {
 	GENERATED_BODY()
 
