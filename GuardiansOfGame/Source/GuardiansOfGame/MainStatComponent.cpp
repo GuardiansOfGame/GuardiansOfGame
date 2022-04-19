@@ -29,7 +29,7 @@ void UMainStatComponent::InitializeComponent()
 
 void UMainStatComponent::Init()
 {
-	GameInstance = Cast<UGOGGameInstance>(GEngine->GetWorld()->GetGameInstance());
+	GameInstance = Cast<UGOGGameInstance>(GetWorld()->GetGameInstance());
 	if(GameInstance)
 	{
 		QuestProgress = GameInstance->GetQuestProgress();
