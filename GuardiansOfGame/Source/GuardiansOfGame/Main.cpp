@@ -63,6 +63,13 @@ AMain::AMain()
 	MainStat = CreateDefaultSubobject<UMainStatComponent>(TEXT("MainStat"));
 
 	InteractingNPC = nullptr;
+
+	bIsBattling = false;
+	bIsRolling = false;
+
+	TargetPosition = FVector(0.0f);
+
+	RollingInterpSpeed = 0.8f;
 }
 
 // Called when the game starts or when spawned

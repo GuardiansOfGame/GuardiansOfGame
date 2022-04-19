@@ -78,6 +78,16 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	class ANPC* InteractingNPC;
 
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	bool bIsBattling;
+
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	bool bIsRolling;
+
+	FVector TargetPosition;
+
+	float RollingInterpSpeed;
+
 
 protected:
 	void MoveForward(const float Value);
@@ -109,6 +119,12 @@ public:
 
 	FORCEINLINE ANPC* GetInteractingNPC() const { return InteractingNPC; }
 	FORCEINLINE void SetInteractingNPC(ANPC* NPC) { InteractingNPC = NPC; }
+
+	FORCEINLINE void SetIsBattling(const bool bValue) { bIsBattling = bValue; }
+
+	FORCEINLINE void SetIsRolling(const bool bValue) { bIsRolling = bValue; }
+
+	FORCEINLINE void SetTargetPosition(const FVector Position) { TargetPosition = Position; }
 
 	void UIOn() const;
 	void UIOff() const;
