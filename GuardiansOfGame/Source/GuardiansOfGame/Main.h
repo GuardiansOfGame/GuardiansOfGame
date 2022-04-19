@@ -45,6 +45,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void PostInitializeComponents() override;
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
@@ -69,6 +71,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	EMovementStatus MovementStatus;
+
+	UPROPERTY(VisibleAnywhere, Category = Status)
+	class UMainStatComponent* MainStat;
 
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	class ANPC* InteractingNPC;
@@ -99,6 +104,8 @@ public:
 
 	FORCEINLINE EMovementStatus GetMovementStatus() const { return MovementStatus; }
 	FORCEINLINE void SetMovementStatus(const EMovementStatus Status) { MovementStatus = Status; }
+
+	FORCEINLINE UMainStatComponent* GetMainStatComponent() const { return MainStat; }
 
 	FORCEINLINE ANPC* GetInteractingNPC() const { return InteractingNPC; }
 	FORCEINLINE void SetInteractingNPC(ANPC* NPC) { InteractingNPC = NPC; }

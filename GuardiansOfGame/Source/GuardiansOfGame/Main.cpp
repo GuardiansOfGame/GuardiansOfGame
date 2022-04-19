@@ -10,7 +10,7 @@
 
 #include "MainController.h"
 #include "MainAnimInstance.h"
-#include "NPC.h"
+#include "QuestNPC.h"
 
 // Sets default values
 AMain::AMain()
@@ -92,6 +92,11 @@ void AMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("LookUp", this, &AMain::LookUp);
 }
 
+void AMain::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+}
+
 void AMain::MoveForward(const float Value)
 {
 	if (Controller && Value)
@@ -134,6 +139,13 @@ void AMain::Interaction()
 		if(MainController && InteractingNPC)
 		{
 			UIOff();
+
+			AQuestNPC* QuestNPC = Cast<AQuestNPC>(InteractingNPC);
+			if(QuestNPC)
+			{
+				DisableInput(MainController);
+				MainController->BeginChat(QuestNPC->GetCurDialogue(), QuestNPC->GetUIName());
+			}
 		}
 		break;
 
