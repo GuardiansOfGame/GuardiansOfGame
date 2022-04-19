@@ -177,10 +177,30 @@ void AMain::Interaction()
 
 void AMain::SpaceDown()
 {
+	if (bIsBattling)
+	{
+		if(bIsRolling)
+		{
+			return;
+		}
+
+		TargetPosition = GetActorLocation() + GetActorForwardVector() * 500.0f;
+		bIsRolling = true;
+
+		MainAnim->PlayRollMontage();
+	}
+	else
+	{
+		Super::Jump();
+	}
 }
 
 void AMain::SpaceUp()
 {
+	if(!bIsBattling)
+	{
+		Super::StopJumping();
+	}
 }
 
 void AMain::LCtrlDown()
