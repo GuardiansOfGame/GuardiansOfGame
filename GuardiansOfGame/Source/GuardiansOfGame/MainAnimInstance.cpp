@@ -52,7 +52,7 @@ void UMainAnimInstance::NativeUpdateAnimation(const float DeltaSeconds)
 
 void UMainAnimInstance::PlayRollMontage()
 {
-	
+	Montage_Play(RollMontage);
 }
 
 void UMainAnimInstance::PlayVaultMontage(const float ObstacleHeight, const float Left, const float Right)
@@ -65,10 +65,12 @@ void UMainAnimInstance::PlaySlideMontage(const FVector TargetPosition)
 
 void UMainAnimInstance::AnimNotify_RollStart() const
 {
+	Main->SetIsRolling(true);
 }
 
 void UMainAnimInstance::AnimNotify_RollEnd() const
 {
+	Main->SetIsRolling(false);
 }
 
 void UMainAnimInstance::AnimNotify_VaultEnd() const

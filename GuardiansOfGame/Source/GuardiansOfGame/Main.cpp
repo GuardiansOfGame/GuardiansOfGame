@@ -86,6 +86,11 @@ void AMain::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (bIsRolling)
+	{
+		const FVector InterpLocation = FMath::VInterpTo(GetActorLocation(), TargetPosition, DeltaTime, RollingInterpSpeed);
+		SetActorLocation(InterpLocation);
+	}
 }
 
 // Called to bind functionality to input
