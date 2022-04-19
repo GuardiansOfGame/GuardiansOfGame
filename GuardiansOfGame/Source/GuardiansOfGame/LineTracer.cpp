@@ -57,7 +57,39 @@ void ULineTracer::CheckObstacle(const AMain* Main)
 
 void ULineTracer::CheckOverObstacle(const AMain* Main)
 {
-	
+	const FVector Start = Main->GetActorLocation() + FVector(0.0f, 0.0f, 80.0f);
+	const FVector End = Start + Main->GetActorForwardVector() * 300.0f;
+
+	FHitResult HitResult{};
+
+	FCollisionQueryParams Params{};
+	Params.AddIgnoredActor(Main);
+
+	if (GetWorld())
+	{
+		bool bTraceResult1 = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel1, Params);
+		if (bTraceResult1)
+		{
+			FVector HitLocation = HitResult.Location;
+
+			bool bTraceResult2 = GetWorld()->LineTraceSingleByChannel(HitResult, End, HitLocation, ECC_GameTraceChannel1, Params);
+			if (bTraceResult2)
+			{
+				DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
+
+				FVector HitEndLocation = HitResult.Location;
+				ObstacleLength = HitEndLocation - HitLocation;
+
+				FVector TargetPosition = Main->GetActorLocation() + Main->GetActorForwardVector() * 250.0f + ObstacleLength;
+
+				Main->GetMainAnim()->PlaySlideMontage(TargetPosition);
+			}
+		}
+		else
+		{
+			DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
+		}
+	}
 }
 
 void ULineTracer::CheckObstacleHeight(const AMain* Main)
