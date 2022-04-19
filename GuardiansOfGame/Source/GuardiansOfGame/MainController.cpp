@@ -49,5 +49,5 @@ void AMainController::EndChat()
 
 	DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
 
-	Main->SetProgressQuest();
+	Main->SetQuestProgress();
 }

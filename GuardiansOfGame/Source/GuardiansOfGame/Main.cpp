@@ -10,6 +10,7 @@
 
 #include "MainController.h"
 #include "MainAnimInstance.h"
+#include "MainStatComponent.h"
 #include "QuestNPC.h"
 
 // Sets default values
@@ -54,6 +55,13 @@ AMain::AMain()
 	{
 		GetMesh()->SetAnimInstanceClass(MainAnimInstance.Class);
 	}
+
+	InteractionStatus = EInteractionStatus::EIS_Normal;
+	MovementStatus = EMovementStatus::EMS_Normal;
+
+	MainStat = CreateDefaultSubobject<UMainStatComponent>(TEXT("MainStat"));
+
+	InteractingNPC = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -187,6 +195,54 @@ void AMain::UIOff() const
 	}
 }
 
-void AMain::SetProgressQuest()
+void AMain::SetQuestProgress()
 {
+	UIOn();
+	EnableInput(MainController);
+
+	AQuestNPC* QuestNPC = Cast<AQuestNPC>(InteractingNPC);
+	int CurQuestNum = MainStat->GetCurQuestNum();
+
+	switch (CurQuestNum)
+	{
+	case 0:
+		if (MainStat->GetQuestProgress().CurQuestSuccess)
+		{
+			MainStat->SetCurQuestAccept(false);
+			MainStat->SetCurQuestSuccess(false);
+
+			QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Success);
+
+			MainStat->SetCurQuestNum(++CurQuestNum);
+		}
+		else
+		{
+			MainStat->SetCurQuestAccept(true);
+			MainStat->SetQuestAcceptArr(CurQuestNum, true);
+
+			QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Handle);
+		}
+		break;
+	case 1:
+		if (MainStat->GetQuestProgress().CurQuestAccept)
+		{
+			if (MainStat->GetQuestProgress().CurQuestSuccess)
+			{
+				QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Success);
+			}
+			else
+			{
+				MainStat->SetQuestAcceptArr(CurQuestNum, true);
+				QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Handle);
+			}
+		}
+		else
+		{
+			MainStat->SetCurQuestAccept(true);
+			QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Give);
+		}
+		break;
+	default:
+		break;
+	}
 }

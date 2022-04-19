@@ -2,7 +2,9 @@
 
 #include "QuestNPC.h"
 
+#include "GOGGameInstance.h"
 #include "Main.h"
+#include "MainStatComponent.h"
 
 AQuestNPC::AQuestNPC()
 {
@@ -32,6 +34,20 @@ void AQuestNPC::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UGOGGameInstance* GameInstance = Cast<UGOGGameInstance>(GetWorld()->GetGameInstance());
+	if(GameInstance)
+	{
+		const int CurQuestNum = GameInstance->GetCurQuestNum();
+
+		if(GameInstance->GetQuestProgress().QuestAcceptArr[CurQuestNum])
+		{
+			CurDialogue = QuestDialogue[CurQuestNum].Handle;
+		}
+		else
+		{
+			CurDialogue = QuestDialogue[CurQuestNum].Give;
+		}
+	}
 }
 
 void AQuestNPC::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -44,6 +60,11 @@ void AQuestNPC::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 	{
 		Main->SetInteractionStatus(EInteractionStatus::EIS_TalkWithNPC);
 		Main->SetInteractingNPC(this);
+
+		if(Main->GetMainStatComponent()->GetQuestProgress().CurQuestSuccess)
+		{
+			Main->SetQuestProgress();
+		}
 	}
 }
 
