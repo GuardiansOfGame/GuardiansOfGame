@@ -7,6 +7,7 @@
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "MainController.h"
 #include "MainAnimInstance.h"
@@ -245,4 +246,14 @@ void AMain::SetQuestProgress()
 	default:
 		break;
 	}
+}
+
+void AMain::SwitchLevel(const FName LevelName) const
+{
+	FString CurLevelName = GetWorld()->GetMapName();
+	CurLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+
+	MainStat->Save();
+
+	UGameplayStatics::OpenLevel(GetWorld(), FName(LevelName));
 }

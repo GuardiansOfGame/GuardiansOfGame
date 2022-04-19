@@ -114,4 +114,6 @@ public:
 	void UIOff() const;
 
 	void SetQuestProgress();
+
+	void SwitchLevel(const FName LevelName) const;
 };
