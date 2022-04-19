@@ -8,7 +8,7 @@ AQuestNPC::AQuestNPC()
 {
 	QuestDialogue.SetNum(MAX_QUEST_NUM);
 
-	const FString Name = TEXT("QuestNPC");
+	UIName = TEXT("QuestNPC");
 
 	const TArray<FString> Give0 = { TEXT("Quest0 Give1"),
  									TEXT("Quest0 Give2") };
@@ -24,8 +24,8 @@ AQuestNPC::AQuestNPC()
 	const TArray<FString> Success1 = { TEXT("Quest1 Success1"),
 									   TEXT("Quest1 Success2") };
 
-	QuestDialogue[0] = FDialogueStrings(Name, Give0, Handle0, Success0);
-	QuestDialogue[1] = FDialogueStrings(Name, Give1, Handle1, Success1);
+	QuestDialogue[0] = FDialogueStrings(Give0, Handle0, Success0);
+	QuestDialogue[1] = FDialogueStrings(Give1, Handle1, Success1);
 }
 
 void AQuestNPC::BeginPlay()

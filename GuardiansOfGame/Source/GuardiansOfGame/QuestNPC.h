@@ -25,6 +25,9 @@ protected:
 
 private:
 	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = Dialogue, meta = (AllowPrivateAccess = "true"))
+	FString UIName;
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = Dialogue, meta = (AllowPrivateAccess = "true"))
 	TArray<FDialogueStrings> QuestDialogue;
 
 	UPROPERTY(VisibleAnywhere, Category = Dialogue)
@@ -35,6 +38,8 @@ protected:
 	virtual void OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) override;
 
 public:
+	FORCEINLINE FString GetUIName() const { return UIName; }
+
 	FORCEINLINE FDialogueStrings GetQuestDialogue(const int QuestNum) const { return QuestDialogue[QuestNum]; }
 
 	FORCEINLINE TArray<FString> GetCurDialogue() const { return CurDialogue; }
