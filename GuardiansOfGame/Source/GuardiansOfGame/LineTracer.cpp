@@ -138,10 +138,52 @@ void ULineTracer::CheckObstacleHeight(const AMain* Main)
 
 float ULineTracer::CheckObstacleLeft(const AMain* Main) const
 {
-	return 0.0f;
+	const FVector Start = ObstacleLocation + (ObstacleNormal * -10.0f) + Main->GetActorRightVector() * -150.0f;
+	const FVector End = Start - Main->GetActorRightVector() * -150.0f;
+
+	FHitResult HitResult{};
+
+	FCollisionQueryParams Params{};
+	Params.AddIgnoredActor(Main);
+
+	if (GetWorld())
+	{
+		bool bTraceResult = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel1, Params);
+		if (bTraceResult)
+		{
+			DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
+		}
+		else
+		{
+			DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
+		}
+	}
+
+	return (HitResult.Location - End).Size();
 }
 
 float ULineTracer::CheckObstacleRight(const AMain* Main) const
 {
-	return 0.0f;
+	const FVector Start = ObstacleLocation + (ObstacleNormal * -10.0f) + Main->GetActorRightVector() * 150.0f;
+	const FVector End = Start - Main->GetActorRightVector() * 150.0f;
+
+	FHitResult HitResult{};
+
+	FCollisionQueryParams Params{};
+	Params.AddIgnoredActor(Main);
+
+	if (GetWorld())
+	{
+		bool bTraceResult = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel1, Params);
+		if (bTraceResult)
+		{
+			DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
+		}
+		else
+		{
+			DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
+		}
+	}
+
+	return (End - HitResult.Location).Size();
 }
