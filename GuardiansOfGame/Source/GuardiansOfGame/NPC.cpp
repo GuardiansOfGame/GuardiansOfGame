@@ -74,7 +74,7 @@ void ANPC::BeginPlay()
 void ANPC::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						  int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	AMain* Main = Cast<AMain>(OtherActor);
+	const AMain* Main = Cast<AMain>(OtherActor);
 	if(Main)
 	{
 		KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition());
@@ -84,7 +84,7 @@ void ANPC::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Othe
 void ANPC::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						int32 OtherBodyIndex)
 {
-	AMain* Main = Cast<AMain>(OtherActor);
+	const AMain* Main = Cast<AMain>(OtherActor);
 	if (Main)
 	{
 		KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition(), 0.0f, 1, EUMGSequencePlayMode::Reverse);

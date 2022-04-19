@@ -148,7 +148,7 @@ void AMain::Interaction()
 		{
 			UIOff();
 
-			AQuestNPC* QuestNPC = Cast<AQuestNPC>(InteractingNPC);
+			const AQuestNPC* QuestNPC = Cast<AQuestNPC>(InteractingNPC);
 			if(QuestNPC)
 			{
 				DisableInput(MainController);

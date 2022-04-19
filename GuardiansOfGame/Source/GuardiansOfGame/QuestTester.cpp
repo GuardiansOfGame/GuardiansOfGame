@@ -40,7 +40,7 @@ void AQuestTester::BeginPlay()
 void AQuestTester::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	AMain* Main = Cast<AMain>(OtherActor);
+	const AMain* Main = Cast<AMain>(OtherActor);
 	if(Main && Main->GetMainStatComponent())
 	{
 		Main->GetMainStatComponent()->SetCurQuestSuccess(true);
