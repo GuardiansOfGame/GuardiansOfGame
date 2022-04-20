@@ -84,9 +84,16 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	bool bIsRolling;
 
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	bool bIsSliding;
+
 	FVector TargetPosition;
 
 	float RollingInterpSpeed;
+	float SlidingInterpSpeed;
+
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	class ULineTracer* LineTracer;
 
 
 protected:
@@ -123,6 +130,8 @@ public:
 	FORCEINLINE void SetIsBattling(const bool bValue) { bIsBattling = bValue; }
 
 	FORCEINLINE void SetIsRolling(const bool bValue) { bIsRolling = bValue; }
+
+	FORCEINLINE void SetIsSliding(const bool bValue) { bIsSliding = bValue; }
 
 	FORCEINLINE void SetTargetPosition(const FVector Position) { TargetPosition = Position; }
 

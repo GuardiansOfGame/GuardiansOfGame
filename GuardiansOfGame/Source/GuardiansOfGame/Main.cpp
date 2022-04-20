@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+#include "LineTracer.h"
 #include "MainController.h"
 #include "MainAnimInstance.h"
 #include "MainStatComponent.h"
@@ -70,6 +71,9 @@ AMain::AMain()
 	TargetPosition = FVector(0.0f);
 
 	RollingInterpSpeed = 0.8f;
+	SlidingInterpSpeed = 2.5f;
+
+	LineTracer = CreateDefaultSubobject<ULineTracer>(TEXT("LineTracer"));
 }
 
 // Called when the game starts or when spawned
@@ -89,6 +93,12 @@ void AMain::Tick(const float DeltaTime)
 	if (bIsRolling)
 	{
 		const FVector InterpLocation = FMath::VInterpTo(GetActorLocation(), TargetPosition, DeltaTime, RollingInterpSpeed);
+		SetActorLocation(InterpLocation);
+	}
+
+	if (bIsSliding)
+	{
+		const FVector InterpLocation = FMath::VInterpTo(GetActorLocation(), TargetPosition, DeltaTime, SlidingInterpSpeed);
 		SetActorLocation(InterpLocation);
 	}
 }
@@ -210,6 +220,12 @@ void AMain::SpaceUp()
 
 void AMain::LCtrlDown()
 {
+	if (MovementStatus == EMovementStatus::EMS_Parkour)
+	{
+		return;
+	}
+
+	LineTracer->CheckObstacle(this);
 }
 
 void AMain::UIOn() const
