@@ -74,8 +74,4 @@ Plugins/*/Intermediate/*
 */DerivedDataCache
 
 # Custom
-*/Content/Geometry
-*/Content/Mannequin
-*/Content/StarterContent
-*/Content/ThirdPerson
-*/Content/ThirdPersonCPP
+*/Content
