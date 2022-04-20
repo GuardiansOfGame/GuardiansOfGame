@@ -82,6 +82,25 @@ void UMainAnimInstance::PlayVaultMontage(const float ObstacleHeight, const float
 
 void UMainAnimInstance::PlaySlideMontage(const FVector TargetPosition)
 {
+	Main->SetMovementStatus(EMovementStatus::EMS_Parkour);
+	Main->SetTargetPosition(TargetPosition);
+	Main->SetIsSliding(true);
+
+	Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	FTimerHandle WaitSlideHandle;
+	const float WaitTime = Montage_Play(SlideMontage);
+
+	GetWorld()->GetTimerManager().SetTimer(WaitSlideHandle, FTimerDelegate::CreateLambda([&]() {
+		if (Main)
+		{
+			Main->SetMovementStatus(EMovementStatus::EMS_Normal);
+			Main->SetIsSliding(false);
+
+			Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+			Main->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+		}
+	}), WaitTime, false);
 }
 
 void UMainAnimInstance::AnimNotify_RollStart() const
