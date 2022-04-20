@@ -1,8 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MainAnimInstance.h"
 
-#include "GameFramework/PawnMovementComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 #include "Main.h"
 
@@ -57,6 +58,26 @@ void UMainAnimInstance::PlayRollMontage()
 
 void UMainAnimInstance::PlayVaultMontage(const float ObstacleHeight, const float Left, const float Right)
 {
+	Main->SetMovementStatus(EMovementStatus::EMS_Parkour);
+
+	Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Main->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+
+	FVector Location = Main->GetActorLocation();
+	Location.Z += ObstacleHeight;
+	Main->SetActorLocation(Location);
+
+	FTimerHandle WaitVaultHandle;
+
+	// TODO: 애니메이션 몽타주 (왼쪽 손 : 오른쪽 손) 으로 변경하기
+	const float WaitTime = Left > Right ? Montage_Play(VaultMontage) : Montage_Play(VaultMontage);
+
+	GetWorld()->GetTimerManager().SetTimer(WaitVaultHandle, FTimerDelegate::CreateLambda([&]() {
+		if (Main)
+		{
+			Main->SetMovementStatus(EMovementStatus::EMS_Normal);
+		}
+	}), WaitTime, false);
 }
 
 void UMainAnimInstance::PlaySlideMontage(const FVector TargetPosition)
@@ -75,4 +96,6 @@ void UMainAnimInstance::AnimNotify_RollEnd() const
 
 void UMainAnimInstance::AnimNotify_VaultEnd() const
 {
+	Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	Main->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 }
