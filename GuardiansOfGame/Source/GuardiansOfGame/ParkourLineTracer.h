@@ -4,18 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "LineTracer.generated.h"
+#include "ParkourLineTracer.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GUARDIANSOFGAME_API ULineTracer final : public UObject
+class GUARDIANSOFGAME_API UParkourLineTracer : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	ULineTracer();
+	UParkourLineTracer();
 
 private:
 	float MaxJumpHeight;
@@ -32,4 +32,5 @@ public:
 	void CheckObstacleHeight(const AMain* Main);
 	float CheckObstacleLeft(const AMain* Main) const;
 	float CheckObstacleRight(const AMain* Main) const;
+
 };

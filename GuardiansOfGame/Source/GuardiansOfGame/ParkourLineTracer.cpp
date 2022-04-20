@@ -1,13 +1,13 @@
-ï»¿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "LineTracer.h"
+#include "ParkourLineTracer.h"
 
 #include "DrawDebugHelpers.h"
 
 #include "Main.h"
 #include "MainAnimInstance.h"
 
-ULineTracer::ULineTracer()
+UParkourLineTracer::UParkourLineTracer()
 {
 	MaxJumpHeight = 50.0f;
 	JumpHeight = 0.0f;
@@ -18,7 +18,7 @@ ULineTracer::ULineTracer()
 	ObstacleLength = FVector(0.0f);
 }
 
-void ULineTracer::CheckObstacle(const AMain* Main)
+void UParkourLineTracer::CheckObstacle(const AMain* Main)
 {
 	const FVector Start = Main->GetActorLocation();
 	const FVector End = Start + Main->GetActorForwardVector() * 300.0f;
@@ -55,7 +55,7 @@ void ULineTracer::CheckObstacle(const AMain* Main)
 	}
 }
 
-void ULineTracer::CheckOverObstacle(const AMain* Main)
+void UParkourLineTracer::CheckOverObstacle(const AMain* Main)
 {
 	const FVector Start = Main->GetActorLocation() + FVector(0.0f, 0.0f, 80.0f);
 	const FVector End = Start + Main->GetActorForwardVector() * 300.0f;
@@ -92,7 +92,7 @@ void ULineTracer::CheckOverObstacle(const AMain* Main)
 	}
 }
 
-void ULineTracer::CheckObstacleHeight(const AMain* Main)
+void UParkourLineTracer::CheckObstacleHeight(const AMain* Main)
 {
 	const FVector Start = ObstacleLocation + (ObstacleNormal * -10.0f) + FVector(0.0f, 0.0f, MaxJumpHeight * 3);
 	const FVector End = Start - FVector(0.0f, 0.0f, MaxJumpHeight * 3);
@@ -120,7 +120,7 @@ void ULineTracer::CheckObstacleHeight(const AMain* Main)
 				float ObstacleThick = abs(ObstacleLength.Y);
 				if (ObstacleThick > 50.0f)
 				{
-					// TODO: ìž¥ì• ë¬¼ ìœ„ì— ì˜¬ë¼ê°€ëŠ” ì• ë‹ˆë©”ì´ì…˜ ëª½íƒ€ì£¼ ìž¬ìƒí•˜ê¸°
+					// TODO: Àå¾Ö¹° À§¿¡ ¿Ã¶ó°¡´Â ¾Ö´Ï¸ÞÀÌ¼Ç ¸ùÅ¸ÁÖ Àç»ýÇÏ±â
 					Main->GetMainAnim()->PlayVaultMontage(JumpHeight, Left, Right);
 				}
 				else
@@ -136,7 +136,7 @@ void ULineTracer::CheckObstacleHeight(const AMain* Main)
 	}
 }
 
-float ULineTracer::CheckObstacleLeft(const AMain* Main) const
+float UParkourLineTracer::CheckObstacleLeft(const AMain* Main) const
 {
 	const FVector Start = ObstacleLocation + (ObstacleNormal * -10.0f) + Main->GetActorRightVector() * -150.0f;
 	const FVector End = Start - Main->GetActorRightVector() * -150.0f;
@@ -162,7 +162,7 @@ float ULineTracer::CheckObstacleLeft(const AMain* Main) const
 	return (HitResult.Location - End).Size();
 }
 
-float ULineTracer::CheckObstacleRight(const AMain* Main) const
+float UParkourLineTracer::CheckObstacleRight(const AMain* Main) const
 {
 	const FVector Start = ObstacleLocation + (ObstacleNormal * -10.0f) + Main->GetActorRightVector() * 150.0f;
 	const FVector End = Start - Main->GetActorRightVector() * 150.0f;

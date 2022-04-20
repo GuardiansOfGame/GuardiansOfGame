@@ -9,10 +9,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-#include "LineTracer.h"
 #include "MainController.h"
 #include "MainAnimInstance.h"
 #include "MainStatComponent.h"
+#include "ParkourLineTracer.h"
 #include "QuestNPC.h"
 
 // Sets default values
@@ -76,7 +76,7 @@ AMain::AMain()
 	SlidingInterpSpeed = 2.5f;
 	LagSpeedInterpSpeed = 2.5f;
 
-	LineTracer = CreateDefaultSubobject<ULineTracer>(TEXT("LineTracer"));
+	ParkourLineTracer = CreateDefaultSubobject<UParkourLineTracer>(TEXT("ParkourLineTracer"));
 }
 
 // Called when the game starts or when spawned
@@ -234,7 +234,7 @@ void AMain::LCtrlDown()
 		return;
 	}
 
-	LineTracer->CheckObstacle(this);
+	ParkourLineTracer->CheckObstacle(this);
 }
 
 void AMain::UIOn() const

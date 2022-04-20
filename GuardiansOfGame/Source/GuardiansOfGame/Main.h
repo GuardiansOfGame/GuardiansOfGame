@@ -94,7 +94,7 @@ private:
 	float LagSpeedInterpSpeed;
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)
-	class ULineTracer* LineTracer;
+	class UParkourLineTracer* ParkourLineTracer;
 
 
 protected:
