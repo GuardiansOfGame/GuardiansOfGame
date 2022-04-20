@@ -40,6 +40,8 @@ AMain::AMain()
 	CameraBoom->SetRelativeRotation(FRotator(-25.0f, 0.0f, 0.0f));
 	CameraBoom->bUsePawnControlRotation = true;
 	CameraBoom->TargetArmLength = 400.0f;
+	CameraBoom->bEnableCameraLag = true;
+	CameraBoom->CameraLagSpeed = 20.0f;
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
@@ -70,8 +72,9 @@ AMain::AMain()
 
 	TargetPosition = FVector(0.0f);
 
-	RollingInterpSpeed = 0.8f;
+	RollingInterpSpeed = 1.2f;
 	SlidingInterpSpeed = 2.5f;
+	LagSpeedInterpSpeed = 2.5f;
 
 	LineTracer = CreateDefaultSubobject<ULineTracer>(TEXT("LineTracer"));
 }
@@ -94,6 +97,12 @@ void AMain::Tick(const float DeltaTime)
 	{
 		const FVector InterpLocation = FMath::VInterpTo(GetActorLocation(), TargetPosition, DeltaTime, RollingInterpSpeed);
 		SetActorLocation(InterpLocation);
+	}
+
+	if (!bIsRolling && CameraBoom->CameraLagSpeed < 20.0f)
+	{
+		const float InterpLagSpeed = FMath::FInterpTo(CameraBoom->CameraLagSpeed, 20.0f, DeltaTime, LagSpeedInterpSpeed);
+		CameraBoom->CameraLagSpeed = InterpLagSpeed;
 	}
 
 	if (bIsSliding)

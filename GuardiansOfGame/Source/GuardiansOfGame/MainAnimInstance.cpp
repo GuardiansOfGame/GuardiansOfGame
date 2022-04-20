@@ -4,6 +4,7 @@
 
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 
 #include "Main.h"
 
@@ -106,6 +107,8 @@ void UMainAnimInstance::PlaySlideMontage(const FVector TargetPosition)
 void UMainAnimInstance::AnimNotify_RollStart() const
 {
 	Main->SetIsRolling(true);
+
+	Main->GetCameraBoom()->CameraLagSpeed = 5.0f;
 }
 
 void UMainAnimInstance::AnimNotify_RollEnd() const

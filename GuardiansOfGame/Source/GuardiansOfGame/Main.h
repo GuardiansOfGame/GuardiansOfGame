@@ -91,6 +91,7 @@ private:
 
 	float RollingInterpSpeed;
 	float SlidingInterpSpeed;
+	float LagSpeedInterpSpeed;
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	class ULineTracer* LineTracer;
