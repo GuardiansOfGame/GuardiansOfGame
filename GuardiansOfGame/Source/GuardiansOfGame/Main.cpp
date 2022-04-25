@@ -12,6 +12,7 @@
 #include "MainController.h"
 #include "MainAnimInstance.h"
 #include "MainStatComponent.h"
+#include "OcclusionChecker.h"
 #include "ParkourLineTracer.h"
 #include "QuestNPC.h"
 
@@ -77,6 +78,8 @@ AMain::AMain()
 	LagSpeedInterpSpeed = 2.5f;
 
 	ParkourLineTracer = CreateDefaultSubobject<UParkourLineTracer>(TEXT("ParkourLineTracer"));
+
+	OcclusionChecker = CreateDefaultSubobject<UOcclusionChecker>(TEXT("OcclusionChecker"));
 }
 
 // Called when the game starts or when spawned

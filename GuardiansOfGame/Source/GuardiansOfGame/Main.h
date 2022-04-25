@@ -96,6 +96,8 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	class UParkourLineTracer* ParkourLineTracer;
 
+	UPROPERTY(VisibleAnywhere, Category = Camera)
+	class UOcclusionChecker* OcclusionChecker;
 
 protected:
 	void MoveForward(const float Value);
