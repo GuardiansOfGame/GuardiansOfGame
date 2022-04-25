@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class GUARDIANSOFGAME_API UParkourLineTracer : public UObject
+class GUARDIANSOFGAME_API UParkourLineTracer final : public UObject
 {
 	GENERATED_BODY()
 
@@ -32,5 +32,4 @@ public:
 	void CheckObstacleHeight(const AMain* Main);
 	float CheckObstacleLeft(const AMain* Main) const;
 	float CheckObstacleRight(const AMain* Main) const;
-
 };
