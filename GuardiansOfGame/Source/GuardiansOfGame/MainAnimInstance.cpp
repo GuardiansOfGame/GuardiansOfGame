@@ -27,6 +27,12 @@ UMainAnimInstance::UMainAnimInstance()
 		VaultMontage = VaultMontageAsset.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> ClimbMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Running_Jump_Montage.Running_Jump_Montage'"));
+	if (ClimbMontageAsset.Succeeded())
+	{
+		ClimbMontage = ClimbMontageAsset.Object;
+	}
+
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> SlideMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Running_Slide_Montage.Running_Slide_Montage'"));
 	if (SlideMontageAsset.Succeeded())
 	{
@@ -77,6 +83,31 @@ void UMainAnimInstance::PlayVaultMontage(const float ObstacleHeight, const float
 		if (Main)
 		{
 			Main->SetMovementStatus(EMovementStatus::EMS_Normal);
+		}
+	}), WaitTime, false);
+}
+
+void UMainAnimInstance::PlayClimbMontage(const float ObstacleHeight)
+{
+	Main->SetMovementStatus(EMovementStatus::EMS_Parkour);
+
+	Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Main->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+
+	FVector Location = Main->GetActorLocation();
+	Location.Z += ObstacleHeight;
+	Main->SetActorLocation(Location);
+
+	FTimerHandle WaitClimbHandle;
+	const float WaitTime = Montage_Play(ClimbMontage);
+
+	GetWorld()->GetTimerManager().SetTimer(WaitClimbHandle, FTimerDelegate::CreateLambda([&]() {
+		if (Main)
+		{
+			Main->SetMovementStatus(EMovementStatus::EMS_Normal);
+
+			Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+			Main->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 		}
 	}), WaitTime, false);
 }

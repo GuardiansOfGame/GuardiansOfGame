@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+癤�// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "ParkourLineTracer.h"
 
@@ -120,8 +120,7 @@ void UParkourLineTracer::CheckObstacleHeight(const AMain* Main)
 				float ObstacleThick = abs(ObstacleLength.Y);
 				if (ObstacleThick > 50.0f)
 				{
-					// TODO: 장애물 위에 올라가는 애니메이션 몽타주 재생하기
-					Main->GetMainAnim()->PlayVaultMontage(JumpHeight, Left, Right);
+					Main->GetMainAnim()->PlayClimbMontage(JumpHeight);
 				}
 				else
 				{

@@ -38,11 +38,15 @@ private:
 	UAnimMontage* VaultMontage;
 
 	UPROPERTY(VisibleAnywhere, Category = Montage)
+	UAnimMontage* ClimbMontage;
+
+	UPROPERTY(VisibleAnywhere, Category = Montage)
 	UAnimMontage* SlideMontage;
 
 public:
 	void PlayRollMontage();
 	void PlayVaultMontage(const float ObstacleHeight, const float Left, const float Right);
+	void PlayClimbMontage(const float ObstacleHeight);
 	void PlaySlideMontage(const FVector TargetPosition);
 
 	UFUNCTION()
