@@ -253,15 +253,7 @@ void AMain::LCtrlDown()
 
 void AMain::Equip()
 {
-	if(bWeaponEquipped)
-	{
-		GetMainAnim()->PlayUnEquipMontage();
-	}
-	else
-	{
-		GetMainAnim()->PlayEquipMontage();
-	}
-	// bWeaponEquipped ? GetMainAnim()->PlayUnEquipMontage() : GetMainAnim()->PlayEquipMontage();
+	bWeaponEquipped ? GetMainAnim()->PlayUnEquipMontage() : GetMainAnim()->PlayEquipMontage();
 }
 
 void AMain::UIOn() const
