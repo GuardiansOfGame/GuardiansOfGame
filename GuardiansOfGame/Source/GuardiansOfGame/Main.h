@@ -99,6 +99,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	class UOcclusionChecker* OcclusionChecker;
 
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	class AWeapon * Weapon;
+
 protected:
 	void MoveForward(const float Value);
 	void MoveRight(const float Value);

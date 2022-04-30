@@ -15,6 +15,7 @@
 #include "OcclusionChecker.h"
 #include "ParkourLineTracer.h"
 #include "QuestNPC.h"
+#include "Weapon.h"
 
 // Sets default values
 AMain::AMain()
@@ -89,6 +90,12 @@ void AMain::BeginPlay()
 
 	MainController = Cast<AMainController>(Controller);
 	MainAnim = Cast<UMainAnimInstance>(GetMesh()->GetAnimInstance());
+
+	Weapon = GetWorld()->SpawnActor<AWeapon>();
+	if(Weapon)
+	{
+		Weapon->EquipToHand(this);
+	}
 }
 
 // Called every frame

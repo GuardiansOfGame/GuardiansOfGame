@@ -2,19 +2,23 @@
 
 #include "Weapon.h"
 
+#include "Engine/SkeletalMeshSocket.h"
+
+#include "Main.h"
+
 // Sets default values
 AWeapon::AWeapon()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	SetRootComponent(Mesh);
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> WeaponMesh(TEXT("StaticMesh'/Game/Character/Weapon/toy_hammer.toy_hammer'"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> WeaponMesh(TEXT("SkeletalMesh'/Game/Character/Weapon/Hammer/toy_hammer.toy_hammer_toy_hammer'"));
 	if (WeaponMesh.Succeeded())
 	{
-		Mesh->SetStaticMesh(WeaponMesh.Object);
+		Mesh->SetSkeletalMesh(WeaponMesh.Object);
 	}
 }
 
@@ -23,4 +27,22 @@ void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 
+}
+
+void AWeapon::EquipToHand(const AMain* Main)
+{
+	if(Main)
+	{
+		SetInstigator(Main->GetController());
+
+		Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+		Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
+		Mesh->SetSimulatePhysics(false);
+
+		const USkeletalMeshSocket* RightHandSocket = Main->GetMesh()->GetSocketByName("RightHandSocket");
+		if (RightHandSocket)
+		{
+			RightHandSocket->AttachActor(this, Main->GetMesh());
+		}
+	}
 }

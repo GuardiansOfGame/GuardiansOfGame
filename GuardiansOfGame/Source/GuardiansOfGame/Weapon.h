@@ -19,10 +19,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-protected:
+private:
 	UPROPERTY(VisibleAnywhere, Category = Mesh)
-		UStaticMeshComponent* Mesh;
+	USkeletalMeshComponent* Mesh;
+
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	AController* WeaponInstigator;
 
 public:
+	FORCEINLINE void SetInstigator(AController* Inst) { WeaponInstigator = Inst; }
 
+	void EquipToHand(const class AMain* Main);
 };
