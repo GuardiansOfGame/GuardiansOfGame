@@ -121,6 +121,8 @@ protected:
 
 	void Equip();
 
+	void Attack();
+
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }

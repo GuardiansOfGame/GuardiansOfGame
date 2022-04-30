@@ -140,6 +140,8 @@ void AMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &AMain::Equip);
 
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain::Attack);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMain::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMain::MoveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &AMain::Turn);
@@ -254,6 +256,10 @@ void AMain::LCtrlDown()
 void AMain::Equip()
 {
 	bWeaponEquipped ? GetMainAnim()->PlayUnEquipMontage() : GetMainAnim()->PlayEquipMontage();
+}
+
+void AMain::Attack()
+{
 }
 
 void AMain::UIOn() const
