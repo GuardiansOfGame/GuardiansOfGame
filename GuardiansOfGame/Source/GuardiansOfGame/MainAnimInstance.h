@@ -52,6 +52,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Combat)
 	UAnimMontage* UnequipMontage;
 
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	UAnimMontage* AttackMontage;
+
 public:
 	void PlayRollMontage();
 	void PlayVaultMontage(const float ObstacleHeight, const float Left, const float Right);
@@ -60,6 +63,8 @@ public:
 
 	void PlayEquipMontage();
 	void PlayUnEquipMontage();
+
+	void PlayAttackMontage();
 
 	UFUNCTION()
 	void AnimNotify_RollStart() const;

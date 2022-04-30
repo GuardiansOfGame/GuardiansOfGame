@@ -52,6 +52,12 @@ UMainAnimInstance::UMainAnimInstance()
 	{
 		UnequipMontage = UnequipMontageAsset.Object;
 	}
+
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> AttackMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/AttackMontage.AttackMontage'"));
+	if (AttackMontageAsset.Succeeded())
+	{
+		AttackMontage = AttackMontageAsset.Object;
+	}
 }
 
 void UMainAnimInstance::NativeInitializeAnimation()
@@ -157,6 +163,11 @@ void UMainAnimInstance::PlayEquipMontage()
 void UMainAnimInstance::PlayUnEquipMontage()
 {
 	Montage_Play(UnequipMontage);
+}
+
+void UMainAnimInstance::PlayAttackMontage()
+{
+	Montage_Play(AttackMontage);
 }
 
 void UMainAnimInstance::AnimNotify_RollStart() const

@@ -255,11 +255,20 @@ void AMain::LCtrlDown()
 
 void AMain::Equip()
 {
+	// Z Key
 	bWeaponEquipped ? GetMainAnim()->PlayUnEquipMontage() : GetMainAnim()->PlayEquipMontage();
 }
 
 void AMain::Attack()
 {
+	// Left Mouse Button
+	if(!bWeaponEquipped)
+	{
+		GetMainAnim()->PlayEquipMontage();
+		return;
+	}
+
+	GetMainAnim()->PlayAttackMontage();
 }
 
 void AMain::UIOn() const
