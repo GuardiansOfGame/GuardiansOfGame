@@ -94,7 +94,7 @@ void AMain::BeginPlay()
 	Weapon = GetWorld()->SpawnActor<AWeapon>();
 	if(Weapon)
 	{
-		Weapon->EquipToHand(this);
+		Weapon->EquipToBack(this);
 	}
 }
 

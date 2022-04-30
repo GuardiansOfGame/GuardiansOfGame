@@ -29,6 +29,24 @@ void AWeapon::BeginPlay()
 
 }
 
+void AWeapon::EquipToBack(const AMain* Main)
+{
+	if (Main)
+	{
+		SetInstigator(Main->GetController());
+
+		Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+		Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
+		Mesh->SetSimulatePhysics(false);
+
+		const USkeletalMeshSocket* BackSocket = Main->GetMesh()->GetSocketByName("BackSocket");
+		if (BackSocket)
+		{
+			BackSocket->AttachActor(this, Main->GetMesh());
+		}
+	}
+}
+
 void AWeapon::EquipToHand(const AMain* Main)
 {
 	if(Main)
