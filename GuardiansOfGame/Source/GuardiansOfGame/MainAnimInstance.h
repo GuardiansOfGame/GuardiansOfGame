@@ -31,6 +31,9 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	bool bIsInAir;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
+	bool bWeaponEquipped;
+
 	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* RollMontage;
 
@@ -67,7 +70,7 @@ public:
 	void AnimNotify_VaultEnd() const;
 
 	UFUNCTION()
-	void AnimNotify_Equip() const;
+	void AnimNotify_Equip();
 	UFUNCTION()
-	void AnimNotify_Unequip() const;
+	void AnimNotify_Unequip();
 };

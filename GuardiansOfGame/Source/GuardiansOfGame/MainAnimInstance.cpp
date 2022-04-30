@@ -15,6 +15,7 @@ UMainAnimInstance::UMainAnimInstance()
 
 	Speed = 0.0f;
 	bIsInAir = false;
+	bWeaponEquipped = false;
 
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> RollMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Stand_To_Roll_Montage.Stand_To_Roll_Montage'"));
 	if (RollMontageAsset.Succeeded())
@@ -176,14 +177,18 @@ void UMainAnimInstance::AnimNotify_VaultEnd() const
 	Main->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 }
 
-void UMainAnimInstance::AnimNotify_Equip() const
+void UMainAnimInstance::AnimNotify_Equip()
 {
+	bWeaponEquipped = true;
+
 	Main->SetWeaponEquipped(true);
 	Main->GetWeapon()->EquipToHand(Main);
 }
 
-void UMainAnimInstance::AnimNotify_Unequip() const
+void UMainAnimInstance::AnimNotify_Unequip()
 {
+	bWeaponEquipped = false;
+
 	Main->SetWeaponEquipped(false);
 	Main->GetWeapon()->EquipToBack(Main);
 }
