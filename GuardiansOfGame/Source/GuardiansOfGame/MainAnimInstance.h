@@ -31,23 +31,32 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	bool bIsInAir;
 
-	UPROPERTY(VisibleAnywhere, Category = Montage)
+	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* RollMontage;
 
-	UPROPERTY(VisibleAnywhere, Category = Montage)
+	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* VaultMontage;
 
-	UPROPERTY(VisibleAnywhere, Category = Montage)
+	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* ClimbMontage;
 
-	UPROPERTY(VisibleAnywhere, Category = Montage)
+	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* SlideMontage;
+
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	UAnimMontage* EquipMontage;
+
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	UAnimMontage* UnequipMontage;
 
 public:
 	void PlayRollMontage();
 	void PlayVaultMontage(const float ObstacleHeight, const float Left, const float Right);
 	void PlayClimbMontage(const float ObstacleHeight);
 	void PlaySlideMontage(const FVector TargetPosition);
+
+	void PlayEquipMontage();
+	void PlayUnEquipMontage();
 
 	UFUNCTION()
 	void AnimNotify_RollStart() const;
@@ -56,4 +65,9 @@ public:
 
 	UFUNCTION()
 	void AnimNotify_VaultEnd() const;
+
+	UFUNCTION()
+	void AnimNotify_Equip() const;
+	UFUNCTION()
+	void AnimNotify_Unequip() const;
 };

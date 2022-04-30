@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 
 #include "Main.h"
+#include "Weapon.h"
 
 UMainAnimInstance::UMainAnimInstance()
 {
@@ -37,6 +38,18 @@ UMainAnimInstance::UMainAnimInstance()
 	if (SlideMontageAsset.Succeeded())
 	{
 		SlideMontage = SlideMontageAsset.Object;
+	}
+
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> EquipMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Unarmed_Equip_Underarm_Montage.Unarmed_Equip_Underarm_Montage'"));
+	if (EquipMontageAsset.Succeeded())
+	{
+		EquipMontage = EquipMontageAsset.Object;
+	}
+
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> UnequipMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Standing_Disarm_Underarm_Montage.Standing_Disarm_Underarm_Montage'"));
+	if (UnequipMontageAsset.Succeeded())
+	{
+		UnequipMontage = UnequipMontageAsset.Object;
 	}
 }
 
@@ -135,6 +148,16 @@ void UMainAnimInstance::PlaySlideMontage(const FVector TargetPosition)
 	}), WaitTime, false);
 }
 
+void UMainAnimInstance::PlayEquipMontage()
+{
+	Montage_Play(EquipMontage);
+}
+
+void UMainAnimInstance::PlayUnEquipMontage()
+{
+	Montage_Play(UnequipMontage);
+}
+
 void UMainAnimInstance::AnimNotify_RollStart() const
 {
 	Main->SetIsRolling(true);
@@ -151,4 +174,16 @@ void UMainAnimInstance::AnimNotify_VaultEnd() const
 {
 	Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	Main->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+}
+
+void UMainAnimInstance::AnimNotify_Equip() const
+{
+	Main->SetWeaponEquipped(true);
+	Main->GetWeapon()->EquipToHand(Main);
+}
+
+void UMainAnimInstance::AnimNotify_Unequip() const
+{
+	Main->SetWeaponEquipped(false);
+	Main->GetWeapon()->EquipToBack(Main);
 }

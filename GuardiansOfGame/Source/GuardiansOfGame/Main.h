@@ -100,7 +100,10 @@ private:
 	class UOcclusionChecker* OcclusionChecker;
 
 	UPROPERTY(VisibleAnywhere, Category = Combat)
-	class AWeapon * Weapon;
+	class AWeapon* Weapon;
+
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	bool bWeaponEquipped;
 
 protected:
 	void MoveForward(const float Value);
@@ -115,6 +118,8 @@ protected:
 	void SpaceUp();
 
 	void LCtrlDown();
+
+	void Equip();
 
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -140,6 +145,11 @@ public:
 	FORCEINLINE void SetIsSliding(const bool bValue) { bIsSliding = bValue; }
 
 	FORCEINLINE void SetTargetPosition(const FVector Position) { TargetPosition = Position; }
+
+	FORCEINLINE AWeapon* GetWeapon() const { return Weapon; }
+
+	FORCEINLINE bool GetWeaponEquipped() const { return bWeaponEquipped; }
+	FORCEINLINE void SetWeaponEquipped(const bool bValue) { bWeaponEquipped = bValue; }
 
 	void UIOn() const;
 	void UIOff() const;

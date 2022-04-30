@@ -81,6 +81,8 @@ AMain::AMain()
 	ParkourLineTracer = CreateDefaultSubobject<UParkourLineTracer>(TEXT("ParkourLineTracer"));
 
 	OcclusionChecker = CreateDefaultSubobject<UOcclusionChecker>(TEXT("OcclusionChecker"));
+
+	bWeaponEquipped = false;
 }
 
 // Called when the game starts or when spawned
@@ -135,6 +137,8 @@ void AMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction("JumpOrRoll", IE_Released, this, &AMain::SpaceUp);
 
 	PlayerInputComponent->BindAction("ParkourActions", IE_Pressed, this, &AMain::LCtrlDown);
+
+	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &AMain::Equip);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMain::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMain::MoveRight);
@@ -245,6 +249,19 @@ void AMain::LCtrlDown()
 	}
 
 	ParkourLineTracer->CheckObstacle(this);
+}
+
+void AMain::Equip()
+{
+	if(bWeaponEquipped)
+	{
+		GetMainAnim()->PlayUnEquipMontage();
+	}
+	else
+	{
+		GetMainAnim()->PlayEquipMontage();
+	}
+	// bWeaponEquipped ? GetMainAnim()->PlayUnEquipMontage() : GetMainAnim()->PlayEquipMontage();
 }
 
 void AMain::UIOn() const
