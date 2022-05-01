@@ -4,25 +4,25 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "MainController.generated.h"
+#include "GOGCharacterController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GUARDIANSOFGAME_API AMainController final : public APlayerController
+class GUARDIANSOFGAME_API AGOGCharacterController final : public APlayerController
 {
 	GENERATED_BODY()
 
 public:
-	AMainController();
+	AGOGCharacterController();
 
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Player)
-	class AMain* Main;
+	class AGOGCharacter* GOGCharacter;
 
 	TSubclassOf<class UDialogueWidget> DialogueWidgetClass;
 	UPROPERTY(VisibleAnywhere, Category = Widget)

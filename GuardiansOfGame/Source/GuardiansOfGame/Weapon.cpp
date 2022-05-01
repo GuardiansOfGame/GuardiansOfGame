@@ -4,7 +4,7 @@
 
 #include "Engine/SkeletalMeshSocket.h"
 
-#include "Main.h"
+#include "GOGCharacter.h"
 
 // Sets default values
 AWeapon::AWeapon()
@@ -29,38 +29,38 @@ void AWeapon::BeginPlay()
 
 }
 
-void AWeapon::EquipToBack(const AMain* Main)
+void AWeapon::EquipToBack(const AGOGCharacter* Char)
 {
-	if (Main)
+	if (Char)
 	{
-		SetInstigator(Main->GetController());
+		SetInstigator(Char->GetController());
 
 		Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 		Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 		Mesh->SetSimulatePhysics(false);
 
-		const USkeletalMeshSocket* BackSocket = Main->GetMesh()->GetSocketByName("BackSocket");
+		const USkeletalMeshSocket* BackSocket = Char->GetMesh()->GetSocketByName("BackSocket");
 		if (BackSocket)
 		{
-			BackSocket->AttachActor(this, Main->GetMesh());
+			BackSocket->AttachActor(this, Char->GetMesh());
 		}
 	}
 }
 
-void AWeapon::EquipToHand(const AMain* Main)
+void AWeapon::EquipToHand(const AGOGCharacter* Char)
 {
-	if(Main)
+	if(Char)
 	{
-		SetInstigator(Main->GetController());
+		SetInstigator(Char->GetController());
 
 		Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 		Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 		Mesh->SetSimulatePhysics(false);
 
-		const USkeletalMeshSocket* RightHandSocket = Main->GetMesh()->GetSocketByName("RightHandSocket");
+		const USkeletalMeshSocket* RightHandSocket = Char->GetMesh()->GetSocketByName("RightHandSocket");
 		if (RightHandSocket)
 		{
-			RightHandSocket->AttachActor(this, Main->GetMesh());
+			RightHandSocket->AttachActor(this, Char->GetMesh());
 		}
 	}
 }

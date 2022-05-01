@@ -7,17 +7,17 @@
 
 #include "CustomStruct.h"
 
-#include "MainStatComponent.generated.h"
+#include "GOGCharacterStatComponent.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class GUARDIANSOFGAME_API UMainStatComponent final : public UActorComponent
+class GUARDIANSOFGAME_API UGOGCharacterStatComponent final : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UMainStatComponent();
+	UGOGCharacterStatComponent();
 
 protected:
 	// Called when the game starts
@@ -26,13 +26,13 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = GameInstance)
-	class UGOGGameInstance* GameInstance;
+		class UGOGGameInstance* GameInstance;
 
 	UPROPERTY(VisibleAnywhere, Category = Quest)
-	FQuestBooleans QuestProgress;
+		FQuestBooleans QuestProgress;
 
 	UPROPERTY(VisibleAnywhere, Category = Quest)
-	int CurQuestNum;
+		int CurQuestNum;
 
 public:
 	FORCEINLINE FQuestBooleans GetQuestProgress() const { return QuestProgress; }

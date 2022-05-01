@@ -4,7 +4,7 @@
 
 #include "Components/BoxComponent.h"
 
-#include "Main.h"
+#include "GOGCharacter.h"
 
 // Sets default values
 ABattleVolume::ABattleVolume()
@@ -29,18 +29,18 @@ void ABattleVolume::BeginPlay()
 
 void ABattleVolume::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	AMain* Main = Cast<AMain>(OtherActor);
-	if(Main)
+	AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
+	if(Char)
 	{
-		Main->SetIsBattling(true);	
+		Char->SetIsBattling(true);
 	}
 }
 
 void ABattleVolume::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	AMain* Main = Cast<AMain>(OtherActor);
-	if (Main)
+	AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
+	if (Char)
 	{
-		Main->SetIsBattling(false);
+		Char->SetIsBattling(false);
 	}
 }

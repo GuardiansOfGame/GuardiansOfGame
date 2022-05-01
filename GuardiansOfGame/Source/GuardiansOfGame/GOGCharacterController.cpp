@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MainController.h"
+#include "GOGCharacterController.h"
 
 #include "DialogueWidget.h"
-#include "Main.h"
+#include "GOGCharacter.h"
 
-AMainController::AMainController()
+AGOGCharacterController::AGOGCharacterController()
 {
 	static ConstructorHelpers::FClassFinder<UDialogueWidget> DialogueWidgetClassFinder(TEXT("WidgetBlueprint'/Game/Widgets/DialogueWidget_BP.DialogueWidget_BP_C'"));
 	if (DialogueWidgetClassFinder.Succeeded())
@@ -14,13 +14,13 @@ AMainController::AMainController()
 	}
 }
 
-void AMainController::OnPossess(APawn* InPawn)
+void AGOGCharacterController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 
-	Main = Cast<AMain>(InPawn);
+	GOGCharacter = Cast<AGOGCharacter>(InPawn);
 
-	if(DialogueWidgetClass)
+	if (DialogueWidgetClass)
 	{
 		DialogueWidget = CreateWidget<UDialogueWidget>(this, DialogueWidgetClass);
 
@@ -29,7 +29,7 @@ void AMainController::OnPossess(APawn* InPawn)
 	}
 }
 
-void AMainController::BeginChat(const TArray<FString> Strings, const FString Name)
+void AGOGCharacterController::BeginChat(const TArray<FString> Strings, const FString Name)
 {
 	const FInputModeGameAndUI InputModeGameAndUI;
 	SetInputMode(InputModeGameAndUI);
@@ -40,7 +40,7 @@ void AMainController::BeginChat(const TArray<FString> Strings, const FString Nam
 	DialogueWidget->Begin(Strings, Name);
 }
 
-void AMainController::EndChat()
+void AGOGCharacterController::EndChat()
 {
 	const FInputModeGameOnly InputModeGameOnly;
 	SetInputMode(InputModeGameOnly);
@@ -49,5 +49,5 @@ void AMainController::EndChat()
 
 	DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
 
-	Main->SetQuestProgress();
+	GOGCharacter->SetQuestProgress();
 }

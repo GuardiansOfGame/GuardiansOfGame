@@ -4,7 +4,7 @@
 
 #include "Components/BoxComponent.h"
 
-#include "Main.h"
+#include "GOGCharacter.h"
 
 // Sets default values
 APortal::APortal()
@@ -39,9 +39,9 @@ void APortal::BeginPlay()
 void APortal::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	const AMain* Main = Cast<AMain>(OtherActor);
-	if(Main)
+	const AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
+	if(Char)
 	{
-		Main->SwitchLevel(LevelName);
+		Char->SwitchLevel(LevelName);
 	}
 }

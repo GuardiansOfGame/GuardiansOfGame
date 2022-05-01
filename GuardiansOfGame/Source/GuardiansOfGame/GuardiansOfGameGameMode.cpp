@@ -2,11 +2,11 @@
 
 #include "GuardiansOfGameGameMode.h"
 
-#include "Main.h"
-#include "MainController.h"
+#include "GOGCharacter.h"
+#include "GOGCharacterController.h"
 
 AGuardiansOfGameGameMode::AGuardiansOfGameGameMode()
 {
-	DefaultPawnClass = AMain::StaticClass();
-	PlayerControllerClass = AMainController::StaticClass();
+	DefaultPawnClass = AGOGCharacter::StaticClass();
+	PlayerControllerClass = AGOGCharacterController::StaticClass();
 }

@@ -4,8 +4,8 @@
 
 #include "Components/BoxComponent.h"
 
-#include "Main.h"
-#include "MainStatComponent.h"
+#include "GOGCharacter.h"
+#include "GOGCharacterStatComponent.h"
 
 // Sets default values
 AQuestTester::AQuestTester()
@@ -40,12 +40,12 @@ void AQuestTester::BeginPlay()
 void AQuestTester::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	const AMain* Main = Cast<AMain>(OtherActor);
-	if(Main && Main->GetMainStatComponent())
+	const AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
+	if(Char && Char->GetGOGCharacterStatComponent())
 	{
-		Main->GetMainStatComponent()->SetCurQuestSuccess(true);
+		Char->GetGOGCharacterStatComponent()->SetCurQuestSuccess(true);
 
-		const int QuestNum = Main->GetMainStatComponent()->GetCurQuestNum();
-		Main->GetMainStatComponent()->SetQuestSuccessArr(QuestNum, true);
+		const int QuestNum = Char->GetGOGCharacterStatComponent()->GetCurQuestNum();
+		Char->GetGOGCharacterStatComponent()->SetQuestSuccessArr(QuestNum, true);
 	}
 }

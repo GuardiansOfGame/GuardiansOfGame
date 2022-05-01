@@ -29,6 +29,6 @@ private:
 public:
 	FORCEINLINE void SetInstigator(AController* Inst) { WeaponInstigator = Inst; }
 
-	void EquipToBack(const class AMain* Main);
-	void EquipToHand(const class AMain* Main);
+	void EquipToBack(const class AGOGCharacter* Char);
+	void EquipToHand(const AGOGCharacter* Char);
 };

@@ -1,6 +1,6 @@
-ï»¿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Main.h"
+#include "GOGCharacter.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -9,18 +9,18 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-#include "MainController.h"
-#include "MainAnimInstance.h"
-#include "MainStatComponent.h"
+#include "GOGCharacterAnimInstance.h"
+#include "GOGCharacterController.h"
+#include "GOGCharacterStatComponent.h"
 #include "OcclusionChecker.h"
 #include "ParkourLineTracer.h"
 #include "QuestNPC.h"
 #include "Weapon.h"
 
 // Sets default values
-AMain::AMain()
+AGOGCharacter::AGOGCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	GetCapsuleComponent()->bHiddenInGame = false;
@@ -50,22 +50,22 @@ AMain::AMain()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MainMesh(TEXT("SkeletalMesh'/Game/Character/ybot/ybot.ybot'"));
-	if(MainMesh.Succeeded())
+	if (MainMesh.Succeeded())
 	{
 		GetMesh()->SetSkeletalMesh(MainMesh.Object);
 		GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -93.0f), FRotator(0.0f, -90.0f, 0.0f));
 	}
 
-	static ConstructorHelpers::FClassFinder<UAnimInstance> MainAnimInstance(TEXT("AnimBlueprint'/Game/Character/Animation/MainAnimInstance_BP.MainAnimInstance_BP_C'"));
-	if(MainAnimInstance.Succeeded())
+	static ConstructorHelpers::FClassFinder<UAnimInstance> GOGAnimInstanceAsset(TEXT("AnimBlueprint'/Game/Character/Animation/GOGAnimInstance_BP.GOGAnimInstance_BP_C'"));
+	if (GOGAnimInstanceAsset.Succeeded())
 	{
-		GetMesh()->SetAnimInstanceClass(MainAnimInstance.Class);
+		GetMesh()->SetAnimInstanceClass(GOGAnimInstanceAsset.Class);
 	}
 
 	InteractionStatus = EInteractionStatus::EIS_Normal;
 	MovementStatus = EMovementStatus::EMS_Normal;
 
-	MainStat = CreateDefaultSubobject<UMainStatComponent>(TEXT("MainStat"));
+	Stat = CreateDefaultSubobject<UGOGCharacterStatComponent>(TEXT("Stat"));
 
 	InteractingNPC = nullptr;
 
@@ -86,22 +86,22 @@ AMain::AMain()
 }
 
 // Called when the game starts or when spawned
-void AMain::BeginPlay()
+void AGOGCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	MainController = Cast<AMainController>(Controller);
-	MainAnim = Cast<UMainAnimInstance>(GetMesh()->GetAnimInstance());
+	GOGController = Cast<AGOGCharacterController>(Controller);
+	AnimInstance = Cast<UGOGCharacterAnimInstance>(GetMesh()->GetAnimInstance());
 
 	Weapon = GetWorld()->SpawnActor<AWeapon>();
-	if(Weapon)
+	if (Weapon)
 	{
 		Weapon->EquipToBack(this);
 	}
 }
 
 // Called every frame
-void AMain::Tick(const float DeltaTime)
+void AGOGCharacter::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -125,35 +125,35 @@ void AMain::Tick(const float DeltaTime)
 }
 
 // Called to bind functionality to input
-void AMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AGOGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AMain::Interaction);
+	PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &AGOGCharacter::Interaction);
 
-	PlayerInputComponent->BindAction("JumpOrRoll", IE_Pressed, this, &AMain::SpaceDown);
-	PlayerInputComponent->BindAction("JumpOrRoll", IE_Released, this, &AMain::SpaceUp);
+	PlayerInputComponent->BindAction("JumpOrRoll", IE_Pressed, this, &AGOGCharacter::SpaceDown);
+	PlayerInputComponent->BindAction("JumpOrRoll", IE_Released, this, &AGOGCharacter::SpaceUp);
 
-	PlayerInputComponent->BindAction("ParkourActions", IE_Pressed, this, &AMain::LCtrlDown);
+	PlayerInputComponent->BindAction("ParkourActions", IE_Pressed, this, &AGOGCharacter::LCtrlDown);
 
-	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &AMain::Equip);
+	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &AGOGCharacter::Equip);
 
-	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMain::Attack);
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AGOGCharacter::Attack);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &AMain::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AMain::MoveRight);
-	PlayerInputComponent->BindAxis("Turn", this, &AMain::Turn);
-	PlayerInputComponent->BindAxis("LookUp", this, &AMain::LookUp);
+	PlayerInputComponent->BindAxis("MoveForward", this, &AGOGCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AGOGCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("Turn", this, &AGOGCharacter::Turn);
+	PlayerInputComponent->BindAxis("LookUp", this, &AGOGCharacter::LookUp);
 }
 
-void AMain::PostInitializeComponents()
+void AGOGCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 }
 
-void AMain::MoveForward(const float Value)
+void AGOGCharacter::MoveForward(const float Value)
 {
 	if (Controller && Value)
 	{
@@ -165,7 +165,7 @@ void AMain::MoveForward(const float Value)
 	}
 }
 
-void AMain::MoveRight(const float Value)
+void AGOGCharacter::MoveRight(const float Value)
 {
 	if (Controller && Value)
 	{
@@ -177,36 +177,36 @@ void AMain::MoveRight(const float Value)
 	}
 }
 
-void AMain::Turn(const float Rate)
+void AGOGCharacter::Turn(const float Rate)
 {
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AMain::LookUp(const float Rate)
+void AGOGCharacter::LookUp(const float Rate)
 {
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AMain::Interaction()
+void AGOGCharacter::Interaction()
 {
 	switch (InteractionStatus)
 	{
 	case EInteractionStatus::EIS_TalkWithNPC:
-		if(MainController && InteractingNPC)
+		if (GOGController && InteractingNPC)
 		{
 			UIOff();
 
 			const AQuestNPC* QuestNPC = Cast<AQuestNPC>(InteractingNPC);
-			if(QuestNPC)
+			if (QuestNPC)
 			{
-				DisableInput(MainController);
-				MainController->BeginChat(QuestNPC->GetCurDialogue(), QuestNPC->GetUIName());
+				DisableInput(GOGController);
+				GOGController->BeginChat(QuestNPC->GetCurDialogue(), QuestNPC->GetUIName());
 			}
 		}
 		break;
 
 	case EInteractionStatus::EIS_PickUpItem:
-		// TODO: ì•„ì´í…œ íšë“ ê¸°ëŠ¥ ì¶”ê°€í•˜ê¸°
+		// TODO: ¾ÆÀÌÅÛ È¹µæ ±â´É Ãß°¡ÇÏ±â
 		UE_LOG(LogTemp, Warning, TEXT("EIS_PickUpItem"));
 		break;
 
@@ -215,11 +215,11 @@ void AMain::Interaction()
 	}
 }
 
-void AMain::SpaceDown()
+void AGOGCharacter::SpaceDown()
 {
 	if (bIsBattling)
 	{
-		if(bIsRolling)
+		if (bIsRolling)
 		{
 			return;
 		}
@@ -227,7 +227,7 @@ void AMain::SpaceDown()
 		TargetPosition = GetActorLocation() + GetActorForwardVector() * 500.0f;
 		bIsRolling = true;
 
-		MainAnim->PlayRollMontage();
+		AnimInstance->PlayRollMontage();
 	}
 	else
 	{
@@ -235,15 +235,15 @@ void AMain::SpaceDown()
 	}
 }
 
-void AMain::SpaceUp()
+void AGOGCharacter::SpaceUp()
 {
-	if(!bIsBattling)
+	if (!bIsBattling)
 	{
 		Super::StopJumping();
 	}
 }
 
-void AMain::LCtrlDown()
+void AGOGCharacter::LCtrlDown()
 {
 	if (MovementStatus == EMovementStatus::EMS_Parkour)
 	{
@@ -253,33 +253,33 @@ void AMain::LCtrlDown()
 	ParkourLineTracer->CheckObstacle(this);
 }
 
-void AMain::Equip()
+void AGOGCharacter::Equip()
 {
 	// Z Key
-	bWeaponEquipped ? GetMainAnim()->PlayUnEquipMontage() : GetMainAnim()->PlayEquipMontage();
+	bWeaponEquipped ? AnimInstance->PlayUnEquipMontage() : AnimInstance->PlayEquipMontage();
 }
 
-void AMain::Attack()
+void AGOGCharacter::Attack()
 {
 	// Left Mouse Button
-	if(!bWeaponEquipped)
+	if (!bWeaponEquipped)
 	{
-		GetMainAnim()->PlayEquipMontage();
+		AnimInstance->PlayEquipMontage();
 		return;
 	}
 
-	GetMainAnim()->PlayAttackMontage();
+	AnimInstance->PlayAttackMontage();
 }
 
-void AMain::UIOn() const
+void AGOGCharacter::UIOn() const
 {
-	if(InteractingNPC)
+	if (InteractingNPC)
 	{
 		InteractingNPC->GetKeyWidgetComponent()->SetVisibility(true);
 	}
 }
 
-void AMain::UIOff() const
+void AGOGCharacter::UIOff() const
 {
 	if (InteractingNPC)
 	{
@@ -287,50 +287,50 @@ void AMain::UIOff() const
 	}
 }
 
-void AMain::SetQuestProgress()
+void AGOGCharacter::SetQuestProgress()
 {
 	UIOn();
-	EnableInput(MainController);
+	EnableInput(GOGController);
 
 	AQuestNPC* QuestNPC = Cast<AQuestNPC>(InteractingNPC);
-	int CurQuestNum = MainStat->GetCurQuestNum();
+	int CurQuestNum = Stat->GetCurQuestNum();
 
 	switch (CurQuestNum)
 	{
 	case 0:
-		if (MainStat->GetQuestProgress().CurQuestSuccess)
+		if (Stat->GetQuestProgress().CurQuestSuccess)
 		{
-			MainStat->SetCurQuestAccept(false);
-			MainStat->SetCurQuestSuccess(false);
+			Stat->SetCurQuestAccept(false);
+			Stat->SetCurQuestSuccess(false);
 
 			QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Success);
 
-			MainStat->SetCurQuestNum(++CurQuestNum);
+			Stat->SetCurQuestNum(++CurQuestNum);
 		}
 		else
 		{
-			MainStat->SetCurQuestAccept(true);
-			MainStat->SetQuestAcceptArr(CurQuestNum, true);
+			Stat->SetCurQuestAccept(true);
+			Stat->SetQuestAcceptArr(CurQuestNum, true);
 
 			QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Handle);
 		}
 		break;
 	case 1:
-		if (MainStat->GetQuestProgress().CurQuestAccept)
+		if (Stat->GetQuestProgress().CurQuestAccept)
 		{
-			if (MainStat->GetQuestProgress().CurQuestSuccess)
+			if (Stat->GetQuestProgress().CurQuestSuccess)
 			{
 				QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Success);
 			}
 			else
 			{
-				MainStat->SetQuestAcceptArr(CurQuestNum, true);
+				Stat->SetQuestAcceptArr(CurQuestNum, true);
 				QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Handle);
 			}
 		}
 		else
 		{
-			MainStat->SetCurQuestAccept(true);
+			Stat->SetCurQuestAccept(true);
 			QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Give);
 		}
 		break;
@@ -339,12 +339,12 @@ void AMain::SetQuestProgress()
 	}
 }
 
-void AMain::SwitchLevel(const FName LevelName) const
+void AGOGCharacter::SwitchLevel(const FName LevelName) const
 {
 	FString CurLevelName = GetWorld()->GetMapName();
 	CurLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
 
-	MainStat->Save();
+	Stat->Save();
 
 	UGameplayStatics::OpenLevel(GetWorld(), FName(LevelName));
 }

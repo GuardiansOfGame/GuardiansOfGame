@@ -27,9 +27,9 @@ private:
 	FVector ObstacleLength;
 
 public:
-	void CheckObstacle(const class AMain* Main);
-	void CheckOverObstacle(const AMain* Main);
-	void CheckObstacleHeight(const AMain* Main);
-	float CheckObstacleLeft(const AMain* Main) const;
-	float CheckObstacleRight(const AMain* Main) const;
+	void CheckObstacle(const class AGOGCharacter* Char);
+	void CheckOverObstacle(const AGOGCharacter* Char);
+	void CheckObstacleHeight(const AGOGCharacter* Char);
+	float CheckObstacleLeft(const AGOGCharacter* Char) const;
+	float CheckObstacleRight(const AGOGCharacter* Char) const;
 };

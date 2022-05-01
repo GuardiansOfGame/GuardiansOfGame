@@ -1,17 +1,17 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MainAnimInstance.h"
+#include "GOGCharacterAnimInstance.h"
 
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
-#include "Main.h"
+#include "GOGCharacter.h"
 #include "Weapon.h"
 
-UMainAnimInstance::UMainAnimInstance()
+UGOGCharacterAnimInstance::UGOGCharacterAnimInstance()
 {
-	Main = nullptr;
+	GOGCharacter = nullptr;
 
 	Speed = 0.0f;
 	bIsInAir = false;
@@ -60,39 +60,39 @@ UMainAnimInstance::UMainAnimInstance()
 	}
 }
 
-void UMainAnimInstance::NativeInitializeAnimation()
+void UGOGCharacterAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
 
-	Main = Cast<AMain>(TryGetPawnOwner());
+	GOGCharacter = Cast<AGOGCharacter>(TryGetPawnOwner());
 }
 
-void UMainAnimInstance::NativeUpdateAnimation(const float DeltaSeconds)
+void UGOGCharacterAnimInstance::NativeUpdateAnimation(const float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
 
-	if(Main)
+	if (GOGCharacter)
 	{
-		Speed = Main->GetVelocity().Size2D();
-		bIsInAir = Main->GetMovementComponent()->IsFalling();
+		Speed = GOGCharacter->GetVelocity().Size2D();
+		bIsInAir = GOGCharacter->GetMovementComponent()->IsFalling();
 	}
 }
 
-void UMainAnimInstance::PlayRollMontage()
+void UGOGCharacterAnimInstance::PlayRollMontage()
 {
 	Montage_Play(RollMontage);
 }
 
-void UMainAnimInstance::PlayVaultMontage(const float ObstacleHeight, const float Left, const float Right)
+void UGOGCharacterAnimInstance::PlayVaultMontage(const float ObstacleHeight, const float Left, const float Right)
 {
-	Main->SetMovementStatus(EMovementStatus::EMS_Parkour);
+	GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Parkour);
 
-	Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	Main->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+	GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 
-	FVector Location = Main->GetActorLocation();
+	FVector Location = GOGCharacter->GetActorLocation();
 	Location.Z += ObstacleHeight;
-	Main->SetActorLocation(Location);
+	GOGCharacter->SetActorLocation(Location);
 
 	FTimerHandle WaitVaultHandle;
 
@@ -100,106 +100,106 @@ void UMainAnimInstance::PlayVaultMontage(const float ObstacleHeight, const float
 	const float WaitTime = Left > Right ? Montage_Play(VaultMontage) : Montage_Play(VaultMontage);
 
 	GetWorld()->GetTimerManager().SetTimer(WaitVaultHandle, FTimerDelegate::CreateLambda([&]() {
-		if (Main)
+		if (GOGCharacter)
 		{
-			Main->SetMovementStatus(EMovementStatus::EMS_Normal);
+			GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Normal);
 		}
 	}), WaitTime, false);
 }
 
-void UMainAnimInstance::PlayClimbMontage(const float ObstacleHeight)
+void UGOGCharacterAnimInstance::PlayClimbMontage(const float ObstacleHeight)
 {
-	Main->SetMovementStatus(EMovementStatus::EMS_Parkour);
+	GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Parkour);
 
-	Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	Main->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+	GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 
-	FVector Location = Main->GetActorLocation();
+	FVector Location = GOGCharacter->GetActorLocation();
 	Location.Z += ObstacleHeight;
-	Main->SetActorLocation(Location);
+	GOGCharacter->SetActorLocation(Location);
 
 	FTimerHandle WaitClimbHandle;
 	const float WaitTime = Montage_Play(ClimbMontage);
 
 	GetWorld()->GetTimerManager().SetTimer(WaitClimbHandle, FTimerDelegate::CreateLambda([&]() {
-		if (Main)
+		if (GOGCharacter)
 		{
-			Main->SetMovementStatus(EMovementStatus::EMS_Normal);
+			GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Normal);
 
-			Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-			Main->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+			GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+			GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 		}
 	}), WaitTime, false);
 }
 
-void UMainAnimInstance::PlaySlideMontage(const FVector TargetPosition)
+void UGOGCharacterAnimInstance::PlaySlideMontage(const FVector TargetPosition)
 {
-	Main->SetMovementStatus(EMovementStatus::EMS_Parkour);
-	Main->SetTargetPosition(TargetPosition);
-	Main->SetIsSliding(true);
+	GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Parkour);
+	GOGCharacter->SetTargetPosition(TargetPosition);
+	GOGCharacter->SetIsSliding(true);
 
-	Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	FTimerHandle WaitSlideHandle;
 	const float WaitTime = Montage_Play(SlideMontage);
 
 	GetWorld()->GetTimerManager().SetTimer(WaitSlideHandle, FTimerDelegate::CreateLambda([&]() {
-		if (Main)
+		if (GOGCharacter)
 		{
-			Main->SetMovementStatus(EMovementStatus::EMS_Normal);
-			Main->SetIsSliding(false);
+			GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Normal);
+			GOGCharacter->SetIsSliding(false);
 
-			Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-			Main->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+			GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+			GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 		}
 	}), WaitTime, false);
 }
 
-void UMainAnimInstance::PlayEquipMontage()
+void UGOGCharacterAnimInstance::PlayEquipMontage()
 {
 	Montage_Play(EquipMontage);
 }
 
-void UMainAnimInstance::PlayUnEquipMontage()
+void UGOGCharacterAnimInstance::PlayUnEquipMontage()
 {
 	Montage_Play(UnequipMontage);
 }
 
-void UMainAnimInstance::PlayAttackMontage()
+void UGOGCharacterAnimInstance::PlayAttackMontage()
 {
 	Montage_Play(AttackMontage);
 }
 
-void UMainAnimInstance::AnimNotify_RollStart() const
+void UGOGCharacterAnimInstance::AnimNotify_RollStart() const
 {
-	Main->SetIsRolling(true);
+	GOGCharacter->SetIsRolling(true);
 
-	Main->GetCameraBoom()->CameraLagSpeed = 5.0f;
+	GOGCharacter->GetCameraBoom()->CameraLagSpeed = 5.0f;
 }
 
-void UMainAnimInstance::AnimNotify_RollEnd() const
+void UGOGCharacterAnimInstance::AnimNotify_RollEnd() const
 {
-	Main->SetIsRolling(false);
+	GOGCharacter->SetIsRolling(false);
 }
 
-void UMainAnimInstance::AnimNotify_VaultEnd() const
+void UGOGCharacterAnimInstance::AnimNotify_VaultEnd() const
 {
-	Main->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	Main->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 }
 
-void UMainAnimInstance::AnimNotify_Equip()
+void UGOGCharacterAnimInstance::AnimNotify_Equip()
 {
 	bWeaponEquipped = true;
 
-	Main->SetWeaponEquipped(true);
-	Main->GetWeapon()->EquipToHand(Main);
+	GOGCharacter->SetWeaponEquipped(true);
+	GOGCharacter->GetWeapon()->EquipToHand(GOGCharacter);
 }
 
-void UMainAnimInstance::AnimNotify_Unequip()
+void UGOGCharacterAnimInstance::AnimNotify_Unequip()
 {
 	bWeaponEquipped = false;
 
-	Main->SetWeaponEquipped(false);
-	Main->GetWeapon()->EquipToBack(Main);
+	GOGCharacter->SetWeaponEquipped(false);
+	GOGCharacter->GetWeapon()->EquipToBack(GOGCharacter);
 }

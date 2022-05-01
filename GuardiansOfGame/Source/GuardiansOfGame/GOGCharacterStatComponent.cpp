@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MainStatComponent.h"
+#include "GOGCharacterStatComponent.h"
 
 #include "GOGGameInstance.h"
 
 // Sets default values for this component's properties
-UMainStatComponent::UMainStatComponent()
+UGOGCharacterStatComponent::UGOGCharacterStatComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -15,29 +15,29 @@ UMainStatComponent::UMainStatComponent()
 
 
 // Called when the game starts
-void UMainStatComponent::BeginPlay()
+void UGOGCharacterStatComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void UMainStatComponent::InitializeComponent()
+void UGOGCharacterStatComponent::InitializeComponent()
 {
 	Super::InitializeComponent();
 
 	Init();
 }
 
-void UMainStatComponent::Init()
+void UGOGCharacterStatComponent::Init()
 {
 	GameInstance = Cast<UGOGGameInstance>(GetWorld()->GetGameInstance());
-	if(GameInstance)
+	if (GameInstance)
 	{
 		QuestProgress = GameInstance->GetQuestProgress();
 		CurQuestNum = GameInstance->GetCurQuestNum();
 	}
 }
 
-void UMainStatComponent::Save() const
+void UGOGCharacterStatComponent::Save() const
 {
 	if (GameInstance)
 	{

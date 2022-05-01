@@ -4,8 +4,8 @@
 
 #include "DrawDebugHelpers.h"
 
-#include "Main.h"
-#include "MainAnimInstance.h"
+#include "GOGCharacter.h"
+#include "GOGCharacterAnimInstance.h"
 
 UParkourLineTracer::UParkourLineTracer()
 {
@@ -18,15 +18,15 @@ UParkourLineTracer::UParkourLineTracer()
 	ObstacleLength = FVector(0.0f);
 }
 
-void UParkourLineTracer::CheckObstacle(const AMain* Main)
+void UParkourLineTracer::CheckObstacle(const AGOGCharacter* Char)
 {
-	const FVector Start = Main->GetActorLocation();
-	const FVector End = Start + Main->GetActorForwardVector() * 300.0f;
+	const FVector Start = Char->GetActorLocation();
+	const FVector End = Start + Char->GetActorForwardVector() * 300.0f;
 
 	FHitResult HitResult{};
 
 	FCollisionQueryParams Params{};
-	Params.AddIgnoredActor(Main);
+	Params.AddIgnoredActor(Char);
 
 	if (GetWorld())
 	{
@@ -44,26 +44,26 @@ void UParkourLineTracer::CheckObstacle(const AMain* Main)
 				FVector HitEndLocation = HitResult.Location;
 				ObstacleLength = HitEndLocation - ObstacleLocation;
 
-				CheckObstacleHeight(Main);
+				CheckObstacleHeight(Char);
 			}
 		}
 		else
 		{
 			DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
-			CheckOverObstacle(Main);
+			CheckOverObstacle(Char);
 		}
 	}
 }
 
-void UParkourLineTracer::CheckOverObstacle(const AMain* Main)
+void UParkourLineTracer::CheckOverObstacle(const AGOGCharacter* Char)
 {
-	const FVector Start = Main->GetActorLocation() + FVector(0.0f, 0.0f, 80.0f);
-	const FVector End = Start + Main->GetActorForwardVector() * 300.0f;
+	const FVector Start = Char->GetActorLocation() + FVector(0.0f, 0.0f, 80.0f);
+	const FVector End = Start + Char->GetActorForwardVector() * 300.0f;
 
 	FHitResult HitResult{};
 
 	FCollisionQueryParams Params{};
-	Params.AddIgnoredActor(Main);
+	Params.AddIgnoredActor(Char);
 
 	if (GetWorld())
 	{
@@ -80,9 +80,9 @@ void UParkourLineTracer::CheckOverObstacle(const AMain* Main)
 				FVector HitEndLocation = HitResult.Location;
 				ObstacleLength = HitEndLocation - HitLocation;
 
-				FVector TargetPosition = Main->GetActorLocation() + Main->GetActorForwardVector() * 250.0f + ObstacleLength;
+				FVector TargetPosition = Char->GetActorLocation() + Char->GetActorForwardVector() * 250.0f + ObstacleLength;
 
-				Main->GetMainAnim()->PlaySlideMontage(TargetPosition);
+				Char->GetAnimInstance()->PlaySlideMontage(TargetPosition);
 			}
 		}
 		else
@@ -92,7 +92,7 @@ void UParkourLineTracer::CheckOverObstacle(const AMain* Main)
 	}
 }
 
-void UParkourLineTracer::CheckObstacleHeight(const AMain* Main)
+void UParkourLineTracer::CheckObstacleHeight(const AGOGCharacter* Char)
 {
 	const FVector Start = ObstacleLocation + (ObstacleNormal * -10.0f) + FVector(0.0f, 0.0f, MaxJumpHeight * 3);
 	const FVector End = Start - FVector(0.0f, 0.0f, MaxJumpHeight * 3);
@@ -100,7 +100,7 @@ void UParkourLineTracer::CheckObstacleHeight(const AMain* Main)
 	FHitResult HitResult{};
 
 	FCollisionQueryParams Params{};
-	Params.AddIgnoredActor(Main);
+	Params.AddIgnoredActor(Char);
 
 	if (GetWorld())
 	{
@@ -114,17 +114,17 @@ void UParkourLineTracer::CheckObstacleHeight(const AMain* Main)
 			JumpHeight = ObstacleHeight.Z - ObstacleLocation.Z;
 			if (JumpHeight <= MaxJumpHeight)
 			{
-				float Left = CheckObstacleLeft(Main);
-				float Right = CheckObstacleRight(Main);
+				float Left = CheckObstacleLeft(Char);
+				float Right = CheckObstacleRight(Char);
 
 				float ObstacleThick = abs(ObstacleLength.Y);
 				if (ObstacleThick > 50.0f)
 				{
-					Main->GetMainAnim()->PlayClimbMontage(JumpHeight);
+					Char->GetAnimInstance()->PlayClimbMontage(JumpHeight);
 				}
 				else
 				{
-					Main->GetMainAnim()->PlayVaultMontage(JumpHeight, Left, Right);
+					Char->GetAnimInstance()->PlayVaultMontage(JumpHeight, Left, Right);
 				}
 			}
 		}
@@ -135,15 +135,15 @@ void UParkourLineTracer::CheckObstacleHeight(const AMain* Main)
 	}
 }
 
-float UParkourLineTracer::CheckObstacleLeft(const AMain* Main) const
+float UParkourLineTracer::CheckObstacleLeft(const AGOGCharacter* Char) const
 {
-	const FVector Start = ObstacleLocation + (ObstacleNormal * -10.0f) + Main->GetActorRightVector() * -150.0f;
-	const FVector End = Start - Main->GetActorRightVector() * -150.0f;
+	const FVector Start = ObstacleLocation + (ObstacleNormal * -10.0f) + Char->GetActorRightVector() * -150.0f;
+	const FVector End = Start - Char->GetActorRightVector() * -150.0f;
 
 	FHitResult HitResult{};
 
 	FCollisionQueryParams Params{};
-	Params.AddIgnoredActor(Main);
+	Params.AddIgnoredActor(Char);
 
 	if (GetWorld())
 	{
@@ -161,15 +161,15 @@ float UParkourLineTracer::CheckObstacleLeft(const AMain* Main) const
 	return (HitResult.Location - End).Size();
 }
 
-float UParkourLineTracer::CheckObstacleRight(const AMain* Main) const
+float UParkourLineTracer::CheckObstacleRight(const AGOGCharacter* Char) const
 {
-	const FVector Start = ObstacleLocation + (ObstacleNormal * -10.0f) + Main->GetActorRightVector() * 150.0f;
-	const FVector End = Start - Main->GetActorRightVector() * 150.0f;
+	const FVector Start = ObstacleLocation + (ObstacleNormal * -10.0f) + Char->GetActorRightVector() * 150.0f;
+	const FVector End = Start - Char->GetActorRightVector() * 150.0f;
 
 	FHitResult HitResult{};
 
 	FCollisionQueryParams Params{};
-	Params.AddIgnoredActor(Main);
+	Params.AddIgnoredActor(Char);
 
 	if (GetWorld())
 	{

@@ -4,18 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
-#include "MainAnimInstance.generated.h"
+#include "GOGCharacterAnimInstance.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GUARDIANSOFGAME_API UMainAnimInstance final : public UAnimInstance
+class GUARDIANSOFGAME_API UGOGCharacterAnimInstance final : public UAnimInstance
 {
 	GENERATED_BODY()
 
-public:
-	UMainAnimInstance();
+	public:
+	UGOGCharacterAnimInstance();
 
 protected:
 	virtual void NativeInitializeAnimation() override;
@@ -23,7 +23,7 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Character, meta = (AllowPrivateAccess = "true"))
-	class AMain* Main;
+	class AGOGCharacter* GOGCharacter;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	float Speed;

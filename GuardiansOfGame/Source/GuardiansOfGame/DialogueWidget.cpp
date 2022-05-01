@@ -6,7 +6,7 @@
 #include "Components/TextBlock.h"
 #include "Kismet/GameplayStatics.h"
 
-#include "MainController.h"
+#include "GOGCharacterController.h"
 
 void UDialogueWidget::NativeConstruct()
 {
@@ -44,7 +44,7 @@ void UDialogueWidget::Begin(const TArray<FString> Strings, const FString IName)
 
 void UDialogueWidget::End() const
 {
-	AMainController* Controller = Cast<AMainController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	AGOGCharacterController* Controller = Cast<AGOGCharacterController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if(Controller)
 	{
 		Controller->EndChat();

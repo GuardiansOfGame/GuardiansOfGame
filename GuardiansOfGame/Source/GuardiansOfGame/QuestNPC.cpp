@@ -2,9 +2,9 @@
 
 #include "QuestNPC.h"
 
+#include "GOGCharacter.h"
+#include "GOGCharacterStatComponent.h"
 #include "GOGGameInstance.h"
-#include "Main.h"
-#include "MainStatComponent.h"
 
 AQuestNPC::AQuestNPC()
 {
@@ -34,7 +34,7 @@ void AQuestNPC::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UGOGGameInstance* GameInstance = Cast<UGOGGameInstance>(GetWorld()->GetGameInstance());
+	const UGOGGameInstance* GameInstance = Cast<UGOGGameInstance>(GetWorld()->GetGameInstance());
 	if(GameInstance)
 	{
 		const int CurQuestNum = GameInstance->GetCurQuestNum();
@@ -55,15 +55,15 @@ void AQuestNPC::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 {
 	Super::OnBeginOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 
-	AMain* Main = Cast<AMain>(OtherActor);
-	if(Main)
+	AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
+	if(Char)
 	{
-		Main->SetInteractionStatus(EInteractionStatus::EIS_TalkWithNPC);
-		Main->SetInteractingNPC(this);
+		Char->SetInteractionStatus(EInteractionStatus::EIS_TalkWithNPC);
+		Char->SetInteractingNPC(this);
 
-		if(Main->GetMainStatComponent()->GetQuestProgress().CurQuestSuccess)
+		if(Char->GetGOGCharacterStatComponent()->GetQuestProgress().CurQuestSuccess)
 		{
-			Main->SetQuestProgress();
+			Char->SetQuestProgress();
 		}
 	}
 }
@@ -73,10 +73,10 @@ void AQuestNPC::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* O
 {
 	Super::OnEndOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex);
 
-	AMain* Main = Cast<AMain>(OtherActor);
-	if(Main)
+	AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
+	if(Char)
 	{
-		Main->SetInteractionStatus(EInteractionStatus::EIS_Normal);
-		Main->SetInteractingNPC(nullptr);
+		Char->SetInteractionStatus(EInteractionStatus::EIS_Normal);
+		Char->SetInteractingNPC(nullptr);
 	}
 }

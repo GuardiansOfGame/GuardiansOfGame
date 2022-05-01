@@ -5,8 +5,8 @@
 #include "Components/BoxComponent.h"
 #include "Components/WidgetComponent.h"
 
+#include "GOGCharacter.h"
 #include "KeyWidget.h"
-#include "Main.h"
 
 // Sets default values
 ANPC::ANPC()
@@ -74,8 +74,8 @@ void ANPC::BeginPlay()
 void ANPC::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						  int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	const AMain* Main = Cast<AMain>(OtherActor);
-	if(Main)
+	const AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
+	if(Char)
 	{
 		KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition());
 	}
@@ -84,8 +84,8 @@ void ANPC::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Othe
 void ANPC::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 						int32 OtherBodyIndex)
 {
-	const AMain* Main = Cast<AMain>(OtherActor);
-	if (Main)
+	const AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
+	if (Char)
 	{
 		KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition(), 0.0f, 1, EUMGSequencePlayMode::Reverse);
 	}

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Main.generated.h"
+#include "GOGCharacter.generated.h"
 
 UENUM(BlueprintType)
 enum class EInteractionStatus : uint8
@@ -26,13 +26,13 @@ enum class EMovementStatus : uint8
 };
 
 UCLASS()
-class GUARDIANSOFGAME_API AMain final : public ACharacter
+class GUARDIANSOFGAME_API AGOGCharacter final : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AMain();
+	AGOGCharacter();
 
 protected:
 	// Called when the game starts or when spawned
@@ -40,7 +40,7 @@ protected:
 
 public:	
 	// Called every frame
-	virtual void Tick(const float DeltaTime) override;
+	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -61,10 +61,10 @@ private:
 	float BaseLookUpRate;
 
 	UPROPERTY(VisibleAnywhere, Category = Controller)
-	class AMainController* MainController;
+	class AGOGCharacterController* GOGController;
 
 	UPROPERTY(VisibleAnywhere, Category = Animation)
-	class UMainAnimInstance* MainAnim;
+	class UGOGCharacterAnimInstance* AnimInstance;
 
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	EInteractionStatus InteractionStatus;
@@ -73,7 +73,7 @@ private:
 	EMovementStatus MovementStatus;
 
 	UPROPERTY(VisibleAnywhere, Category = Status)
-	class UMainStatComponent* MainStat;
+	class UGOGCharacterStatComponent* Stat;
 
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	class ANPC* InteractingNPC;
@@ -127,7 +127,7 @@ public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	FORCEINLINE UMainAnimInstance* GetMainAnim() const { return MainAnim; }
+	FORCEINLINE UGOGCharacterAnimInstance* GetAnimInstance() const { return AnimInstance; }
 
 	FORCEINLINE EInteractionStatus GetInteractionStatus() const { return InteractionStatus; }
 	FORCEINLINE void SetInteractionStatus(const EInteractionStatus Status) { InteractionStatus = Status; }
@@ -135,7 +135,7 @@ public:
 	FORCEINLINE EMovementStatus GetMovementStatus() const { return MovementStatus; }
 	FORCEINLINE void SetMovementStatus(const EMovementStatus Status) { MovementStatus = Status; }
 
-	FORCEINLINE UMainStatComponent* GetMainStatComponent() const { return MainStat; }
+	FORCEINLINE UGOGCharacterStatComponent* GetGOGCharacterStatComponent() const { return Stat; }
 
 	FORCEINLINE ANPC* GetInteractingNPC() const { return InteractingNPC; }
 	FORCEINLINE void SetInteractingNPC(ANPC* NPC) { InteractingNPC = NPC; }
