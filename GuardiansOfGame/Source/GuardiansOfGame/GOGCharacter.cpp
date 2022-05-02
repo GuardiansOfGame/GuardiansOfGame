@@ -49,14 +49,14 @@ AGOGCharacter::AGOGCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MainMesh(TEXT("SkeletalMesh'/Game/Character/ybot/ybot.ybot'"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MainMesh(TEXT("SkeletalMesh'/Game/WizardCharacter/Character/Mesh/Wizard_Sk.Wizard_Sk'"));
 	if (MainMesh.Succeeded())
 	{
 		GetMesh()->SetSkeletalMesh(MainMesh.Object);
 		GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -93.0f), FRotator(0.0f, -90.0f, 0.0f));
 	}
 
-	static ConstructorHelpers::FClassFinder<UAnimInstance> GOGAnimInstanceAsset(TEXT("AnimBlueprint'/Game/Character/Animation/GOGAnimInstance_BP.GOGAnimInstance_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> GOGAnimInstanceAsset(TEXT("AnimBlueprint'/Game/WizardCharacter/Character/Animations/GOGAnimInstance_BP.GOGAnimInstance_BP_C'"));
 	if (GOGAnimInstanceAsset.Succeeded())
 	{
 		GetMesh()->SetAnimInstanceClass(GOGAnimInstanceAsset.Class);
@@ -83,6 +83,7 @@ AGOGCharacter::AGOGCharacter()
 	OcclusionChecker = CreateDefaultSubobject<UOcclusionChecker>(TEXT("OcclusionChecker"));
 
 	bWeaponEquipped = false;
+	bIsAttacking = false;
 }
 
 // Called when the game starts or when spawned

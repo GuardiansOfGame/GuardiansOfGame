@@ -105,6 +105,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Combat)
 	bool bWeaponEquipped;
 
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	bool bIsAttacking;
+
 protected:
 	void MoveForward(const float Value);
 	void MoveRight(const float Value);
