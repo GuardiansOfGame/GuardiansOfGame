@@ -17,43 +17,47 @@ UGOGCharacterAnimInstance::UGOGCharacterAnimInstance()
 	bIsInAir = false;
 	bWeaponEquipped = false;
 
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> RollMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Stand_To_Roll_Montage.Stand_To_Roll_Montage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> RollMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Roll_Montage.Roll_Montage'"));
 	if (RollMontageAsset.Succeeded())
 	{
 		RollMontage = RollMontageAsset.Object;
 	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("NotExist"));
+	}
 
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> VaultMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Vault_Over_Box_Montage.Vault_Over_Box_Montage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> VaultMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Vault_Over_Box_Montage.Vault_Over_Box_Montage'"));
 	if (VaultMontageAsset.Succeeded())
 	{
 		VaultMontage = VaultMontageAsset.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> ClimbMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Running_Jump_Montage.Running_Jump_Montage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> ClimbMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Climb_Jump_Montage.Climb_Jump_Montage'"));
 	if (ClimbMontageAsset.Succeeded())
 	{
 		ClimbMontage = ClimbMontageAsset.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> SlideMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Running_Slide_Montage.Running_Slide_Montage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> SlideMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Slide_Montage.Slide_Montage'"));
 	if (SlideMontageAsset.Succeeded())
 	{
 		SlideMontage = SlideMontageAsset.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> EquipMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Unarmed_Equip_Underarm_Montage.Unarmed_Equip_Underarm_Montage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> EquipMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Combat/Equip_Montage.Equip_Montage'"));
 	if (EquipMontageAsset.Succeeded())
 	{
 		EquipMontage = EquipMontageAsset.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> UnequipMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/Standing_Disarm_Underarm_Montage.Standing_Disarm_Underarm_Montage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> UnequipMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Combat/Disequip_Montage.Disequip_Montage'"));
 	if (UnequipMontageAsset.Succeeded())
 	{
 		UnequipMontage = UnequipMontageAsset.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> AttackMontageAsset(TEXT("AnimMontage'/Game/Character/Animation/AttackMontage.AttackMontage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> AttackMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Combat/AttackMontage.AttackMontage'"));
 	if (AttackMontageAsset.Succeeded())
 	{
 		AttackMontage = AttackMontageAsset.Object;
