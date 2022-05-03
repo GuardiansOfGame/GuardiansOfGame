@@ -27,10 +27,16 @@ UGOGCharacterAnimInstance::UGOGCharacterAnimInstance()
 		UE_LOG(LogTemp, Warning, TEXT("NotExist"));
 	}
 
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> VaultMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Vault_Over_Box_Montage.Vault_Over_Box_Montage'"));
-	if (VaultMontageAsset.Succeeded())
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> LeftVaultMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Vault_Hand_Left_Montage.Vault_Hand_Left_Montage'"));
+	if (LeftVaultMontageAsset.Succeeded())
 	{
-		VaultMontage = VaultMontageAsset.Object;
+		LeftVaultMontage = LeftVaultMontageAsset.Object;
+	}
+
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> RightVaultMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Vault_Hand_Right_Montage.Vault_Hand_Right_Montage'"));
+	if (RightVaultMontageAsset.Succeeded())
+	{
+		RightVaultMontage = RightVaultMontageAsset.Object;
 	}
 
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> ClimbMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Climb_Jump_Montage.Climb_Jump_Montage'"));
@@ -94,14 +100,14 @@ void UGOGCharacterAnimInstance::PlayVaultMontage(const float ObstacleHeight, con
 	GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 
+	const float InterpHeight = ObstacleHeight - VaultHeight;
+
 	FVector Location = GOGCharacter->GetActorLocation();
-	Location.Z += ObstacleHeight;
+	Location.Z += InterpHeight;
 	GOGCharacter->SetActorLocation(Location);
 
 	FTimerHandle WaitVaultHandle;
-
-	// TODO: 애니메이션 몽타주 (왼쪽 손 : 오른쪽 손) 으로 변경하기
-	const float WaitTime = Left > Right ? Montage_Play(VaultMontage) : Montage_Play(VaultMontage);
+	const float WaitTime = Left >= Right ? Montage_Play(LeftVaultMontage) : Montage_Play(RightVaultMontage);
 
 	GetWorld()->GetTimerManager().SetTimer(WaitVaultHandle, FTimerDelegate::CreateLambda([&]() {
 		if (GOGCharacter)

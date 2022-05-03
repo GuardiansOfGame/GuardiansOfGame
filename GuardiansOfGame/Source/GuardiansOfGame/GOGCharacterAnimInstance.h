@@ -34,11 +34,16 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 	bool bWeaponEquipped;
 
+	float VaultHeight;
+
 	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* RollMontage;
 
 	UPROPERTY(VisibleAnywhere, Category = Parkour)
-	UAnimMontage* VaultMontage;
+	UAnimMontage* LeftVaultMontage;
+
+	UPROPERTY(VisibleAnywhere, Category = Parkour)
+	UAnimMontage* RightVaultMontage;
 
 	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* ClimbMontage;
