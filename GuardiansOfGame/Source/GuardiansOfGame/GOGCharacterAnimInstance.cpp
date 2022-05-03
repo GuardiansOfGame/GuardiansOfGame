@@ -17,6 +17,8 @@ UGOGCharacterAnimInstance::UGOGCharacterAnimInstance()
 	bIsInAir = false;
 	bWeaponEquipped = false;
 
+	VaultHeight = 30.0f;
+
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> RollMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Roll_Montage.Roll_Montage'"));
 	if (RollMontageAsset.Succeeded())
 	{
