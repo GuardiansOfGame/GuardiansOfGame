@@ -117,7 +117,7 @@ void UParkourLineTracer::CheckObstacleHeight(const AGOGCharacter* Char)
 				float Left = CheckObstacleLeft(Char);
 				float Right = CheckObstacleRight(Char);
 
-				float ObstacleThick = abs(ObstacleLength.Y);
+				float ObstacleThick = abs(ObstacleLength.Size());
 				if (ObstacleThick > 50.0f)
 				{
 					Char->GetAnimInstance()->PlayClimbMontage(JumpHeight);
