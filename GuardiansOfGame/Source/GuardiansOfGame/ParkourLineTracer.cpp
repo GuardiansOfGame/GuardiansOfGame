@@ -12,6 +12,8 @@ UParkourLineTracer::UParkourLineTracer()
 	MaxJumpHeight = 50.0f;
 	JumpHeight = 0.0f;
 
+	MaxVaultThick = 55.0f;
+
 	ObstacleLocation = FVector(0.0f);
 	ObstacleNormal = FVector(0.0f);
 	ObstacleHeight = FVector(0.0f);
@@ -117,8 +119,8 @@ void UParkourLineTracer::CheckObstacleHeight(const AGOGCharacter* Char)
 				float Left = CheckObstacleLeft(Char);
 				float Right = CheckObstacleRight(Char);
 
-				float ObstacleThick = abs(ObstacleLength.Size());
-				if (ObstacleThick > 50.0f)
+				float ObstacleThick = abs(ObstacleLength.Size2D());
+				if (ObstacleThick > MaxVaultThick)
 				{
 					Char->GetAnimInstance()->PlayClimbMontage(JumpHeight);
 				}

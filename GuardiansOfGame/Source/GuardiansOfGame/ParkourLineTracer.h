@@ -21,6 +21,8 @@ private:
 	float MaxJumpHeight;
 	float JumpHeight;
 
+	float MaxVaultThick;
+
 	FVector ObstacleLocation;
 	FVector ObstacleNormal;
 	FVector ObstacleHeight;
