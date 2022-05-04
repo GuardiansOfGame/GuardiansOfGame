@@ -35,6 +35,7 @@ private:
 	bool bWeaponEquipped;
 
 	float VaultHeight;
+	float InAirVaultHeight;
 
 	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* RollMontage;
@@ -49,7 +50,13 @@ private:
 	UAnimMontage* NoHandVaultMontage;
 
 	UPROPERTY(VisibleAnywhere, Category = Parkour)
+	UAnimMontage* InAirVaultMontage;
+
+	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* ClimbMontage;
+
+	UPROPERTY(VisibleAnywhere, Category = Parkour)
+	UAnimMontage* InAirClimbMontage;
 
 	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* SlideMontage;
