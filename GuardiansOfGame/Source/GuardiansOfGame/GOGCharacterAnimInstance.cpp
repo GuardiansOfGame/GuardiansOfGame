@@ -41,6 +41,12 @@ UGOGCharacterAnimInstance::UGOGCharacterAnimInstance()
 		RightVaultMontage = RightVaultMontageAsset.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> NoHandVaultMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Vault_Hand_No_Montage.Vault_Hand_No_Montage'"));
+	if (NoHandVaultMontageAsset.Succeeded())
+	{
+		NoHandVaultMontage = NoHandVaultMontageAsset.Object;
+	}
+
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> ClimbMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Climb_Jump_Montage.Climb_Jump_Montage'"));
 	if (ClimbMontageAsset.Succeeded())
 	{
@@ -102,14 +108,23 @@ void UGOGCharacterAnimInstance::PlayVaultMontage(const float ObstacleHeight, con
 	GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 
+	FTimerHandle WaitVaultHandle;
+	float WaitTime = 0.0f;
+
 	const float InterpHeight = ObstacleHeight - VaultHeight;
 
-	FVector Location = GOGCharacter->GetActorLocation();
-	Location.Z += InterpHeight;
-	GOGCharacter->SetActorLocation(Location);
+	if(InterpHeight < 0.0f)
+	{
+		WaitTime = Montage_Play(NoHandVaultMontage);
+	}
+	else
+	{
+		FVector Location = GOGCharacter->GetActorLocation();
+		Location.Z += InterpHeight;
+		GOGCharacter->SetActorLocation(Location);
 
-	FTimerHandle WaitVaultHandle;
-	const float WaitTime = Left >= Right ? Montage_Play(LeftVaultMontage) : Montage_Play(RightVaultMontage);
+		WaitTime = Left >= Right ? Montage_Play(LeftVaultMontage) : Montage_Play(RightVaultMontage);
+	}
 
 	GetWorld()->GetTimerManager().SetTimer(WaitVaultHandle, FTimerDelegate::CreateLambda([&]() {
 		if (GOGCharacter)

@@ -46,6 +46,9 @@ private:
 	UAnimMontage* RightVaultMontage;
 
 	UPROPERTY(VisibleAnywhere, Category = Parkour)
+	UAnimMontage* NoHandVaultMontage;
+
+	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* ClimbMontage;
 
 	UPROPERTY(VisibleAnywhere, Category = Parkour)
