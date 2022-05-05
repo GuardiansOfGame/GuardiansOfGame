@@ -2,6 +2,7 @@
 
 #include "Weapon.h"
 
+#include "Components/BoxComponent.h"
 #include "Engine/SkeletalMeshSocket.h"
 
 #include "GOGCharacter.h"
@@ -20,6 +21,12 @@ AWeapon::AWeapon()
 	{
 		Mesh->SetSkeletalMesh(WeaponMesh.Object);
 	}
+
+	CombatCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("CombatCollision"));
+	CombatCollision->SetupAttachment(GetRootComponent());
+	CombatCollision->SetBoxExtent(FVector(25.0f, 15.0f, 15.0f));
+	CombatCollision->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f));
+	CombatCollision->bHiddenInGame = false;
 }
 
 // Called when the game starts or when spawned
@@ -27,6 +34,8 @@ void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 
+	CombatCollision->OnComponentBeginOverlap.AddDynamic(this, &AWeapon::OnOverlapBegin);
+	DeactiveCollision();
 }
 
 void AWeapon::EquipToBack(const AGOGCharacter* Char)
@@ -63,4 +72,19 @@ void AWeapon::EquipToHand(const AGOGCharacter* Char)
 			RightHandSocket->AttachActor(this, Char->GetMesh());
 		}
 	}
+}
+
+void AWeapon::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+
+}
+
+void AWeapon::ActiveCollision() const
+{
+	CombatCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+}
+
+void AWeapon::DeactiveCollision() const
+{
+	CombatCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }

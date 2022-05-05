@@ -26,9 +26,18 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Combat)
 	AController* WeaponInstigator;
 
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	class UBoxComponent* CombatCollision;
+
 public:
 	FORCEINLINE void SetInstigator(AController* Inst) { WeaponInstigator = Inst; }
 
 	void EquipToBack(const class AGOGCharacter* Char);
 	void EquipToHand(const AGOGCharacter* Char);
+
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	void ActiveCollision() const;
+	void DeactiveCollision() const;
 };
