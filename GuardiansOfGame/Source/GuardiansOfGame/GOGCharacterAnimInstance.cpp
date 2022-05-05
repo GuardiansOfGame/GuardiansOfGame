@@ -26,10 +26,6 @@ UGOGCharacterAnimInstance::UGOGCharacterAnimInstance()
 	{
 		RollMontage = RollMontageAsset.Object;
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("NotExist"));
-	}
 
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> LeftVaultMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Vault_Hand_Left_Montage.Vault_Hand_Left_Montage'"));
 	if (LeftVaultMontageAsset.Succeeded())
@@ -174,18 +170,7 @@ void UGOGCharacterAnimInstance::PlayClimbMontage(const float ObstacleHeight)
 	Location.Z += ObstacleHeight;
 	GOGCharacter->SetActorLocation(Location);
 
-	FTimerHandle WaitClimbHandle;
-	const float WaitTime = Montage_Play(ClimbMontage);
-
-	GetWorld()->GetTimerManager().SetTimer(WaitClimbHandle, FTimerDelegate::CreateLambda([&]() {
-		if (GOGCharacter)
-		{
-			GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Normal);
-
-			GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-			GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-		}
-	}), WaitTime, false);
+	Montage_Play(ClimbMontage);
 }
 
 void UGOGCharacterAnimInstance::PlaySlideMontage(const FVector TargetPosition)
@@ -196,19 +181,7 @@ void UGOGCharacterAnimInstance::PlaySlideMontage(const FVector TargetPosition)
 
 	GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-	FTimerHandle WaitSlideHandle;
-	const float WaitTime = Montage_Play(SlideMontage);
-
-	GetWorld()->GetTimerManager().SetTimer(WaitSlideHandle, FTimerDelegate::CreateLambda([&]() {
-		if (GOGCharacter)
-		{
-			GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Normal);
-			GOGCharacter->SetIsSliding(false);
-
-			GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-			GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-		}
-	}), WaitTime, false);
+	Montage_Play(SlideMontage);
 }
 
 void UGOGCharacterAnimInstance::PlayEquipMontage()
