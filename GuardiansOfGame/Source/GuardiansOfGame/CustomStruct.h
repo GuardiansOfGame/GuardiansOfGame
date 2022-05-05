@@ -35,11 +35,11 @@ struct FDialogueStrings
 	FDialogueStrings() : Give({}), Handle({}), Success({})
 	{}
 
-	FDialogueStrings(const TArray<FString> IGive, const TArray<FString> IHandle, const TArray<FString> ISuccess)
+	FDialogueStrings(const TArray<FString> Give, const TArray<FString> Handle, const TArray<FString> Success)
 	{
-		Give = IGive;
-		Handle = IHandle;
-		Success = ISuccess;
+		this->Give = Give;
+		this->Handle = Handle;
+		this->Success = Success;
 	}
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -70,4 +70,75 @@ struct FQuestBooleans
 	TArray<bool> QuestAcceptArr;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<bool> QuestSuccessArr;
+};
+
+USTRUCT(BlueprintType)
+struct FQuestType
+{
+	GENERATED_BODY()
+
+	FQuestType() : bIsBattleQuest(false), Goal(0), Current(0)
+	{}
+
+	FQuestType(const bool bIsBattleQuest, const int Goal, const int Current)
+	{
+		this->bIsBattleQuest = bIsBattleQuest;
+
+		this->Goal = Goal;
+		this->Current = Current;
+	}
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool bIsBattleQuest;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int Goal;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int Current;
+};
+
+USTRUCT(BlueprintType)
+struct FTask
+{
+	GENERATED_BODY()
+
+	FTask() : Type(), Content(), bIsCompleted(false)
+	{}
+
+	FTask(const FQuestType Type, const FText Content, const bool bIsCompleted)
+	{
+		this->Type = Type;
+		this->Content = Content;
+		this->bIsCompleted = bIsCompleted;
+	}
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FQuestType Type;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FText Content;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool bIsCompleted;
+};
+
+USTRUCT(BlueprintType)
+struct FQuest
+{
+	GENERATED_BODY()
+
+	FQuest() : Name(), Tasks({})
+	{}
+
+	FQuest(const FText Name, const TArray<FTask> Tasks)
+	{
+		this->Name = Name;
+		this->Tasks = Tasks;
+	}
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FText Name;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TArray<FTask> Tasks;
 };
