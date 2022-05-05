@@ -162,7 +162,7 @@ void AGOGCharacter::PostInitializeComponents()
 
 void AGOGCharacter::MoveForward(const float Value)
 {
-	if (Controller && Value)
+	if (Controller && Value && !bIsAttacking)
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -174,7 +174,7 @@ void AGOGCharacter::MoveForward(const float Value)
 
 void AGOGCharacter::MoveRight(const float Value)
 {
-	if (Controller && Value)
+	if (Controller && Value && !bIsAttacking)
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -226,7 +226,7 @@ void AGOGCharacter::SpaceDown()
 {
 	if (bIsBattling)
 	{
-		if (bIsRolling)
+		if (bIsRolling || bIsAttacking)
 		{
 			return;
 		}
@@ -238,7 +238,10 @@ void AGOGCharacter::SpaceDown()
 	}
 	else
 	{
-		Super::Jump();
+		if(!bIsAttacking)
+		{
+			Super::Jump();
+		}
 	}
 }
 
@@ -252,7 +255,7 @@ void AGOGCharacter::SpaceUp()
 
 void AGOGCharacter::LCtrlDown()
 {
-	if (MovementStatus == EMovementStatus::EMS_Parkour)
+	if (MovementStatus == EMovementStatus::EMS_Parkour || bIsAttacking)
 	{
 		return;
 	}
@@ -263,6 +266,7 @@ void AGOGCharacter::LCtrlDown()
 void AGOGCharacter::Equip()
 {
 	// Z Key
+
 	bWeaponEquipped ? AnimInstance->PlayUnEquipMontage() : AnimInstance->PlayEquipMontage();
 }
 
