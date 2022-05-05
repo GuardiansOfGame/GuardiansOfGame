@@ -18,6 +18,8 @@ UParkourLineTracer::UParkourLineTracer()
 	ObstacleNormal = FVector(0.0f);
 	ObstacleHeight = FVector(0.0f);
 	ObstacleLength = FVector(0.0f);
+
+	ObstacleDistance = 0.0f;
 }
 
 void UParkourLineTracer::CheckObstacle(const AGOGCharacter* Char)
@@ -37,6 +39,8 @@ void UParkourLineTracer::CheckObstacle(const AGOGCharacter* Char)
 		{
 			ObstacleLocation = HitResult.Location;
 			ObstacleNormal = HitResult.Normal;
+
+			ObstacleDistance = (Start - ObstacleLocation).Size2D();
 
 			bool bTraceResult2 = GetWorld()->LineTraceSingleByChannel(HitResult, End, ObstacleLocation, ECC_GameTraceChannel1, Params);
 			if (bTraceResult2)
@@ -122,11 +126,14 @@ void UParkourLineTracer::CheckObstacleHeight(const AGOGCharacter* Char)
 				float ObstacleThick = abs(ObstacleLength.Size2D());
 				if (ObstacleThick > MaxVaultThick)
 				{
-					Char->GetAnimInstance()->PlayClimbMontage(JumpHeight);
+					if(ObstacleDistance < 100.0f)
+					{
+						Char->GetAnimInstance()->PlayClimbMontage(JumpHeight);
+					}
 				}
 				else
 				{
-					Char->GetAnimInstance()->PlayVaultMontage(JumpHeight, Left, Right);
+					Char->GetAnimInstance()->PlayVaultMontage(JumpHeight, ObstacleDistance, Left, Right);
 				}
 			}
 		}

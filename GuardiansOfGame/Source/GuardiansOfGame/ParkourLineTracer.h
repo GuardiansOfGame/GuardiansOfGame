@@ -28,6 +28,8 @@ private:
 	FVector ObstacleHeight;
 	FVector ObstacleLength;
 
+	float ObstacleDistance;
+
 public:
 	void CheckObstacle(const class AGOGCharacter* Char);
 	void CheckOverObstacle(const AGOGCharacter* Char);

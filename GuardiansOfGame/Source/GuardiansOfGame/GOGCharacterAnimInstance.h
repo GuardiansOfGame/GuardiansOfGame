@@ -36,6 +36,7 @@ private:
 
 	float VaultHeight;
 	float InAirVaultHeight;
+	float InAirVaultForwardRate;
 
 	UPROPERTY(VisibleAnywhere, Category = Parkour)
 	UAnimMontage* RollMontage;
@@ -72,7 +73,7 @@ private:
 
 public:
 	void PlayRollMontage();
-	void PlayVaultMontage(const float ObstacleHeight, const float Left, const float Right);
+	void PlayVaultMontage(const float ObstacleHeight, const float ObstacleDistance, const float Left, const float Right);
 	void PlayClimbMontage(const float ObstacleHeight);
 	void PlaySlideMontage(const FVector TargetPosition);
 

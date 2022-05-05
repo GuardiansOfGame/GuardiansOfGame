@@ -19,6 +19,7 @@ UGOGCharacterAnimInstance::UGOGCharacterAnimInstance()
 
 	VaultHeight = 30.0f;
 	InAirVaultHeight = 65.0f;
+	InAirVaultForwardRate = 0.225f;
 
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> RollMontageAsset(TEXT("AnimMontage'/Game/WizardCharacter/Character/Animations/Parkour/Roll_Montage.Roll_Montage'"));
 	if (RollMontageAsset.Succeeded())
@@ -114,19 +115,23 @@ void UGOGCharacterAnimInstance::PlayRollMontage()
 	Montage_Play(RollMontage);
 }
 
-void UGOGCharacterAnimInstance::PlayVaultMontage(const float ObstacleHeight, const float Left, const float Right)
+void UGOGCharacterAnimInstance::PlayVaultMontage(const float ObstacleHeight, const float ObstacleDistance, const float Left, const float Right)
 {
 	GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Parkour);
 
 	GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 
-	if(bIsInAir)
+	if(bIsInAir && ObstacleDistance < 100.0f)
 	{
 		const float InterpHeight = ObstacleHeight - InAirVaultHeight;
 
 		FVector Location = GOGCharacter->GetActorLocation();
 		Location.Z += InterpHeight;
+
+		const FVector Forward = GOGCharacter->GetActorForwardVector();
+		Location += Forward * (ObstacleDistance * InAirVaultForwardRate);
+
 		GOGCharacter->SetActorLocation(Location);
 
 		FTimerHandle WaitVaultHandle;
