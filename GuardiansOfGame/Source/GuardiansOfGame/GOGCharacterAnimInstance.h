@@ -72,6 +72,10 @@ private:
 	UAnimMontage* AttackMontage;
 
 public:
+	FORCEINLINE UAnimMontage* GetClimbMontage() const { return ClimbMontage; }
+	FORCEINLINE UAnimMontage* GetSlideMontage() const { return SlideMontage; }
+	FORCEINLINE UAnimMontage* GetAttackMontage() const { return AttackMontage; }
+
 	void PlayRollMontage();
 	void PlayVaultMontage(const float ObstacleHeight, const float ObstacleDistance, const float Left, const float Right);
 	void PlayClimbMontage(const float ObstacleHeight);
@@ -81,6 +85,7 @@ public:
 	void PlayUnEquipMontage();
 
 	void PlayAttackMontage();
+	void JumpToAttackMontageSection(const int SectionNum);
 
 	UFUNCTION()
 	void AnimNotify_RollStart() const;
@@ -94,4 +99,7 @@ public:
 	void AnimNotify_Equip();
 	UFUNCTION()
 	void AnimNotify_Unequip();
+
+	UFUNCTION()
+	void AnimNotify_NextAttack();
 };

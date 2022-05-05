@@ -199,6 +199,13 @@ void UGOGCharacterAnimInstance::PlayAttackMontage()
 	Montage_Play(AttackMontage);
 }
 
+void UGOGCharacterAnimInstance::JumpToAttackMontageSection(const int SectionNum)
+{
+	const FName SectionName = FName(FString::Printf(TEXT("Attack%d"), SectionNum));
+
+	Montage_JumpToSection(SectionName, AttackMontage);
+}
+
 void UGOGCharacterAnimInstance::AnimNotify_RollStart() const
 {
 	GOGCharacter->SetIsRolling(true);
@@ -233,4 +240,15 @@ void UGOGCharacterAnimInstance::AnimNotify_Unequip()
 
 	GOGCharacter->SetWeaponEquipped(false);
 	GOGCharacter->GetWeapon()->EquipToBack(GOGCharacter);
+}
+
+void UGOGCharacterAnimInstance::AnimNotify_NextAttack()
+{
+	GOGCharacter->SetCanNextCombo(false);
+
+	if(GOGCharacter->GetIsComboInputOn())
+	{
+		GOGCharacter->StartComboAttack();
+		JumpToAttackMontageSection(GOGCharacter->GetCurrentComboNum());
+	}
 }

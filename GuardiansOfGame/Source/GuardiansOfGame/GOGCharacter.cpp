@@ -85,6 +85,9 @@ AGOGCharacter::AGOGCharacter()
 
 	bWeaponEquipped = false;
 	bIsAttacking = false;
+
+	EndComboAttack();
+	MaxComboNum = 3;
 }
 
 // Called when the game starts or when spawned
@@ -94,6 +97,8 @@ void AGOGCharacter::BeginPlay()
 
 	GOGController = Cast<AGOGCharacterController>(Controller);
 	AnimInstance = Cast<UGOGCharacterAnimInstance>(GetMesh()->GetAnimInstance());
+
+	AnimInstance->OnMontageEnded.AddDynamic(this, &AGOGCharacter::OnMontageEnded);
 
 	Weapon = GetWorld()->SpawnActor<AWeapon>();
 	if (Weapon)
@@ -270,7 +275,20 @@ void AGOGCharacter::Attack()
 		return;
 	}
 
-	AnimInstance->PlayAttackMontage();
+	if(bIsAttacking)
+	{
+		if(bCanNextCombo)
+		{
+			bIsComboInputOn = true;
+		}
+	}
+	else
+	{
+		StartComboAttack();
+
+		bIsAttacking = true;
+		AnimInstance->PlayAttackMontage();
+	}
 }
 
 void AGOGCharacter::UIOn() const
@@ -349,4 +367,44 @@ void AGOGCharacter::SwitchLevel(const FName LevelName) const
 	Stat->Save();
 
 	UGameplayStatics::OpenLevel(GetWorld(), FName(LevelName));
+}
+
+void AGOGCharacter::OnMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	if(Montage == AnimInstance->GetClimbMontage())
+	{
+		MovementStatus = EMovementStatus::EMS_Normal;
+
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	}
+	else if(Montage == AnimInstance->GetSlideMontage())
+	{
+		MovementStatus = EMovementStatus::EMS_Normal;
+		bIsSliding = false;
+
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	}
+	else if(Montage == AnimInstance->GetAttackMontage())
+	{
+		bIsAttacking = false;
+		EndComboAttack();
+	}
+}
+
+void AGOGCharacter::StartComboAttack()
+{
+	bCanNextCombo = true;
+	bIsComboInputOn = false;
+
+	CurrentComboNum = FMath::Clamp(CurrentComboNum + 1, 1, MaxComboNum);
+}
+
+void AGOGCharacter::EndComboAttack()
+{
+	bCanNextCombo = false;
+	bIsComboInputOn = false;
+
+	CurrentComboNum = 0;
 }

@@ -108,6 +108,18 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Combat)
 	bool bIsAttacking;
 
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	bool bCanNextCombo;
+
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	bool bIsComboInputOn;
+
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	int CurrentComboNum;
+
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	int MaxComboNum;
+
 protected:
 	void MoveForward(const float Value);
 	void MoveRight(const float Value);
@@ -156,10 +168,24 @@ public:
 	FORCEINLINE bool GetWeaponEquipped() const { return bWeaponEquipped; }
 	FORCEINLINE void SetWeaponEquipped(const bool bValue) { bWeaponEquipped = bValue; }
 
+	FORCEINLINE bool GetCanNextCombo() const { return bCanNextCombo; }
+	FORCEINLINE void SetCanNextCombo(const bool bValue) { bCanNextCombo = bValue; }
+
+	FORCEINLINE bool GetIsComboInputOn() const { return bIsComboInputOn; }
+	FORCEINLINE void SetIsComboInputOn(const bool bValue) { bIsComboInputOn = bValue; }
+
+	FORCEINLINE int GetCurrentComboNum() const { return CurrentComboNum; }
+
 	void UIOn() const;
 	void UIOff() const;
 
 	void SetQuestProgress();
 
 	void SwitchLevel(const FName LevelName) const;
+
+	UFUNCTION()
+	void OnMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
+	void StartComboAttack();
+	void EndComboAttack();
 };
