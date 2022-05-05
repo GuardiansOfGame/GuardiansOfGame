@@ -7,7 +7,7 @@
 #include "GOGCharacterController.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class GUARDIANSOFGAME_API AGOGCharacterController final : public APlayerController
@@ -18,7 +18,12 @@ public:
 	AGOGCharacterController();
 
 protected:
+
 	virtual void OnPossess(APawn* InPawn) override;
+
+	virtual void SetupInputComponent() override;
+
+	void OpenMenu();
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Player)
