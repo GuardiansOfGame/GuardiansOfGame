@@ -252,3 +252,13 @@ void UGOGCharacterAnimInstance::AnimNotify_NextAttack()
 		JumpToAttackMontageSection(GOGCharacter->GetCurrentComboNum());
 	}
 }
+
+void UGOGCharacterAnimInstance::AnimNotify_Hit() const
+{
+	GOGCharacter->GetWeapon()->ActiveCollision();
+}
+
+void UGOGCharacterAnimInstance::AnimNotify_HitEnd() const
+{
+	GOGCharacter->GetWeapon()->DeactiveCollision();
+}

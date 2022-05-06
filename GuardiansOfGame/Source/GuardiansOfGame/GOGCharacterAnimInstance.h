@@ -102,4 +102,9 @@ public:
 
 	UFUNCTION()
 	void AnimNotify_NextAttack();
+
+	UFUNCTION()
+	void AnimNotify_Hit() const;
+	UFUNCTION()
+	void AnimNotify_HitEnd() const;
 };
