@@ -23,6 +23,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Mesh)
 	USkeletalMeshComponent* Mesh;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	UMaterialInterface* Material;
+
 	UPROPERTY(VisibleAnywhere, Category = Collision)
 	class UBoxComponent* BoxCollision;
 
@@ -31,6 +34,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Widget)
 	class UKeyWidget* KeyWidget;
+
 
 protected:
 	UFUNCTION()

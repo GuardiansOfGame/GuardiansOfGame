@@ -17,7 +17,7 @@ ANPC::ANPC()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	SetRootComponent(Mesh);
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> NPCMesh(TEXT("SkeletalMesh'/Game/Character/ybot/ybot.ybot'"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> NPCMesh(TEXT("SkeletalMesh'/Game/WizardCharacter/Character/Mesh/Wizard_Sk.Wizard_Sk'"));
 	if (NPCMesh.Succeeded())
 	{
 		Mesh->SetSkeletalMesh(NPCMesh.Object);
@@ -25,16 +25,16 @@ ANPC::ANPC()
 
 		if (Mesh->GetMaterial(0))
 		{
-			static ConstructorHelpers::FObjectFinder<UMaterialInterface> PurpleMaterialAsset(TEXT("Material'/Game/Character/ybot/Alpha_Body_MAT1.Alpha_Body_MAT1'"));
-			if (PurpleMaterialAsset.Succeeded())
+			static ConstructorHelpers::FObjectFinder<UMaterialInterface> NPCMaterialAsset(TEXT("MaterialInstanceConstant'/Game/WizardCharacter/Character/Materials/MaterialInstances/BodyCustomizerB_MI.BodyCustomizerB_MI'"));
+			if (NPCMaterialAsset.Succeeded())
 			{
-				UMaterialInterface* PurpleMaterial = PurpleMaterialAsset.Object;
-				Mesh->SetMaterial(0, PurpleMaterial);
+				Material = NPCMaterialAsset.Object;
+				Mesh->SetMaterial(0, Material);
 			}
 		}
 	}
 
-	static ConstructorHelpers::FClassFinder<UAnimInstance> NPCAnimInstance(TEXT("AnimBlueprint'/Game/Character/NPCAnimation/NPCAnimInstance_BP.NPCAnimInstance_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> NPCAnimInstance(TEXT("AnimBlueprint'/Game/WizardCharacter/Character/Animations/NPC/NPCAnimInstance_BP.NPCAnimInstance_BP_C'"));
 	if (NPCAnimInstance.Succeeded())
 	{
 		Mesh->SetAnimInstanceClass(NPCAnimInstance.Class);
