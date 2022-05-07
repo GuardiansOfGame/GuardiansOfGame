@@ -25,13 +25,17 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Player)
 	class AGOGCharacter* GOGCharacter;
 
-	TSubclassOf<class UDialogueWidget> DialogueWidgetClass;
+	TSubclassOf<class UGOGCharacterWidget> GOGCharacterWidgetClass;
 	UPROPERTY(VisibleAnywhere, Category = Widget)
-	class UDialogueWidget* DialogueWidget;
+	class UGOGCharacterWidget* GOGCharacterWidget;
 
 	TSubclassOf<class UPauseWidget> PauseWidgetClass;
 	UPROPERTY(VisibleAnywhere, Category = Widget)
 	class UPauseWidget* PauseWidget;
+
+	TSubclassOf<class UDialogueWidget> DialogueWidgetClass;
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	class UDialogueWidget* DialogueWidget;
 
 public:
 	void BeginChat(const TArray<FString> Strings, const FString Name);
