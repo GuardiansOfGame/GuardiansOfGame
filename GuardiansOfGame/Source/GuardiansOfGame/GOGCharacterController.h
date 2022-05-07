@@ -18,12 +18,7 @@ public:
 	AGOGCharacterController();
 
 protected:
-
 	virtual void OnPossess(APawn* InPawn) override;
-
-	virtual void SetupInputComponent() override;
-
-	void OpenMenu();
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Player)
@@ -31,7 +26,7 @@ private:
 
 	TSubclassOf<class UDialogueWidget> DialogueWidgetClass;
 	UPROPERTY(VisibleAnywhere, Category = Widget)
-	UDialogueWidget* DialogueWidget;
+	class UDialogueWidget* DialogueWidget;
 
 public:
 	void BeginChat(const TArray<FString> Strings, const FString Name);

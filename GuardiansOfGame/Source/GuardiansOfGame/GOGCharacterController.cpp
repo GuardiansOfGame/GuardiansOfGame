@@ -4,7 +4,6 @@
 
 #include "DialogueWidget.h"
 #include "GOGCharacter.h"
-#include "MenuHUD.h"
 
 AGOGCharacterController::AGOGCharacterController()
 {
@@ -27,24 +26,6 @@ void AGOGCharacterController::OnPossess(APawn* InPawn)
 
 		DialogueWidget->AddToViewport();
 		DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
-	}
-}
-
-void AGOGCharacterController::SetupInputComponent()
-{
-	Super::SetupInputComponent();
-
-	if (InputComponent)
-	{
-		InputComponent->BindAction("OpenMenu", IE_Pressed, this, &AGOGCharacterController::OpenMenu);
-	}
-}
-
-void AGOGCharacterController::OpenMenu()
-{
-	if (AMenuHUD* MenuHUD = Cast<AMenuHUD>(GetHUD()))
-	{
-		MenuHUD->ShowMenu();
 	}
 }
 
