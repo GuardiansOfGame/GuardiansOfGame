@@ -56,5 +56,5 @@ protected:
 	void QuitButtonClicked();
 
 public:
-	FORCEINLINE UWidgetAnimation* GetPopUpAnimaition() const { return PopUp; }
+	void PlayPopUpAnimation();
 };

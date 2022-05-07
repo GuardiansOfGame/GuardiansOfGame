@@ -29,6 +29,12 @@ void AGOGCharacterController::OnPossess(APawn* InPawn)
 	}
 }
 
+void AGOGCharacterController::BeginPlay()
+{
+	SetInputMode(FInputModeGameOnly());
+	bShowMouseCursor = false;
+}
+
 void AGOGCharacterController::BeginChat(const TArray<FString> Strings, const FString Name)
 {
 	const FInputModeGameAndUI InputModeGameAndUI;

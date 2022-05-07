@@ -23,3 +23,8 @@ void UTitleWidget::QuitButtonClicked()
 {
 	UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, false);
 }
+
+void UTitleWidget::PlayPopUpAnimation()
+{
+	PlayAnimation(PopUp);
+}

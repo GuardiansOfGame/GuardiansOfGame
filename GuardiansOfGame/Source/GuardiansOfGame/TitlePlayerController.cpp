@@ -15,9 +15,20 @@ ATitlePlayerController::ATitlePlayerController()
 
 void ATitlePlayerController::BeginPlay()
 {
-	if (TitleWidgetClass)
+	if(TitleWidgetClass)
 	{
+		SetInputMode(FInputModeUIOnly());
+
+		bShowMouseCursor = true;
+
 		TitleWidget = CreateWidget<UTitleWidget>(this, TitleWidgetClass);
 		TitleWidget->AddToViewport();
+		TitleWidget->SetVisibility(ESlateVisibility::Hidden);
+
+		FTimerHandle UIAnimDelayTimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(UIAnimDelayTimerHandle, FTimerDelegate::CreateLambda([&](){
+			TitleWidget->SetVisibility(ESlateVisibility::Visible);
+			TitleWidget->PlayPopUpAnimation();
+		}), 0.5f, false);
 	}
 }
