@@ -26,13 +26,13 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = GameInstance)
-		class UGOGGameInstance* GameInstance;
+	class UGOGGameInstance* GameInstance;
 
 	UPROPERTY(VisibleAnywhere, Category = Quest)
-		FQuestBooleans QuestProgress;
+	FQuestBooleans QuestProgress;
 
 	UPROPERTY(VisibleAnywhere, Category = Quest)
-		int CurQuestNum;
+	int CurQuestNum;
 
 public:
 	FORCEINLINE FQuestBooleans GetQuestProgress() const { return QuestProgress; }
