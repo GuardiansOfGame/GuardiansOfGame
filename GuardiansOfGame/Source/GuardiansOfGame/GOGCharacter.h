@@ -21,6 +21,7 @@ enum class EMovementStatus : uint8
 {
 	EMS_Normal			UMETA(DisplayName = "Normal"),
 	EMS_Parkour			UMETA(DisplayName = "Parkour"),
+	EMS_Dead			UMETA(DisplayName = "Dead"),
 
 	EMS_MAX
 };
@@ -119,6 +120,18 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Combat)
 	int MaxComboNum;
+
+	UPROPERTY(VisibleAnywhere, Category = Stat)
+	float MaxHealth;
+
+	UPROPERTY(VisibleAnywhere, Category = Stat)
+	float CurrentHealth;
+
+	UPROPERTY(VisibleAnywhere, Category = Stat)
+	float MaxStamina;
+
+	UPROPERTY(VisibleAnywhere, Category = Stat)
+	float CurrentStamina;
 
 protected:
 	void MoveForward(const float Value);
