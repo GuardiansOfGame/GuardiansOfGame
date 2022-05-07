@@ -48,7 +48,7 @@ ANPC::ANPC()
 	KeyWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("KeyWidgetComponent"));
 	KeyWidgetComponent->SetupAttachment(GetRootComponent());
 	KeyWidgetComponent->SetRelativeScale3D(FVector(0.4f));
-	KeyWidgetComponent->SetRelativeLocationAndRotation(FVector(-4.0f, 15.0f, 200.0f), FRotator(0.0f, 90.0f, 0.0f));
+	KeyWidgetComponent->SetRelativeLocationAndRotation(FVector(-4.0f, 15.0f, 210.0f), FRotator(0.0f, 90.0f, 0.0f));
 
 	static ConstructorHelpers::FClassFinder<UKeyWidget> KeyWidgetAsset(TEXT("WidgetBlueprint'/Game/Widgets/KeyWidget_BP.KeyWidget_BP_C'"));
 	if(KeyWidgetAsset.Succeeded())
