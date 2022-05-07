@@ -138,6 +138,8 @@ protected:
 
 	void Attack();
 
+	void Pause();
+
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
@@ -178,6 +180,8 @@ public:
 
 	void UIOn() const;
 	void UIOff() const;
+
+	bool CanMove(const float Value) const;
 
 	void SetQuestProgress();
 

@@ -4,14 +4,23 @@
 
 #include "DialogueWidget.h"
 #include "GOGCharacter.h"
+#include "PauseWidget.h"
 
 AGOGCharacterController::AGOGCharacterController()
 {
-	static ConstructorHelpers::FClassFinder<UDialogueWidget> DialogueWidgetClassFinder(TEXT("WidgetBlueprint'/Game/Widgets/DialogueWidget_BP.DialogueWidget_BP_C'"));
-	if (DialogueWidgetClassFinder.Succeeded())
+	static ConstructorHelpers::FClassFinder<UDialogueWidget> DialogueWidgetAsset(TEXT("WidgetBlueprint'/Game/Widgets/DialogueWidget_BP.DialogueWidget_BP_C'"));
+	if (DialogueWidgetAsset.Succeeded())
 	{
-		DialogueWidgetClass = DialogueWidgetClassFinder.Class;
+		DialogueWidgetClass = DialogueWidgetAsset.Class;
 	}
+
+	static ConstructorHelpers::FClassFinder<UPauseWidget> PauseWidgetAsset(TEXT("WidgetBlueprint'/Game/Widgets/PauseWidget_BP.PauseWidget_BP_C'"));
+	if (PauseWidgetAsset.Succeeded())
+	{
+		PauseWidgetClass = PauseWidgetAsset.Class;
+	}
+
+	bPaused = false;
 }
 
 void AGOGCharacterController::OnPossess(APawn* InPawn)
@@ -26,6 +35,11 @@ void AGOGCharacterController::OnPossess(APawn* InPawn)
 
 		DialogueWidget->AddToViewport();
 		DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+
+	if (PauseWidgetClass)
+	{
+		PauseWidget = CreateWidget<UPauseWidget>(this, PauseWidgetClass);
 	}
 }
 
@@ -56,4 +70,32 @@ void AGOGCharacterController::EndChat()
 	DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
 
 	GOGCharacter->SetQuestProgress();
+}
+
+void AGOGCharacterController::TogglePause(const bool bPause)
+{
+	if(bPause)
+	{
+		SetInputMode(FInputModeGameAndUI());
+		bShowMouseCursor = true;
+
+		bPaused = true;
+
+		PauseWidget->AddToViewport();
+		PauseWidget->PlayPopUpAnimation(false);
+	}
+	else
+	{
+		PauseWidget->PlayPopUpAnimation(true);
+
+		FTimerHandle UIAnimDelayTimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(UIAnimDelayTimerHandle, FTimerDelegate::CreateLambda([&]() {
+			PauseWidget->RemoveFromParent();
+
+			SetInputMode(FInputModeGameOnly());
+			bShowMouseCursor = false;
+
+			bPaused = false;
+		}), 0.25f, false);
+	}
 }

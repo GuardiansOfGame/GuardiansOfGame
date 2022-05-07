@@ -149,6 +149,8 @@ void AGOGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AGOGCharacter::Attack);
 
+	PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &AGOGCharacter::Pause);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGOGCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGOGCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &AGOGCharacter::Turn);
@@ -162,7 +164,7 @@ void AGOGCharacter::PostInitializeComponents()
 
 void AGOGCharacter::MoveForward(const float Value)
 {
-	if (Controller && Value && !bIsAttacking)
+	if (CanMove(Value))
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -174,7 +176,7 @@ void AGOGCharacter::MoveForward(const float Value)
 
 void AGOGCharacter::MoveRight(const float Value)
 {
-	if (Controller && Value && !bIsAttacking)
+	if (CanMove(Value))
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
@@ -196,6 +198,14 @@ void AGOGCharacter::LookUp(const float Rate)
 
 void AGOGCharacter::Interaction()
 {
+	if (GOGController)
+	{
+		if (GOGController->GetPaused())
+		{
+			return;
+		}
+	}
+
 	switch (InteractionStatus)
 	{
 	case EInteractionStatus::EIS_TalkWithNPC:
@@ -224,6 +234,14 @@ void AGOGCharacter::Interaction()
 
 void AGOGCharacter::SpaceDown()
 {
+	if(GOGController)
+	{
+		if(GOGController->GetPaused())
+		{
+			return;
+		}
+	}
+
 	if (bIsBattling)
 	{
 		if (bIsRolling || bIsAttacking)
@@ -255,6 +273,14 @@ void AGOGCharacter::SpaceUp()
 
 void AGOGCharacter::LCtrlDown()
 {
+	if (GOGController)
+	{
+		if (GOGController->GetPaused())
+		{
+			return;
+		}
+	}
+
 	if (MovementStatus == EMovementStatus::EMS_Parkour || bIsAttacking)
 	{
 		return;
@@ -266,6 +292,13 @@ void AGOGCharacter::LCtrlDown()
 void AGOGCharacter::Equip()
 {
 	// Z Key
+	if (GOGController)
+	{
+		if (GOGController->GetPaused())
+		{
+			return;
+		}
+	}
 
 	bWeaponEquipped ? AnimInstance->PlayUnEquipMontage() : AnimInstance->PlayEquipMontage();
 }
@@ -273,6 +306,14 @@ void AGOGCharacter::Equip()
 void AGOGCharacter::Attack()
 {
 	// Left Mouse Button
+	if (GOGController)
+	{
+		if (GOGController->GetPaused())
+		{
+			return;
+		}
+	}
+
 	if (!bWeaponEquipped)
 	{
 		AnimInstance->PlayEquipMontage();
@@ -295,6 +336,11 @@ void AGOGCharacter::Attack()
 	}
 }
 
+void AGOGCharacter::Pause()
+{
+	GOGController->GetPaused() ? GOGController->TogglePause(false) : GOGController->TogglePause(true);
+}
+
 void AGOGCharacter::UIOn() const
 {
 	if (InteractingNPC)
@@ -309,6 +355,18 @@ void AGOGCharacter::UIOff() const
 	{
 		InteractingNPC->GetKeyWidgetComponent()->SetVisibility(false);
 	}
+}
+
+bool AGOGCharacter::CanMove(const float Value) const
+{
+	if(GOGController)
+	{
+		return Value
+			   && !bIsAttacking
+			   && !GOGController->GetPaused();
+	}
+
+	return false;
 }
 
 void AGOGCharacter::SetQuestProgress()

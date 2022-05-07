@@ -29,7 +29,17 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Widget)
 	class UDialogueWidget* DialogueWidget;
 
+	TSubclassOf<class UPauseWidget> PauseWidgetClass;
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	class UPauseWidget* PauseWidget;
+
+	bool bPaused;
+
 public:
+	FORCEINLINE bool GetPaused() const { return bPaused; }
+
 	void BeginChat(const TArray<FString> Strings, const FString Name);
 	void EndChat();
+
+	void TogglePause(const bool bPause);
 };
