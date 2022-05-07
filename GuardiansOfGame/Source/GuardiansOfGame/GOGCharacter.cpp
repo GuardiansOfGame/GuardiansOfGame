@@ -198,14 +198,6 @@ void AGOGCharacter::LookUp(const float Rate)
 
 void AGOGCharacter::Interaction()
 {
-	if (GOGController)
-	{
-		if (GOGController->GetPaused())
-		{
-			return;
-		}
-	}
-
 	switch (InteractionStatus)
 	{
 	case EInteractionStatus::EIS_TalkWithNPC:
@@ -234,14 +226,6 @@ void AGOGCharacter::Interaction()
 
 void AGOGCharacter::SpaceDown()
 {
-	if(GOGController)
-	{
-		if(GOGController->GetPaused())
-		{
-			return;
-		}
-	}
-
 	if (bIsBattling)
 	{
 		if (bIsRolling || bIsAttacking)
@@ -273,14 +257,6 @@ void AGOGCharacter::SpaceUp()
 
 void AGOGCharacter::LCtrlDown()
 {
-	if (GOGController)
-	{
-		if (GOGController->GetPaused())
-		{
-			return;
-		}
-	}
-
 	if (MovementStatus == EMovementStatus::EMS_Parkour || bIsAttacking)
 	{
 		return;
@@ -292,28 +268,12 @@ void AGOGCharacter::LCtrlDown()
 void AGOGCharacter::Equip()
 {
 	// Z Key
-	if (GOGController)
-	{
-		if (GOGController->GetPaused())
-		{
-			return;
-		}
-	}
-
 	bWeaponEquipped ? AnimInstance->PlayUnEquipMontage() : AnimInstance->PlayEquipMontage();
 }
 
 void AGOGCharacter::Attack()
 {
 	// Left Mouse Button
-	if (GOGController)
-	{
-		if (GOGController->GetPaused())
-		{
-			return;
-		}
-	}
-
 	if (!bWeaponEquipped)
 	{
 		AnimInstance->PlayEquipMontage();
@@ -338,7 +298,10 @@ void AGOGCharacter::Attack()
 
 void AGOGCharacter::Pause()
 {
-	GOGController->GetPaused() ? GOGController->TogglePause(false) : GOGController->TogglePause(true);
+	if(GOGController)
+	{
+		GOGController->TogglePause(true);
+	}
 }
 
 void AGOGCharacter::UIOn() const
@@ -362,8 +325,7 @@ bool AGOGCharacter::CanMove(const float Value) const
 	if(GOGController)
 	{
 		return Value
-			   && !bIsAttacking
-			   && !GOGController->GetPaused();
+			   && !bIsAttacking;
 	}
 
 	return false;

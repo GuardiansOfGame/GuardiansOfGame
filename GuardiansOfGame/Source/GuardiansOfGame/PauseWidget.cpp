@@ -8,11 +8,40 @@
 
 #include "GOGCharacterController.h"
 
+UPauseWidget::UPauseWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	bIsFocusable = true;
+}
+
 void UPauseWidget::NativeConstruct()
 {
+	Super::NativeConstruct();
+
+	SetKeyboardFocus();
+
 	ResumeButton->OnClicked.AddDynamic(this, &UPauseWidget::ResumeButtonClicked);
 	TitleButton->OnClicked.AddDynamic(this, &UPauseWidget::TitleButtonClicked);
 	QuitButton->OnClicked.AddDynamic(this, &UPauseWidget::QuitButtonClicked);
+}
+
+FReply UPauseWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	Super::NativeOnKeyDown(InGeometry, InKeyEvent);
+
+	if(InKeyEvent.GetKey() == EKeys::P || InKeyEvent.GetKey() == EKeys::Escape)
+	{
+		AGOGCharacterController* Controller = Cast<AGOGCharacterController>(GetOwningPlayer());
+		if (Controller)
+		{
+			if(Controller->IsPaused())
+			{
+				Controller->TogglePause(false);
+				return FReply::Handled();
+			}
+		}
+	}
+
+	return FReply::Unhandled();
 }
 
 void UPauseWidget::ResumeButtonClicked()
@@ -20,7 +49,10 @@ void UPauseWidget::ResumeButtonClicked()
 	AGOGCharacterController* Controller = Cast<AGOGCharacterController>(GetOwningPlayer());
 	if(Controller)
 	{
-		Controller->TogglePause(false);
+		if (Controller->IsPaused())
+		{
+			Controller->TogglePause(false);
+		}
 	}
 }
 

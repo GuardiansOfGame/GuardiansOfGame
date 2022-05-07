@@ -14,8 +14,12 @@ class GUARDIANSOFGAME_API UPauseWidget final : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	explicit UPauseWidget(const FObjectInitializer& ObjectInitializer);
+
 protected:
 	virtual void NativeConstruct() override;
+	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
 private:
 	UPROPERTY(meta = (BindWidget))

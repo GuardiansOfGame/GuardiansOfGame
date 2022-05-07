@@ -19,8 +19,6 @@ AGOGCharacterController::AGOGCharacterController()
 	{
 		PauseWidgetClass = PauseWidgetAsset.Class;
 	}
-
-	bPaused = false;
 }
 
 void AGOGCharacterController::OnPossess(APawn* InPawn)
@@ -76,26 +74,26 @@ void AGOGCharacterController::TogglePause(const bool bPause)
 {
 	if(bPause)
 	{
-		SetInputMode(FInputModeGameAndUI());
+		SetInputMode(FInputModeUIOnly());
 		bShowMouseCursor = true;
 
-		bPaused = true;
+		SetPause(true);
 
 		PauseWidget->AddToViewport();
 		PauseWidget->PlayPopUpAnimation(false);
 	}
 	else
 	{
+		SetInputMode(FInputModeGameOnly());
+		bShowMouseCursor = false;
+
+		SetPause(false);
+
 		PauseWidget->PlayPopUpAnimation(true);
 
 		FTimerHandle UIAnimDelayTimerHandle;
 		GetWorld()->GetTimerManager().SetTimer(UIAnimDelayTimerHandle, FTimerDelegate::CreateLambda([&]() {
 			PauseWidget->RemoveFromParent();
-
-			SetInputMode(FInputModeGameOnly());
-			bShowMouseCursor = false;
-
-			bPaused = false;
 		}), 0.25f, false);
 	}
 }
