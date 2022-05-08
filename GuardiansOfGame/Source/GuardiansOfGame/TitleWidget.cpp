@@ -15,7 +15,7 @@ void UTitleWidget::NativeConstruct()
 
 void UTitleWidget::StartButtonClicked()
 {
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("TestMap1"));
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Laboratory"));
 	RemoveFromParent();
 }
 
