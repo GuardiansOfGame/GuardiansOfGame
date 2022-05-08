@@ -29,8 +29,14 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Combat)
 	class UBoxComponent* CombatCollision;
 
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	float Damage;
+
 public:
 	FORCEINLINE void SetInstigator(AController* Inst) { WeaponInstigator = Inst; }
+
+	FORCEINLINE float GetDamage() const { return Damage; }
+	FORCEINLINE void SetDamage(const float Value) { Damage = Value; }
 
 	void EquipToBack(const class AGOGCharacter* Char);
 	void EquipToHand(const AGOGCharacter* Char);

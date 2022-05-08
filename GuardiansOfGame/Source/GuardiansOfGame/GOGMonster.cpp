@@ -21,6 +21,9 @@ AGOGMonster::AGOGMonster()
 	CombatSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CombatSphere"));
 	CombatSphere->SetupAttachment(GetRootComponent());
 	CombatSphere->InitSphereRadius(400.f);
+
+	MaxHealth = 100.0f;
+	CurrentHealth = MaxHealth;
 }
 
 // Called when the game starts or when spawned
@@ -29,11 +32,32 @@ void AGOGMonster::BeginPlay()
 	Super::BeginPlay();
 
 	AIController = Cast<AAIController>(GetController());
+
 	AgroSphere->OnComponentBeginOverlap.AddDynamic(this, &AGOGMonster::AgroSphereOnOverlapBegin);
 	AgroSphere->OnComponentEndOverlap.AddDynamic(this, &AGOGMonster::AgroSphereOnOverlapEnd);
 
+	AgroSphere->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Ignore);
+
 	CombatSphere->OnComponentBeginOverlap.AddDynamic(this, &AGOGMonster::CombatSphereOnOverlapBegin);
 	CombatSphere->OnComponentEndOverlap.AddDynamic(this, &AGOGMonster::CombatSphereOnOverlapEnd);
+
+	CombatSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	CombatSphere->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
+	CombatSphere->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	CombatSphere->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
+}
+
+float AGOGMonster::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	const float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	CurrentHealth -= Damage;
+
+	if(CurrentHealth <= 0.0f)
+	{
+		Die();
+	}
+
+	return Damage;
 }
 
 // Called every frame
@@ -103,4 +127,9 @@ void AGOGMonster::MoveToTarget(const AGOGCharacter* Target)
 
 		AIController->MoveTo(MoveRequest, &NavPath);
 	}
+}
+
+void AGOGMonster::Die()
+{
+	Destroy();
 }

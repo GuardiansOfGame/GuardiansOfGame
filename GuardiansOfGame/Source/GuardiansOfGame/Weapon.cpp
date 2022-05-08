@@ -4,8 +4,10 @@
 
 #include "Components/BoxComponent.h"
 #include "Engine/SkeletalMeshSocket.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "GOGCharacter.h"
+#include "GOGMonster.h"
 
 // Sets default values
 AWeapon::AWeapon()
@@ -27,6 +29,8 @@ AWeapon::AWeapon()
 	CombatCollision->SetBoxExtent(FVector(25.0f, 15.0f, 15.0f));
 	CombatCollision->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f));
 	CombatCollision->bHiddenInGame = false;
+
+	Damage = 20.0f;
 }
 
 // Called when the game starts or when spawned
@@ -76,7 +80,14 @@ void AWeapon::EquipToHand(const AGOGCharacter* Char)
 
 void AWeapon::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
+	if(OtherActor)
+	{
+		AGOGMonster* Monster = Cast<AGOGMonster>(OtherActor);
+		if(Monster)
+		{
+			UGameplayStatics::ApplyDamage(Monster, Damage, WeaponInstigator, this, nullptr);
+		}
+	}
 }
 
 void AWeapon::ActiveCollision() const

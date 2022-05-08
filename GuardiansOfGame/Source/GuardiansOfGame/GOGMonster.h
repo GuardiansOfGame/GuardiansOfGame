@@ -37,9 +37,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AI)
 	class AAIController* AIController;
 
+	UPROPERTY(VisibleAnywhere, Category = Stat)
+	float MaxHealth;
+
+	UPROPERTY(VisibleAnywhere, Category = Stat)
+	float CurrentHealth;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 public:	
 	// Called every frame
@@ -61,4 +69,6 @@ public:
 	virtual void CombatSphereOnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	void MoveToTarget(const class AGOGCharacter* Target);
+
+	void Die();
 };
