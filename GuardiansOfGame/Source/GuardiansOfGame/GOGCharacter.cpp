@@ -80,7 +80,7 @@ AGOGCharacter::AGOGCharacter()
 
 	TargetPosition = FVector(0.0f);
 
-	RollingInterpSpeed = 1.2f;
+	RollingInterpSpeed = 1.5f;
 	SlidingInterpSpeed = 2.5f;
 	LagSpeedInterpSpeed = 2.5f;
 

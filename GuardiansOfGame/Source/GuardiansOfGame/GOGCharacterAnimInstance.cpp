@@ -108,6 +108,11 @@ void UGOGCharacterAnimInstance::NativeUpdateAnimation(const float DeltaSeconds)
 
 void UGOGCharacterAnimInstance::PlayRollMontage()
 {
+	GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Parkour);
+
+	GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+
 	Montage_Play(RollMontage);
 }
 
@@ -209,13 +214,25 @@ void UGOGCharacterAnimInstance::JumpToAttackMontageSection(const int SectionNum)
 void UGOGCharacterAnimInstance::AnimNotify_RollStart() const
 {
 	GOGCharacter->SetIsRolling(true);
-
 	GOGCharacter->GetCameraBoom()->CameraLagSpeed = 5.0f;
 }
 
 void UGOGCharacterAnimInstance::AnimNotify_RollEnd() const
 {
+	GOGCharacter->SetMovementStatus(EMovementStatus::EMS_Normal);
+
+	GOGCharacter->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GOGCharacter->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+
 	GOGCharacter->SetIsRolling(false);
+}
+
+void UGOGCharacterAnimInstance::AnimNotify_RollHeightInterp() const
+{
+	FVector Location = GOGCharacter->GetActorLocation();
+	Location.Z += 15.0f;
+
+	GOGCharacter->SetActorLocation(Location);
 }
 
 void UGOGCharacterAnimInstance::AnimNotify_VaultEnd() const

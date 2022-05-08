@@ -91,6 +91,8 @@ public:
 	void AnimNotify_RollStart() const;
 	UFUNCTION()
 	void AnimNotify_RollEnd() const;
+	UFUNCTION()
+	void AnimNotify_RollHeightInterp() const;
 
 	UFUNCTION()
 	void AnimNotify_VaultEnd() const;
