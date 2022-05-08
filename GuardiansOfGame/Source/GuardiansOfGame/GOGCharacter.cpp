@@ -64,6 +64,7 @@ AGOGCharacter::AGOGCharacter()
 
 	InteractionStatus = EInteractionStatus::EIS_Normal;
 	MovementStatus = EMovementStatus::EMS_Normal;
+	StaminaStatus = EStaminaStatus::ESS_Normal;
 
 	Stat = CreateDefaultSubobject<UGOGCharacterStatComponent>(TEXT("Stat"));
 
@@ -76,6 +77,11 @@ AGOGCharacter::AGOGCharacter()
 
 	bIsBattling = false;
 	bIsRolling = false;
+	bIsSliding = false;
+
+	bMovingForward = false;
+	bMovingRight = false;
+
 	bShiftKeyDown = false;
 
 	TargetPosition = FVector(0.0f);
@@ -126,6 +132,11 @@ void AGOGCharacter::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (MovementStatus == EMovementStatus::EMS_Dead)
+	{
+		return;
+	}
+
 	if (bIsRolling)
 	{
 		const FVector InterpLocation = FMath::VInterpTo(GetActorLocation(), TargetPosition, DeltaTime, RollingInterpSpeed);
@@ -143,6 +154,94 @@ void AGOGCharacter::Tick(const float DeltaTime)
 		const FVector InterpLocation = FMath::VInterpTo(GetActorLocation(), TargetPosition, DeltaTime, SlidingInterpSpeed);
 		SetActorLocation(InterpLocation);
 	}
+
+	const float DeltaStamina = StaminaDrainRate * DeltaTime;
+	switch (StaminaStatus)
+	{
+	case EStaminaStatus::ESS_Normal:
+		if (bShiftKeyDown)
+		{
+			if (CurrentStamina - DeltaStamina <= MinSprintStamina)
+			{
+				SetStaminaStatus(EStaminaStatus::ESS_BelowMinimum);
+			}
+
+			if (bMovingForward || bMovingRight)
+			{
+				CurrentStamina -= DeltaStamina;
+				SetMovementStatus(EMovementStatus::EMS_Sprinting);
+			}
+			else
+			{
+				SetMovementStatus(EMovementStatus::EMS_Normal);
+			}
+		}
+		else
+		{
+			CurrentStamina = FMath::Clamp(CurrentStamina + DeltaStamina, 0.0f, MaxStamina);
+			SetMovementStatus(EMovementStatus::EMS_Normal);
+		}
+		break;
+	case EStaminaStatus::ESS_BelowMinimum:
+		if (bShiftKeyDown)
+		{
+			if (CurrentStamina - DeltaStamina <= 0.0f)
+			{
+				SetStaminaStatus(EStaminaStatus::ESS_Exhausted);
+				CurrentStamina = 0.0f;
+
+				SetMovementStatus(EMovementStatus::EMS_Normal);
+			}
+			else
+			{
+				if (bMovingForward || bMovingRight)
+				{
+					CurrentStamina -= DeltaStamina;
+					SetMovementStatus(EMovementStatus::EMS_Sprinting);
+				}
+				else
+				{
+					SetMovementStatus(EMovementStatus::EMS_Normal);
+				}
+			}
+		}
+		else
+		{
+			CurrentStamina += DeltaStamina;
+			if (CurrentStamina >= MinSprintStamina)
+			{
+				SetStaminaStatus(EStaminaStatus::ESS_Normal);
+			}
+
+			SetMovementStatus(EMovementStatus::EMS_Normal);
+		}
+		break;
+	case EStaminaStatus::ESS_Exhausted:
+		if (bShiftKeyDown)
+		{
+			CurrentStamina = 0.0f;
+		}
+		else
+		{
+			SetStaminaStatus(EStaminaStatus::ESS_ExhaustedRecovering);
+			CurrentStamina += DeltaStamina;
+		}
+		SetMovementStatus(EMovementStatus::EMS_Normal);
+		break;
+	case EStaminaStatus::ESS_ExhaustedRecovering:
+		CurrentStamina += DeltaStamina;
+		if (CurrentStamina >= MinSprintStamina)
+		{
+			SetStaminaStatus(EStaminaStatus::ESS_Normal);
+			
+		}
+		SetMovementStatus(EMovementStatus::EMS_Normal);
+		break;
+	default:
+		break;
+	}
+
+	GOGController->SetStaminaBarPercent(CurrentStamina, MaxStamina);
 }
 
 // Called to bind functionality to input
@@ -181,8 +280,12 @@ void AGOGCharacter::PostInitializeComponents()
 
 void AGOGCharacter::MoveForward(const float Value)
 {
+	bMovingForward = false;
+
 	if (CanMove(Value))
 	{
+		bMovingForward = true;
+
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
@@ -193,8 +296,12 @@ void AGOGCharacter::MoveForward(const float Value)
 
 void AGOGCharacter::MoveRight(const float Value)
 {
+	bMovingRight = false;
+
 	if (CanMove(Value))
 	{
+		bMovingRight = true;
+
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
@@ -366,6 +473,8 @@ bool AGOGCharacter::CanMove(const float Value) const
 	if(GOGController)
 	{
 		return Value
+			   && !bIsRolling
+			   && !bIsSliding
 			   && !bIsAttacking;
 	}
 

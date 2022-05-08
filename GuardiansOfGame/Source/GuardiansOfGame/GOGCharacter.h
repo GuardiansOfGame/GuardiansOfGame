@@ -27,6 +27,17 @@ enum class EMovementStatus : uint8
 	EMS_MAX
 };
 
+UENUM(BlueprintType)
+enum class EStaminaStatus : uint8
+{
+	ESS_Normal					UMETA(DisplayName = "Normal"),
+	ESS_BelowMinimum			UMETA(DisplayName = "BelowMinimum"),
+	ESS_Exhausted				UMETA(DisplayName = "Exhausted"),
+	ESS_ExhaustedRecovering		UMETA(DisplayName = "ExhaustedRecovering"),
+
+	ESS_MAX
+};
+
 UCLASS()
 class GUARDIANSOFGAME_API AGOGCharacter final : public ACharacter
 {
@@ -74,6 +85,9 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
 	EMovementStatus MovementStatus;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
+	EStaminaStatus StaminaStatus;
+
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	class UGOGCharacterStatComponent* Stat;
 
@@ -94,6 +108,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	bool bIsSliding;
+
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	bool bMovingForward;
+
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	bool bMovingRight;
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	bool bShiftKeyDown;
@@ -182,6 +202,8 @@ public:
 	FORCEINLINE void SetInteractionStatus(const EInteractionStatus Status) { InteractionStatus = Status; }
 
 	FORCEINLINE EMovementStatus GetMovementStatus() const { return MovementStatus; }
+
+	FORCEINLINE void SetStaminaStatus(const EStaminaStatus Status) { StaminaStatus = Status; }
 
 	FORCEINLINE UGOGCharacterStatComponent* GetGOGCharacterStatComponent() const { return Stat; }
 
