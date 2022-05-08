@@ -5,6 +5,7 @@
 #include "DialogueWidget.h"
 #include "GOGCharacter.h"
 #include "GOGCharacterWidget.h"
+#include "HealthBar.h"
 #include "PauseWidget.h"
 
 AGOGCharacterController::AGOGCharacterController()
@@ -25,6 +26,12 @@ AGOGCharacterController::AGOGCharacterController()
 	if (DialogueWidgetAsset.Succeeded())
 	{
 		DialogueWidgetClass = DialogueWidgetAsset.Class;
+	}
+
+	static ConstructorHelpers::FClassFinder<UHealthBar> MonsterHealthWidgetAsset(TEXT("WidgetBlueprint'/Game/Widgets/HealthBar_BP.HealthBar_BP_C'"));
+	if (MonsterHealthWidgetAsset.Succeeded())
+	{
+		MonsterHealthWidgetClass = MonsterHealthWidgetAsset.Class;
 	}
 }
 
@@ -55,6 +62,17 @@ void AGOGCharacterController::OnPossess(APawn* InPawn)
 
 		DialogueWidget->AddToViewport();
 		DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+
+	if(MonsterHealthWidgetClass)
+	{
+		MonsterHealthWidget = CreateWidget<UHealthBar>(this, MonsterHealthWidgetClass);
+
+		MonsterHealthWidget->AddToViewport();
+		MonsterHealthWidget->SetVisibility(ESlateVisibility::Hidden);
+
+		const FVector2D Alignment(0.0f, 0.0f);
+		MonsterHealthWidget->SetAlignmentInViewport(Alignment);
 	}
 }
 

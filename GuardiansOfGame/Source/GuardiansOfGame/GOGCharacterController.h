@@ -38,6 +38,10 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Widget)
 	class UDialogueWidget* DialogueWidget;
 
+	TSubclassOf<class UHealthBar> MonsterHealthWidgetClass;
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	class UHealthBar* MonsterHealthWidget;
+
 public:
 	void BeginChat(const TArray<FString> Strings, const FString Name);
 	void EndChat();
