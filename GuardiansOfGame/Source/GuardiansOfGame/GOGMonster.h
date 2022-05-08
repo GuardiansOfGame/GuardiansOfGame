@@ -71,4 +71,7 @@ public:
 	void MoveToTarget(const class AGOGCharacter* Target);
 
 	void Die();
+
+	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
+	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
 };

@@ -22,7 +22,7 @@ AGOGMonster::AGOGMonster()
 	CombatSphere->SetupAttachment(GetRootComponent());
 	CombatSphere->InitSphereRadius(400.f);
 
-	MaxHealth = 100.0f;
+	MaxHealth = 40.0f;
 	CurrentHealth = MaxHealth;
 }
 
