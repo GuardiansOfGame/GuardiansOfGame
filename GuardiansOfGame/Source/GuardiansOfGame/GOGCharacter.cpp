@@ -242,6 +242,7 @@ void AGOGCharacter::Tick(const float DeltaTime)
 	}
 
 	GOGController->SetStaminaBarPercent(CurrentStamina, MaxStamina);
+	GOGController->SetStaminaBarColor(StaminaStatus);
 }
 
 // Called to bind functionality to input

@@ -124,3 +124,8 @@ void AGOGCharacterController::SetStaminaBarPercent(const float CurrentStamina, c
 { 
 	GOGCharacterWidget->SetStaminaBarPercent(CurrentStamina, MaxStamina);
 }
+
+void AGOGCharacterController::SetStaminaBarColor(const EStaminaStatus Status) const
+{
+	GOGCharacterWidget->SetStaminaBarColor(Status);
+}

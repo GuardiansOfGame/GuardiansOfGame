@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "GOGCharacterWidget.generated.h"
 
+enum class EStaminaStatus : uint8;
 /**
  * 
  */
@@ -38,4 +39,6 @@ class GUARDIANSOFGAME_API UGOGCharacterWidget final : public UUserWidget
 public:
 	void SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const;
 	void SetStaminaBarPercent(const float CurrentStamina, const float MaxStamina) const;
+
+	void SetStaminaBarColor(const EStaminaStatus Status) const;
 };

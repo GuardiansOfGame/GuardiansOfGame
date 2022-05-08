@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "GOGCharacterController.generated.h"
 
+enum class EStaminaStatus : uint8;
 /**
  *
  */
@@ -45,4 +46,6 @@ public:
 
 	void SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const;
 	void SetStaminaBarPercent(const float CurrentStamina, const float MaxStamina) const;
+
+	void SetStaminaBarColor(const EStaminaStatus Status) const;
 };

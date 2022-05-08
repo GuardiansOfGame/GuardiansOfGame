@@ -14,3 +14,8 @@ void UGOGCharacterWidget::SetStaminaBarPercent(const float CurrentStamina, const
 {
 	StaminaBar->SetStaminaBarPercent(CurrentStamina, MaxStamina);
 }
+
+void UGOGCharacterWidget::SetStaminaBarColor(const EStaminaStatus Status) const
+{
+	StaminaBar->SetStaminaBarColor(Status);
+}

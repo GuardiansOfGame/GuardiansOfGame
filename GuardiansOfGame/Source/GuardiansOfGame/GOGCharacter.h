@@ -82,7 +82,7 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	EInteractionStatus InteractionStatus;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
 	EMovementStatus MovementStatus;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
@@ -203,6 +203,7 @@ public:
 
 	FORCEINLINE EMovementStatus GetMovementStatus() const { return MovementStatus; }
 
+	FORCEINLINE EStaminaStatus GetStaminaStatus() const { return StaminaStatus; }
 	FORCEINLINE void SetStaminaStatus(const EStaminaStatus Status) { StaminaStatus = Status; }
 
 	FORCEINLINE UGOGCharacterStatComponent* GetGOGCharacterStatComponent() const { return Stat; }
