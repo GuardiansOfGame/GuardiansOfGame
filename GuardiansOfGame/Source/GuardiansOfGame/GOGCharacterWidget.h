@@ -14,7 +14,6 @@ class GUARDIANSOFGAME_API UGOGCharacterWidget final : public UUserWidget
 {
 	GENERATED_BODY()
 
-private:
 	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* CanvasPanel;
 
@@ -35,4 +34,8 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UStaminaBar* StaminaBar;
+
+public:
+	void SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const;
+	void SetStaminaBarPercent(const float CurrentStamina, const float MaxStamina) const;
 };

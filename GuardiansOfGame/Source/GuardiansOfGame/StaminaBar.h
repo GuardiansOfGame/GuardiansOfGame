@@ -14,10 +14,12 @@ class GUARDIANSOFGAME_API UStaminaBar final : public UUserWidget
 {
 	GENERATED_BODY()
 
-private:
 	UPROPERTY(meta = (BindWidget))
 	class UHorizontalBox* HorizontalBox;
 
 	UPROPERTY(meta = (BindWidget))
 	class UProgressBar* StaminaBar;
+
+public:
+	void SetStaminaBarPercent(const float CurrentStamina, const float MaxStamina) const;
 };

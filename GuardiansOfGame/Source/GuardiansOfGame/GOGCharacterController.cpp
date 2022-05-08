@@ -38,6 +38,9 @@ void AGOGCharacterController::OnPossess(APawn* InPawn)
 	{
 		GOGCharacterWidget = CreateWidget<UGOGCharacterWidget>(this, GOGCharacterWidgetClass);
 
+		SetHealthBarPercent(GOGCharacter->GetCurrentHealth(), GOGCharacter->GetMaxHealth());
+		SetStaminaBarPercent(GOGCharacter->GetCurrentStamina(), GOGCharacter->GetMaxStamina());
+
 		GOGCharacterWidget->AddToViewport();
 	}
 
@@ -110,4 +113,14 @@ void AGOGCharacterController::TogglePause(const bool bPause)
 			PauseWidget->RemoveFromParent();
 		}), 0.25f, false);
 	}
+}
+
+void AGOGCharacterController::SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const
+{
+	GOGCharacterWidget->SetHealthBarPercent(CurrentHealth, MaxHealth);
+}
+
+void AGOGCharacterController::SetStaminaBarPercent(const float CurrentStamina, const float MaxStamina) const
+{ 
+	GOGCharacterWidget->SetStaminaBarPercent(CurrentStamina, MaxStamina);
 }

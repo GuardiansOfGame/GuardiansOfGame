@@ -14,10 +14,12 @@ class GUARDIANSOFGAME_API UHealthBar final : public UUserWidget
 {
 	GENERATED_BODY()
 
-private:
 	UPROPERTY(meta = (BindWidget))
 	class UHorizontalBox* HorizontalBox;
 
 	UPROPERTY(meta = (BindWidget))
 	class UProgressBar* HealthBar;
+
+public:
+	void SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const;
 };
