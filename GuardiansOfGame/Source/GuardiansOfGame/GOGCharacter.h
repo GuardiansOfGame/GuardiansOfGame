@@ -20,6 +20,7 @@ UENUM(BlueprintType)
 enum class EMovementStatus : uint8
 {
 	EMS_Normal			UMETA(DisplayName = "Normal"),
+	EMS_Sprinting		UMETA(DisplayName = "Sprinting"),
 	EMS_Parkour			UMETA(DisplayName = "Parkour"),
 	EMS_Dead			UMETA(DisplayName = "Dead"),
 
@@ -70,7 +71,7 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	EInteractionStatus InteractionStatus;
 
-	UPROPERTY(VisibleAnywhere, Category = Status)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
 	EMovementStatus MovementStatus;
 
 	UPROPERTY(VisibleAnywhere, Category = Status)
@@ -80,6 +81,12 @@ private:
 	class ANPC* InteractingNPC;
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)
+	float RunningSpeed;
+
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	float SprintingSpeed;
+
+	UPROPERTY(VisibleAnywhere, Category = Movement)
 	bool bIsBattling;
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)
@@ -87,6 +94,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	bool bIsSliding;
+
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	bool bShiftKeyDown;
 
 	FVector TargetPosition;
 
@@ -133,6 +143,12 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 	float CurrentStamina;
 
+	UPROPERTY(VisibleAnywhere, Category = Stat)
+	float StaminaDrainRate;
+
+	UPROPERTY(VisibleAnywhere, Category = Stat)
+	float MinSprintStamina;
+
 protected:
 	void MoveForward(const float Value);
 	void MoveRight(const float Value);
@@ -153,6 +169,9 @@ protected:
 
 	void Pause();
 
+	void ShiftKeyDown();
+	void ShiftKeyUp();
+
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
@@ -163,7 +182,6 @@ public:
 	FORCEINLINE void SetInteractionStatus(const EInteractionStatus Status) { InteractionStatus = Status; }
 
 	FORCEINLINE EMovementStatus GetMovementStatus() const { return MovementStatus; }
-	FORCEINLINE void SetMovementStatus(const EMovementStatus Status) { MovementStatus = Status; }
 
 	FORCEINLINE UGOGCharacterStatComponent* GetGOGCharacterStatComponent() const { return Stat; }
 
@@ -190,6 +208,14 @@ public:
 	FORCEINLINE void SetIsComboInputOn(const bool bValue) { bIsComboInputOn = bValue; }
 
 	FORCEINLINE int GetCurrentComboNum() const { return CurrentComboNum; }
+
+	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
+	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
+
+	FORCEINLINE float GetMaxStamina() const { return MaxStamina; }
+	FORCEINLINE float GetCurrentStamina() const { return CurrentStamina; }
+
+	void SetMovementStatus(const EMovementStatus Status);
 
 	void UIOn() const;
 	void UIOff() const;

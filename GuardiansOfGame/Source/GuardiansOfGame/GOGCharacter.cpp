@@ -35,7 +35,6 @@ AGOGCharacter::AGOGCharacter()
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
-	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
 	GetCharacterMovement()->GravityScale = 1.2f;
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -70,8 +69,14 @@ AGOGCharacter::AGOGCharacter()
 
 	InteractingNPC = nullptr;
 
+	RunningSpeed = 650.0f;
+	SprintingSpeed = 950.0f;
+
+	GetCharacterMovement()->MaxWalkSpeed = RunningSpeed;
+
 	bIsBattling = false;
 	bIsRolling = false;
+	bShiftKeyDown = false;
 
 	TargetPosition = FVector(0.0f);
 
@@ -88,6 +93,15 @@ AGOGCharacter::AGOGCharacter()
 
 	EndComboAttack();
 	MaxComboNum = 3;
+
+	MaxHealth = 100.0f;
+	CurrentHealth = MaxHealth;
+
+	MaxStamina = 100.0f;
+	CurrentStamina = MaxStamina;
+
+	StaminaDrainRate = 15.0f;
+	MinSprintStamina = 30.0f;
 }
 
 // Called when the game starts or when spawned
@@ -150,6 +164,9 @@ void AGOGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AGOGCharacter::Attack);
 
 	PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &AGOGCharacter::Pause);
+
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AGOGCharacter::ShiftKeyDown);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AGOGCharacter::ShiftKeyUp);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGOGCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGOGCharacter::MoveRight);
@@ -301,6 +318,30 @@ void AGOGCharacter::Pause()
 	if(GOGController)
 	{
 		GOGController->TogglePause(true);
+	}
+}
+
+void AGOGCharacter::ShiftKeyDown()
+{
+	bShiftKeyDown = true;
+}
+
+void AGOGCharacter::ShiftKeyUp()
+{
+	bShiftKeyDown = false;
+}
+
+void AGOGCharacter::SetMovementStatus(const EMovementStatus Status)
+{
+	MovementStatus = Status;
+
+	if(MovementStatus == EMovementStatus::EMS_Sprinting)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = SprintingSpeed;
+	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = RunningSpeed;
 	}
 }
 

@@ -14,7 +14,7 @@ class GUARDIANSOFGAME_API UGOGCharacterAnimInstance final : public UAnimInstance
 {
 	GENERATED_BODY()
 
-	public:
+public:
 	UGOGCharacterAnimInstance();
 
 protected:
@@ -30,6 +30,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	bool bIsInAir;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
+	bool bSprinting;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 	bool bWeaponEquipped;
@@ -72,6 +75,8 @@ private:
 	UAnimMontage* AttackMontage;
 
 public:
+	FORCEINLINE void SetSprinting(const bool bValue) { bSprinting = bValue; }
+
 	FORCEINLINE UAnimMontage* GetClimbMontage() const { return ClimbMontage; }
 	FORCEINLINE UAnimMontage* GetSlideMontage() const { return SlideMontage; }
 	FORCEINLINE UAnimMontage* GetAttackMontage() const { return AttackMontage; }
