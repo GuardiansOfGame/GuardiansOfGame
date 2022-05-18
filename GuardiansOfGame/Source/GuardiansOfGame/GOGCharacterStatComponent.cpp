@@ -35,7 +35,7 @@ void UGOGCharacterStatComponent::Init()
 		QuestProgress = GameInstance->GetQuestProgress();
 		CurQuestNum = GameInstance->GetCurQuestNum();
 
-		Quests = GameInstance->GetQuets();
+		Quests = GameInstance->GetQuests();
 	}
 }
 
