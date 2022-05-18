@@ -26,6 +26,7 @@ public:
 };
 
 #define MAX_QUEST_NUM 2
+#define TASK_NUM 3
 
 USTRUCT(Atomic, BlueprintType)
 struct FDialogueStrings
@@ -52,7 +53,7 @@ struct FDialogueStrings
 	TArray<FString> Success;
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(Atomic, BlueprintType)
 struct FQuestBooleans
 {
 	GENERATED_BODY()
@@ -72,7 +73,7 @@ struct FQuestBooleans
 	TArray<bool> QuestSuccessArr;
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(Atomic, BlueprintType)
 struct FQuestType
 {
 	GENERATED_BODY()
@@ -97,12 +98,12 @@ struct FQuestType
 	int Current;
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(Atomic, BlueprintType)
 struct FTask
 {
 	GENERATED_BODY()
 
-	FTask() : Type(), Content(), bIsCompleted(false)
+	FTask() : Type(FQuestType()), Content(FText()), bIsCompleted(false)
 	{}
 
 	FTask(const FQuestType Type, const FText Content, const bool bIsCompleted)
@@ -122,12 +123,12 @@ struct FTask
 	bool bIsCompleted;
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(Atomic, BlueprintType)
 struct FQuest
 {
 	GENERATED_BODY()
 
-	FQuest() : Name(), Tasks({})
+	FQuest() : Name(FText()), Tasks({})
 	{}
 
 	FQuest(const FText Name, const TArray<FTask> Tasks)
