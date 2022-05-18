@@ -34,6 +34,8 @@ void UGOGCharacterStatComponent::Init()
 	{
 		QuestProgress = GameInstance->GetQuestProgress();
 		CurQuestNum = GameInstance->GetCurQuestNum();
+
+		Quests = GameInstance->GetQuets();
 	}
 }
 
@@ -43,5 +45,7 @@ void UGOGCharacterStatComponent::Save() const
 	{
 		GameInstance->SetQuestProgress(QuestProgress);
 		GameInstance->SetCurQuestNum(CurQuestNum);
+
+		GameInstance->SetQuests(Quests);
 	}
 }

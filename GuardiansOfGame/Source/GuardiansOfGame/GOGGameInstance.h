@@ -42,6 +42,9 @@ public:
 	FORCEINLINE FQuestBooleans GetQuestProgress() const { return QuestProgress; }
 	FORCEINLINE void SetQuestProgress(const FQuestBooleans Quest) { QuestProgress = Quest; }
 
+	FORCEINLINE TArray<FQuest> GetQuets() const { return Quests; }
+	FORCEINLINE void SetQuests(const TArray<FQuest> CurrentQuests) { Quests = CurrentQuests; }
+
 	FORCEINLINE int GetCurQuestNum() const { return CurQuestNum; }
 	FORCEINLINE void SetCurQuestNum(const int Num) { CurQuestNum = Num; }
 };
