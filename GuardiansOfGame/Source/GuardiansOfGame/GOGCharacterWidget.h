@@ -36,6 +36,9 @@ class GUARDIANSOFGAME_API UGOGCharacterWidget final : public UUserWidget
 	UPROPERTY(meta = (BindWidget))
 	class UStaminaBar* StaminaBar;
 
+	UPROPERTY(meta = (BindWidget))
+	class UQuestLogWidget* QuestLog;
+
 public:
 	void SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const;
 	void SetStaminaBarPercent(const float CurrentStamina, const float MaxStamina) const;
