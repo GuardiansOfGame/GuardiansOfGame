@@ -34,6 +34,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Quest)
 	int CurQuestNum;
 
+	UPROPERTY(VisibleAnywhere, Category = Quest)
+	TArray<FQuest> Quests;
+
 public:
 	FORCEINLINE FQuestBooleans GetQuestProgress() const { return QuestProgress; }
 

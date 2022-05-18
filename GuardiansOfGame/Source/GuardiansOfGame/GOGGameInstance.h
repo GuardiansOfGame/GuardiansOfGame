@@ -26,10 +26,17 @@ protected:
 	virtual void StartGameInstance() override;
 
 private:
+	UPROPERTY(VisibleAnywhere, Category = Quest)
 	FQuestBooleans QuestProgress;
 
 	int MaxQuestNum;
 	int CurQuestNum;
+
+	UPROPERTY(VisibleAnywhere, Category = Quest)
+	class UDataTable* QuestDataTable;
+
+	UPROPERTY(VisibleAnywhere, Category = Quest)
+	TArray<FQuest> Quests;
 
 public:
 	FORCEINLINE FQuestBooleans GetQuestProgress() const { return QuestProgress; }
