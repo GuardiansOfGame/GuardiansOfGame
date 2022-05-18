@@ -26,6 +26,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Player)
 	class AGOGCharacter* GOGCharacter;
 
+	UPROPERTY(VisibleAnywhere, Category = GameInstance)
+	class UGOGGameInstance* GameInstance;
+
 	TSubclassOf<class UGOGCharacterWidget> GOGCharacterWidgetClass;
 	UPROPERTY(VisibleAnywhere, Category = Widget)
 	class UGOGCharacterWidget* GOGCharacterWidget;

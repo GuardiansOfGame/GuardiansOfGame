@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+
+#include "CustomStruct.h"
+
 #include "QuestLogWidget.generated.h"
 
 /**
@@ -28,4 +31,10 @@ class GUARDIANSOFGAME_API UQuestLogWidget final : public UUserWidget
 
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* Task2;
+
+	UPROPERTY(VisibleAnywhere)
+	FQuest Quest;
+
+public:
+	void Init(const FQuest InputQuest);
 };

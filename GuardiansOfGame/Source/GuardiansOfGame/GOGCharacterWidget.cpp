@@ -3,7 +3,13 @@
 #include "GOGCharacterWidget.h"
 
 #include "HealthBar.h"
+#include "QuestLogWidget.h"
 #include "StaminaBar.h"
+
+void UGOGCharacterWidget::Init(const FQuest InputQuest)
+{
+	QuestLog->Init(InputQuest);
+}
 
 void UGOGCharacterWidget::SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const
 {

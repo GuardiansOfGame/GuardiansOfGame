@@ -4,6 +4,7 @@
 
 #include "DialogueWidget.h"
 #include "GOGCharacter.h"
+#include "GOGGameInstance.h"
 #include "GOGCharacterWidget.h"
 #include "HealthBar.h"
 #include "PauseWidget.h"
@@ -80,6 +81,12 @@ void AGOGCharacterController::BeginPlay()
 {
 	SetInputMode(FInputModeGameOnly());
 	bShowMouseCursor = false;
+
+	GameInstance = Cast<UGOGGameInstance>(GetWorld()->GetGameInstance());
+	if (GameInstance)
+	{
+		GOGCharacterWidget->Init(GameInstance->GetQuests()[0]);
+	}
 }
 
 void AGOGCharacterController::BeginChat(const TArray<FString> Strings, const FString Name)
