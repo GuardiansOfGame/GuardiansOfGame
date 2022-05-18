@@ -38,7 +38,11 @@ void UGOGGameInstance::Init()
 	for(int i = 0; i < MAX_QUEST_NUM; ++i)
 	{
 		const FQuestDataTable* QuestDataTableRow = QuestDataTable->FindRow<FQuestDataTable>(*FString::FromInt(i + 1), FString(""));
-		UE_LOG(LogTemp, Warning, TEXT("QuestName: %s :: Task0(%s) Task1(%s) Task2(%s)"), *((*QuestDataTableRow).QuestName), *((*QuestDataTableRow).Task0), *((*QuestDataTableRow).Task1), *((*QuestDataTableRow).Task2));
+		Quests[i].Name = FText::FromString((*QuestDataTableRow).QuestName);
+
+		Quests[i].Tasks[0].Content = FText::FromString((*QuestDataTableRow).Task0);
+		Quests[i].Tasks[1].Content = FText::FromString((*QuestDataTableRow).Task1);
+		Quests[i].Tasks[2].Content = FText::FromString((*QuestDataTableRow).Task2);
 	}
 }
 
