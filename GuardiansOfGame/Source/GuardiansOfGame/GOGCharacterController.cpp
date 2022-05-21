@@ -184,10 +184,27 @@ void AGOGCharacterController::InitQuestLog(const class UGOGCharacterStatComponen
 	GOGCharacterWidget->InitQuestLog(StatComponent->GetQuests()[CurQuestNum]);
 }
 
-void AGOGCharacterController::UpdateQuestLog(const UGOGCharacterStatComponent* StatComponent, const int TaskNum) const
+void AGOGCharacterController::UpdateQuestLog(UGOGCharacterStatComponent* StatComponent, const int TaskNum) const
 {
 	const int CurQuestNum = StatComponent->GetCurQuestNum();
 	const FQuest CurQuest = StatComponent->GetQuests()[CurQuestNum];
+
+	bool bCompletedAllTasks = false;
+
+	for(int i = 0; i < TASK_NUM; ++i)
+	{
+		bCompletedAllTasks = CurQuest.Tasks[i].bIsCompleted;
+		if(!bCompletedAllTasks)
+		{
+			break;
+		}
+	}
+
+	if(bCompletedAllTasks)
+	{
+		StatComponent->SetCurQuestSuccess(true);
+		StatComponent->SetQuestSuccessArr(CurQuestNum, true);
+	}
 
 	GOGCharacterWidget->GetQuestLogWidget()->UpdateTaskText(CurQuest, TaskNum);
 }
