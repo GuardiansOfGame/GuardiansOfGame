@@ -51,6 +51,8 @@ public:
 
 	FORCEINLINE TArray<FQuest> GetQuests() const { return Quests; }
 
+	void SetTaskCompleted(const int TaskNum);
+
 	void Init();
 	void Save() const;
 };

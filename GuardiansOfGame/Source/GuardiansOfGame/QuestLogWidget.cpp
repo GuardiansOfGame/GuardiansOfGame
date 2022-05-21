@@ -31,3 +31,26 @@ void UQuestLogWidget::SetTaskText(UTextBlock* TaskTextBlock, const int TaskNum)
 		TaskTextBlock->SetText(Quest.Tasks[TaskNum].Content);
 	}
 }
+
+void UQuestLogWidget::UpdateTaskText(const FQuest InputQuest, const int TaskNum)
+{
+	Quest = InputQuest;
+
+	switch (TaskNum)
+	{
+	case 0:
+		SetTaskText(Task0, TaskNum);
+		break;
+	case 1:
+		SetTaskText(Task1, TaskNum);
+		break;
+	case 2:
+		SetTaskText(Task2, TaskNum);
+		break;
+	case 3:
+		SetTaskText(Task3, TaskNum);
+		break;
+	default:
+		break;
+	}
+}

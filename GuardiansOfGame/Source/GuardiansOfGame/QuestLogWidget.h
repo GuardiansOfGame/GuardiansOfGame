@@ -42,4 +42,5 @@ public:
 	void Init(const FQuest InputQuest);
 
 	void SetTaskText(UTextBlock* TaskTextBlock, const int TaskNum);
+	void UpdateTaskText(const FQuest InputQuest, const int TaskNum);
 };

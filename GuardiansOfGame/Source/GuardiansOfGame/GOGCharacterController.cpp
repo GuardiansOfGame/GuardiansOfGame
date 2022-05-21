@@ -184,6 +184,14 @@ void AGOGCharacterController::InitQuestLog(const class UGOGCharacterStatComponen
 	GOGCharacterWidget->InitQuestLog(StatComponent->GetQuests()[CurQuestNum]);
 }
 
+void AGOGCharacterController::UpdateQuestLog(const UGOGCharacterStatComponent* StatComponent, const int TaskNum) const
+{
+	const int CurQuestNum = StatComponent->GetCurQuestNum();
+	const FQuest CurQuest = StatComponent->GetQuests()[CurQuestNum];
+
+	GOGCharacterWidget->GetQuestLogWidget()->UpdateTaskText(CurQuest, TaskNum);
+}
+
 void AGOGCharacterController::SetQuestLogVisibillity(const class UGOGCharacterStatComponent* StatComponent, const bool bForceHidden) const
 {
 	if (bForceHidden)
