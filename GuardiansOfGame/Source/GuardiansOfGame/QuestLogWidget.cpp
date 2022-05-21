@@ -30,6 +30,15 @@ void UQuestLogWidget::SetTaskText(UTextBlock* TaskTextBlock, const int TaskNum)
 	{
 		TaskTextBlock->SetText(Quest.Tasks[TaskNum].Content);
 	}
+
+	if(Quest.Tasks[TaskNum].bIsCompleted)
+	{
+		TaskTextBlock->SetOpacity(0.5f);
+		FSlateFontInfo FontInfo = TaskTextBlock->Font;
+		FontInfo.OutlineSettings.OutlineColor.A = 0.5f;
+
+		TaskTextBlock->SetFont(FontInfo);
+	}
 }
 
 void UQuestLogWidget::UpdateTaskText(const FQuest InputQuest, const int TaskNum)
