@@ -49,6 +49,8 @@ public:
 	FORCEINLINE void SetQuestAcceptArr(const int QuestNum, const bool bValue) { QuestProgress.QuestAcceptArr[QuestNum] = bValue; }
 	FORCEINLINE void SetQuestSuccessArr(const int QuestNum, const bool bValue) { QuestProgress.QuestSuccessArr[QuestNum] = bValue; }
 
+	FORCEINLINE TArray<FQuest> GetQuests() const { return Quests; }
+
 	void Init();
 	void Save() const;
 };

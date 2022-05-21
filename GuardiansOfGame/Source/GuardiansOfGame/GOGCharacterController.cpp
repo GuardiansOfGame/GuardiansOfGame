@@ -4,10 +4,12 @@
 
 #include "DialogueWidget.h"
 #include "GOGCharacter.h"
+#include "GOGCharacterStatComponent.h"
 #include "GOGGameInstance.h"
 #include "GOGCharacterWidget.h"
 #include "HealthBar.h"
 #include "PauseWidget.h"
+#include "QuestLogWidget.h"
 
 AGOGCharacterController::AGOGCharacterController()
 {
@@ -50,6 +52,7 @@ void AGOGCharacterController::OnPossess(APawn* InPawn)
 		SetStaminaBarPercent(GOGCharacter->GetCurrentStamina(), GOGCharacter->GetMaxStamina());
 
 		GOGCharacterWidget->AddToViewport();
+		GOGCharacterWidget->GetQuestLogWidget()->SetVisibility(ESlateVisibility::Hidden);
 	}
 
 	if (PauseWidgetClass)
@@ -82,10 +85,18 @@ void AGOGCharacterController::BeginPlay()
 	SetInputMode(FInputModeGameOnly());
 	bShowMouseCursor = false;
 
-	GameInstance = Cast<UGOGGameInstance>(GetWorld()->GetGameInstance());
-	if (GameInstance)
+	const UGOGCharacterStatComponent* StatComponent = GOGCharacter->GetGOGCharacterStatComponent();
+	const int CurQuestNum = StatComponent->GetCurQuestNum();
+	if(StatComponent)
 	{
-		GOGCharacterWidget->Init(GameInstance->GetQuests()[0]);
+		GOGCharacterWidget->InitQuestLog(StatComponent->GetQuests()[CurQuestNum]);
+
+		const bool QuestAccept = StatComponent->GetQuestProgress().CurQuestAccept;
+		if(QuestAccept)
+		{
+			GOGCharacterWidget->GetQuestLogWidget()->SetVisibility(ESlateVisibility::Visible);
+			SetQuestLogVisibillity(StatComponent);
+		}
 	}
 }
 
@@ -153,4 +164,13 @@ void AGOGCharacterController::SetStaminaBarPercent(const float CurrentStamina, c
 void AGOGCharacterController::SetStaminaBarColor(const EStaminaStatus Status) const
 {
 	GOGCharacterWidget->SetStaminaBarColor(Status);
+}
+
+void AGOGCharacterController::SetQuestLogVisibillity(const class UGOGCharacterStatComponent* StatComponent) const
+{
+	const bool QuestAccept = StatComponent->GetQuestProgress().CurQuestAccept;
+	if (QuestAccept)
+	{
+		GOGCharacterWidget->GetQuestLogWidget()->SetVisibility(ESlateVisibility::Visible);
+	}
 }
