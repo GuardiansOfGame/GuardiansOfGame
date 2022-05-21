@@ -74,4 +74,11 @@ Plugins/*/Intermediate/*
 */DerivedDataCache
 
 # Custom
-*/Content
+*/Content/Font
+*/Content/Geometry
+*/Content/Ruined_Village
+*/Content/Sky_Dungeon
+*/Content/Sound
+*/Content/StarterContent
+*/Content/WizardCharacter
+*/Content/YBot
