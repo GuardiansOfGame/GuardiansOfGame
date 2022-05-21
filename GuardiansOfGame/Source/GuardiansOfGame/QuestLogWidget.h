@@ -32,6 +32,9 @@ class GUARDIANSOFGAME_API UQuestLogWidget final : public UUserWidget
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* Task2;
 
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* Task3;
+
 	UPROPERTY(VisibleAnywhere)
 	FQuest Quest;
 

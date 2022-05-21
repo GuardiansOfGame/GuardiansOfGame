@@ -13,4 +13,5 @@ void UQuestLogWidget::Init(const FQuest InputQuest)
 	Task0->SetText(Quest.Tasks[0].Content);
 	Task1->SetText(Quest.Tasks[1].Content);
 	Task2->SetText(Quest.Tasks[2].Content);
+	Task3->SetText(Quest.Tasks[3].Content);
 }

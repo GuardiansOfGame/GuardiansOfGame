@@ -43,6 +43,7 @@ void UGOGGameInstance::Init()
 		Quests[i].Tasks[0].Content = FText::FromString((*QuestDataTableRow).Task0);
 		Quests[i].Tasks[1].Content = FText::FromString((*QuestDataTableRow).Task1);
 		Quests[i].Tasks[2].Content = FText::FromString((*QuestDataTableRow).Task2);
+		Quests[i].Tasks[3].Content = FText::FromString((*QuestDataTableRow).Task3);
 	}
 }
 

@@ -30,4 +30,6 @@ struct FQuestDataTable : public FTableRowBase
 	FString Task1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Task2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Task3;
 };
