@@ -18,7 +18,7 @@ AWeapon::AWeapon()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	SetRootComponent(Mesh);
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> WeaponMesh(TEXT("SkeletalMesh'/Game/WizardCharacter/Weapon/hammer.hammer'"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> WeaponMesh(TEXT("SkeletalMesh'/Game/CustomContent/Weapon/hammer.hammer'"));
 	if (WeaponMesh.Succeeded())
 	{
 		Mesh->SetSkeletalMesh(WeaponMesh.Object);

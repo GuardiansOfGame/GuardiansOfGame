@@ -6,7 +6,7 @@
 
 ATitlePlayerController::ATitlePlayerController()
 {
-	static ConstructorHelpers::FClassFinder<UTitleWidget> TitleWidgetClassAsset(TEXT("WidgetBlueprint'/Game/Widgets/TitleWidget_BP.TitleWidget_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UTitleWidget> TitleWidgetClassAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/TitleWidget_BP.TitleWidget_BP_C'"));
 	if (TitleWidgetClassAsset.Succeeded())
 	{
 		TitleWidgetClass = TitleWidgetClassAsset.Class;

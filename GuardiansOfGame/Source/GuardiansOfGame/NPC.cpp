@@ -34,7 +34,7 @@ ANPC::ANPC()
 		}
 	}
 
-	static ConstructorHelpers::FClassFinder<UAnimInstance> NPCAnimInstance(TEXT("AnimBlueprint'/Game/WizardCharacter/Character/Animations/NPC/NPCAnimInstance_BP.NPCAnimInstance_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> NPCAnimInstance(TEXT("AnimBlueprint'/Game/CustomContent/CharacterAnimations/NPC/NPCAnimInstance_BP.NPCAnimInstance_BP_C'"));
 	if (NPCAnimInstance.Succeeded())
 	{
 		Mesh->SetAnimInstanceClass(NPCAnimInstance.Class);
@@ -50,7 +50,7 @@ ANPC::ANPC()
 	KeyWidgetComponent->SetRelativeScale3D(FVector(0.4f));
 	KeyWidgetComponent->SetRelativeLocationAndRotation(FVector(-4.0f, 15.0f, 210.0f), FRotator(0.0f, 90.0f, 0.0f));
 
-	static ConstructorHelpers::FClassFinder<UKeyWidget> KeyWidgetAsset(TEXT("WidgetBlueprint'/Game/Widgets/KeyWidget_BP.KeyWidget_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UKeyWidget> KeyWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/KeyWidget_BP.KeyWidget_BP_C'"));
 	if(KeyWidgetAsset.Succeeded())
 	{
 		KeyWidgetComponent->SetWidgetClass(KeyWidgetAsset.Class);

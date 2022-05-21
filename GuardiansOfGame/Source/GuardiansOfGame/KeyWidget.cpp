@@ -6,8 +6,8 @@
 
 UKeyWidget::UKeyWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	FrameImage = LoadObject<UTexture2D>(nullptr, TEXT("Texture2D'/Game/Image/KeyFrameImage.KeyFrameImage'"));
-	KeyImage = LoadObject<UTexture2D>(nullptr, TEXT("Texture2D'/Game/Image/FKeyInsideImage.FKeyInsideImage'"));
+	FrameImage = LoadObject<UTexture2D>(nullptr, TEXT("Texture2D'/Game/CustomContent/Image/KeyFrameImage.KeyFrameImage'"));
+	KeyImage = LoadObject<UTexture2D>(nullptr, TEXT("Texture2D'/Game/CustomContent/Image/FKeyInsideImage.FKeyInsideImage'"));
 }
 
 void UKeyWidget::NativeConstruct()

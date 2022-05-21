@@ -18,7 +18,7 @@ UGOGGameInstance::UGOGGameInstance()
 		QuestProgress.QuestSuccessArr[i] = false;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UDataTable> QuestDataTableAsset(TEXT("DataTable'/Game/DataTable/QuestDataTable.QuestDataTable'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> QuestDataTableAsset(TEXT("DataTable'/Game/CustomContent/DataTable/QuestDataTable.QuestDataTable'"));
 	if(QuestDataTableAsset.Succeeded())
 	{
 		QuestDataTable = QuestDataTableAsset.Object;

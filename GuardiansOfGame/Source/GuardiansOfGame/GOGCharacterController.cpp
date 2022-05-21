@@ -13,25 +13,25 @@
 
 AGOGCharacterController::AGOGCharacterController()
 {
-	static ConstructorHelpers::FClassFinder<UGOGCharacterWidget> GOGCharacterWidgetAsset(TEXT("WidgetBlueprint'/Game/Widgets/GOGCharacterWidget_BP.GOGCharacterWidget_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UGOGCharacterWidget> GOGCharacterWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/GOGCharacterWidget_BP.GOGCharacterWidget_BP_C'"));
 	if (GOGCharacterWidgetAsset.Succeeded())
 	{
 		GOGCharacterWidgetClass = GOGCharacterWidgetAsset.Class;
 	}
 
-	static ConstructorHelpers::FClassFinder<UPauseWidget> PauseWidgetAsset(TEXT("WidgetBlueprint'/Game/Widgets/PauseWidget_BP.PauseWidget_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UPauseWidget> PauseWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/PauseWidget_BP.PauseWidget_BP_C'"));
 	if (PauseWidgetAsset.Succeeded())
 	{
 		PauseWidgetClass = PauseWidgetAsset.Class;
 	}
 
-	static ConstructorHelpers::FClassFinder<UDialogueWidget> DialogueWidgetAsset(TEXT("WidgetBlueprint'/Game/Widgets/DialogueWidget_BP.DialogueWidget_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UDialogueWidget> DialogueWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/DialogueWidget_BP.DialogueWidget_BP_C'"));
 	if (DialogueWidgetAsset.Succeeded())
 	{
 		DialogueWidgetClass = DialogueWidgetAsset.Class;
 	}
 
-	static ConstructorHelpers::FClassFinder<UHealthBar> MonsterHealthWidgetAsset(TEXT("WidgetBlueprint'/Game/Widgets/HealthBar_BP.HealthBar_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UHealthBar> MonsterHealthWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/HealthBar_BP.HealthBar_BP_C'"));
 	if (MonsterHealthWidgetAsset.Succeeded())
 	{
 		MonsterHealthWidgetClass = MonsterHealthWidgetAsset.Class;

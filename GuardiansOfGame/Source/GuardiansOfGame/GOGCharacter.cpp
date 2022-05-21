@@ -56,7 +56,7 @@ AGOGCharacter::AGOGCharacter()
 		GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -93.0f), FRotator(0.0f, -90.0f, 0.0f));
 	}
 
-	static ConstructorHelpers::FClassFinder<UAnimInstance> GOGAnimInstanceAsset(TEXT("AnimBlueprint'/Game/WizardCharacter/Character/Animations/GOGAnimInstance_BP.GOGAnimInstance_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> GOGAnimInstanceAsset(TEXT("AnimBlueprint'/Game/CustomContent/CharacterAnimations/GOGAnimInstance_BP.GOGAnimInstance_BP_C'"));
 	if (GOGAnimInstanceAsset.Succeeded())
 	{
 		GetMesh()->SetAnimInstanceClass(GOGAnimInstanceAsset.Class);
