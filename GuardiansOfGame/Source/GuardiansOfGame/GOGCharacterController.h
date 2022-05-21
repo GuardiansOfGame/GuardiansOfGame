@@ -56,5 +56,7 @@ public:
 
 	void SetStaminaBarColor(const EStaminaStatus Status) const;
 
-	void SetQuestLogVisibillity(const class UGOGCharacterStatComponent* StatComponent) const;
+	void InitQuestLog(const class UGOGCharacterStatComponent* StatComponent, const int CurQuestNum) const;
+
+	void SetQuestLogVisibillity(const UGOGCharacterStatComponent* StatComponent, const bool bForceHidden = false) const;
 };

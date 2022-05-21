@@ -483,7 +483,7 @@ bool AGOGCharacter::CanMove(const float Value) const
 	return false;
 }
 
-void AGOGCharacter::SetQuestProgress()
+void AGOGCharacter::SetQuestProgress(const bool bChatEnded)
 {
 	UIOn();
 	EnableInput(GOGController);
@@ -509,6 +509,7 @@ void AGOGCharacter::SetQuestProgress()
 			Stat->SetQuestAcceptArr(CurQuestNum, true);
 
 			QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Handle);
+			GOGController->SetQuestLogVisibillity(Stat);
 		}
 		break;
 	case 1:
@@ -517,17 +518,28 @@ void AGOGCharacter::SetQuestProgress()
 			if (Stat->GetQuestProgress().CurQuestSuccess)
 			{
 				QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Success);
+
+				if(bChatEnded)
+				{
+					Stat->SetCurQuestNum(MAX_QUEST_NUM);
+					GOGController->SetQuestLogVisibillity(Stat, true);
+				}
 			}
 			else
 			{
 				Stat->SetQuestAcceptArr(CurQuestNum, true);
 				QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Handle);
+
+				GOGController->InitQuestLog(Stat, CurQuestNum);
+				GOGController->SetQuestLogVisibillity(Stat);
 			}
 		}
 		else
 		{
 			Stat->SetCurQuestAccept(true);
 			QuestNPC->SetCurDialogue(QuestNPC->GetQuestDialogue(CurQuestNum).Give);
+
+			GOGController->SetQuestLogVisibillity(Stat, true);
 		}
 		break;
 	default:

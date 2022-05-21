@@ -38,6 +38,10 @@ void AQuestNPC::BeginPlay()
 	if(GameInstance)
 	{
 		const int CurQuestNum = GameInstance->GetCurQuestNum();
+		if(CurQuestNum == MAX_QUEST_NUM)
+		{
+			return;
+		}
 
 		if(GameInstance->GetQuestProgress().QuestAcceptArr[CurQuestNum])
 		{

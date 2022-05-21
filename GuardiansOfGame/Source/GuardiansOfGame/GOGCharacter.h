@@ -245,7 +245,7 @@ public:
 
 	bool CanMove(const float Value) const;
 
-	void SetQuestProgress();
+	void SetQuestProgress(const bool bChatEnded = false);
 
 	void SwitchLevel(const FName LevelName) const;
 

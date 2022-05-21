@@ -87,14 +87,27 @@ void AGOGCharacterController::BeginPlay()
 
 	const UGOGCharacterStatComponent* StatComponent = GOGCharacter->GetGOGCharacterStatComponent();
 	const int CurQuestNum = StatComponent->GetCurQuestNum();
+
+	if(CurQuestNum == MAX_QUEST_NUM)
+	{
+		return;
+	}
+
 	if(StatComponent)
 	{
-		GOGCharacterWidget->InitQuestLog(StatComponent->GetQuests()[CurQuestNum]);
+		InitQuestLog(StatComponent, CurQuestNum);
 
 		const bool QuestAccept = StatComponent->GetQuestProgress().CurQuestAccept;
+		const bool QuestSuccess = StatComponent->GetQuestProgress().CurQuestSuccess;
+
+		if(CurQuestNum == MAX_QUEST_NUM && QuestSuccess)
+		{
+			SetQuestLogVisibillity(StatComponent, true);
+			return;
+		}
+
 		if(QuestAccept)
 		{
-			GOGCharacterWidget->GetQuestLogWidget()->SetVisibility(ESlateVisibility::Visible);
 			SetQuestLogVisibillity(StatComponent);
 		}
 	}
@@ -120,7 +133,7 @@ void AGOGCharacterController::EndChat()
 
 	DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
 
-	GOGCharacter->SetQuestProgress();
+	GOGCharacter->SetQuestProgress(true);
 }
 
 void AGOGCharacterController::TogglePause(const bool bPause)
@@ -166,11 +179,26 @@ void AGOGCharacterController::SetStaminaBarColor(const EStaminaStatus Status) co
 	GOGCharacterWidget->SetStaminaBarColor(Status);
 }
 
-void AGOGCharacterController::SetQuestLogVisibillity(const class UGOGCharacterStatComponent* StatComponent) const
+void AGOGCharacterController::InitQuestLog(const class UGOGCharacterStatComponent* StatComponent, const int CurQuestNum) const
 {
+	GOGCharacterWidget->InitQuestLog(StatComponent->GetQuests()[CurQuestNum]);
+}
+
+void AGOGCharacterController::SetQuestLogVisibillity(const class UGOGCharacterStatComponent* StatComponent, const bool bForceHidden) const
+{
+	if (bForceHidden)
+	{
+		GOGCharacterWidget->GetQuestLogWidget()->SetVisibility(ESlateVisibility::Hidden);
+		return;
+	}
+
 	const bool QuestAccept = StatComponent->GetQuestProgress().CurQuestAccept;
 	if (QuestAccept)
 	{
 		GOGCharacterWidget->GetQuestLogWidget()->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		GOGCharacterWidget->GetQuestLogWidget()->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
