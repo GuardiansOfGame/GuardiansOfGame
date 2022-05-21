@@ -40,4 +40,6 @@ class GUARDIANSOFGAME_API UQuestLogWidget final : public UUserWidget
 
 public:
 	void Init(const FQuest InputQuest);
+
+	void SetTaskText(UTextBlock* TaskTextBlock, const int TaskNum);
 };
