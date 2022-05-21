@@ -6,7 +6,7 @@
 #include "QuestLogWidget.h"
 #include "StaminaBar.h"
 
-void UGOGCharacterWidget::Init(const FQuest InputQuest)
+void UGOGCharacterWidget::InitQuestLog(const FQuest InputQuest) const
 {
 	QuestLog->Init(InputQuest);
 }

@@ -43,7 +43,9 @@ class GUARDIANSOFGAME_API UGOGCharacterWidget final : public UUserWidget
 	class UQuestLogWidget* QuestLog;
 
 public:
-	void Init(const FQuest InputQuest);
+	FORCEINLINE UQuestLogWidget* GetQuestLogWidget() const { return QuestLog; }
+
+	void InitQuestLog(const FQuest InputQuest) const;
 
 	void SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const;
 	void SetStaminaBarPercent(const float CurrentStamina, const float MaxStamina) const;
