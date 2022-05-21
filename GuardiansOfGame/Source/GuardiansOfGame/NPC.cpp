@@ -90,3 +90,8 @@ void ANPC::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 		KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition(), 0.0f, 1, EUMGSequencePlayMode::Reverse);
 	}
 }
+
+void ANPC::KeyWidgetOn() const
+{
+	KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition());
+}

@@ -44,4 +44,6 @@ protected:
 	
 public:
 	FORCEINLINE UWidgetComponent* GetKeyWidgetComponent() const { return KeyWidgetComponent; }
+
+	void KeyWidgetOn() const;
 };

@@ -458,6 +458,7 @@ void AGOGCharacter::UIOn() const
 	if (InteractingNPC)
 	{
 		InteractingNPC->GetKeyWidgetComponent()->SetVisibility(true);
+		InteractingNPC->KeyWidgetOn();
 	}
 }
 
