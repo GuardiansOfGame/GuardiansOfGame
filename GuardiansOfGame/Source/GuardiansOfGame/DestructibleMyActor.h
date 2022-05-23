@@ -16,15 +16,15 @@ public:
 	// Sets default values for this actor's properties
 	ADestructibleMyActor();
 	UFUNCTION()
-		void Trigger(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void Trigger(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	void Destroy(float Damage, FVector HitLocation, FVector ImpulseDir, float Impulse);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Destructible)
-		class UBoxComponent* TriggerComponent;
+	class UBoxComponent* TriggerComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Destructible)
-		class UDestructibleComponent* DestructibleComponent;
+	class UDestructibleComponent* DestructibleComponent;
 
 
 protected:
