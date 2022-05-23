@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GOGCharacter.h"
 
@@ -12,6 +12,7 @@
 #include "GOGCharacterAnimInstance.h"
 #include "GOGCharacterController.h"
 #include "GOGCharacterStatComponent.h"
+#include "Item.h"
 #include "OcclusionChecker.h"
 #include "ParkourLineTracer.h"
 #include "QuestNPC.h"
@@ -69,6 +70,7 @@ AGOGCharacter::AGOGCharacter()
 	Stat = CreateDefaultSubobject<UGOGCharacterStatComponent>(TEXT("Stat"));
 
 	InteractingNPC = nullptr;
+	InteractingItem = nullptr;
 
 	RunningSpeed = 650.0f;
 	SprintingSpeed = 950.0f;
@@ -340,8 +342,15 @@ void AGOGCharacter::Interaction()
 		break;
 
 	case EInteractionStatus::EIS_PickUpItem:
-		// TODO: ¾ÆÀÌÅÛ È¹µæ ±â´É Ãß°¡ÇÏ±â
+		// TODO: ì•„ì´í…œ íšë“ ê¸°ëŠ¥ ì¶”ê°€í•˜ê¸°
 		UE_LOG(LogTemp, Warning, TEXT("EIS_PickUpItem"));
+		if(InteractingItem)
+		{
+			InteractingItem->Destroy();
+			InteractingItem = nullptr;
+
+			InteractionStatus = EInteractionStatus::EIS_Normal;
+		}
 		break;
 
 	default:

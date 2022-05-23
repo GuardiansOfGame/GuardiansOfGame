@@ -85,7 +85,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
 	EMovementStatus MovementStatus;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Status, meta = (AllowPrivateAccess = "true"))
 	EStaminaStatus StaminaStatus;
 
 	UPROPERTY(VisibleAnywhere, Category = Status)
@@ -93,6 +93,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	class ANPC* InteractingNPC;
+
+	UPROPERTY(VisibleAnywhere, Category = Status)
+	class AItem* InteractingItem;
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	float RunningSpeed;
@@ -210,6 +213,9 @@ public:
 
 	FORCEINLINE ANPC* GetInteractingNPC() const { return InteractingNPC; }
 	FORCEINLINE void SetInteractingNPC(ANPC* NPC) { InteractingNPC = NPC; }
+
+	FORCEINLINE AItem* GetInteractingItem() const { return InteractingItem; }
+	FORCEINLINE void SetInteractingItem(AItem* Item) { InteractingItem = Item; }
 
 	FORCEINLINE void SetIsBattling(const bool bValue) { bIsBattling = bValue; }
 

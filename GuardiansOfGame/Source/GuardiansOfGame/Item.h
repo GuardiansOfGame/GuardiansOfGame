@@ -21,7 +21,7 @@ protected:
 
 public:	
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void Tick(const float DeltaTime) override;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Mesh)
@@ -30,7 +30,18 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Collision)
 	class USphereComponent* Collision;
 
-public:
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	class UWidgetComponent* KeyWidgetComponent;
+
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	class UKeyWidget* KeyWidget;
+
+protected:
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+	virtual void OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+public:
+	void KeyWidgetOn() const;
 };
