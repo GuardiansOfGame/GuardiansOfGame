@@ -143,3 +143,22 @@ struct FQuest
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FTask> Tasks;
 };
+
+USTRUCT(Atomic, BlueprintType)
+struct FCustomItemInfo
+{
+	GENERATED_BODY()
+
+	FCustomItemInfo() : Item(nullptr), Image(nullptr)
+	{}
+
+	FCustomItemInfo(AActor* Item, UTexture2D* Image)
+		: Item(Item), Image(Image)
+	{}
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	AActor* Item;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UTexture2D* Image;
+};
