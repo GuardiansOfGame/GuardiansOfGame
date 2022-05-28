@@ -3,11 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "ItemInterface.h"
+
 #include "GameFramework/Actor.h"
 #include "Item.generated.h"
 
 UCLASS()
-class GUARDIANSOFGAME_API AItem : public AActor
+class GUARDIANSOFGAME_API AItem : public AActor, public IItemInterface
 {
 	GENERATED_BODY()
 	
@@ -46,4 +49,6 @@ public:
 	void KeyWidgetOn() const;
 
 	void PickUp();
+
+	virtual void UseItem() override;
 };

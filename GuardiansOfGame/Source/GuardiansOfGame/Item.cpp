@@ -95,3 +95,7 @@ void AItem::PickUp()
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
 }
+
+void AItem::UseItem()
+{
+}
