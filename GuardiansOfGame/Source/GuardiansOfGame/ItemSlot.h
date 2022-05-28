@@ -27,6 +27,13 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UImage* ItemImage;
 
+	UPROPERTY(VisibleAnywhere, Category = SlotInfo)
+	UTexture2D* ItemTexture;
+
+	UPROPERTY(VisibleAnywhere, Category = SlotInfo)
+	FSlateBrush ItemImageBrush;
+
+	UPROPERTY(EditAnywhere, Category = SlotInfo)
 	int SlotNumber;
 
 protected:

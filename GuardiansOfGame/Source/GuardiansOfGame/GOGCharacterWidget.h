@@ -18,6 +18,10 @@ class GUARDIANSOFGAME_API UGOGCharacterWidget final : public UUserWidget
 {
 	GENERATED_BODY()
 
+protected:
+	virtual void NativeConstruct() override;
+
+private:
 	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* CanvasPanel;
 
@@ -41,6 +45,27 @@ class GUARDIANSOFGAME_API UGOGCharacterWidget final : public UUserWidget
 
 	UPROPERTY(meta = (BindWidget))
 	class UQuestLogWidget* QuestLog;
+
+	UPROPERTY(meta = (BindWidget))
+	class UItemSlot* ItemSlot0;
+
+	UPROPERTY(meta = (BindWidget))
+	UItemSlot* ItemSlot1;
+
+	UPROPERTY(meta = (BindWidget))
+	UItemSlot* ItemSlot2;
+
+	UPROPERTY(meta = (BindWidget))
+	UItemSlot* ItemSlot3;
+
+	UPROPERTY(meta = (BindWidget))
+	UItemSlot* ItemSlot4;
+
+	UPROPERTY(meta = (BindWidgetAnim), Transient)
+	UWidgetAnimation* InventoryPopUp;
+
+	UPROPERTY(VisibleAnywhere, Category = Inventory)
+	TArray<UItemSlot*> ItemSlotArray;
 
 public:
 	FORCEINLINE UQuestLogWidget* GetQuestLogWidget() const { return QuestLog; }

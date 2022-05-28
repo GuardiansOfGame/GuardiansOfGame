@@ -28,6 +28,8 @@ public:
 #define MAX_QUEST_NUM 2
 #define TASK_NUM 4
 
+#define MAX_ITEM_NUM 5
+
 USTRUCT(Atomic, BlueprintType)
 struct FDialogueStrings
 {

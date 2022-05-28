@@ -2,7 +2,9 @@
 
 #include "ItemSlot.h"
 
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Button.h"
+#include "Components/Image.h"
 
 void UItemSlot::NativeConstruct()
 {
@@ -10,6 +12,9 @@ void UItemSlot::NativeConstruct()
 
 	SlotNumber = 0;
 	ItemSlotButton->OnClicked.AddDynamic(this, &UItemSlot::ItemSlotClicked);
+
+	ItemImageBrush = UWidgetBlueprintLibrary::MakeBrushFromTexture(ItemTexture);
+	ItemImage->SetBrush(ItemImageBrush);
 }
 
 void UItemSlot::NativeDestruct()

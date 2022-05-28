@@ -6,6 +6,11 @@
 #include "QuestLogWidget.h"
 #include "StaminaBar.h"
 
+void UGOGCharacterWidget::NativeConstruct()
+{
+	ItemSlotArray = { ItemSlot0, ItemSlot1, ItemSlot2, ItemSlot3, ItemSlot4 };
+}
+
 void UGOGCharacterWidget::InitQuestLog(const FQuest InputQuest) const
 {
 	QuestLog->Init(InputQuest);
