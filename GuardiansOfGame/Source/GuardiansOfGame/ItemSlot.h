@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "ItemSlot.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDele_Dynamic_OneParam, int, SlotNumber);
+
 /**
  * 
  */
@@ -23,9 +25,15 @@ private:
 	class UButton* ItemSlotButton;
 
 	UPROPERTY(meta = (BindWidget))
-	UTexture2D* ItemImage;
+	class UImage* ItemImage;
+
+	int SlotNumber;
 
 protected:
 	UFUNCTION()
 	void ItemSlotClicked();
+
+public:
+	UPROPERTY(BlueprintAssignable, VisibleAnywhere, BlueprintCallable, Category = Event)
+	FDele_Dynamic_OneParam ItemSlotClicked_Dynamic;
 };
