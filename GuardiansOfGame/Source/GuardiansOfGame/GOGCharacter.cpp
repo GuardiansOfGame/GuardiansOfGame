@@ -346,7 +346,7 @@ void AGOGCharacter::Interaction()
 		UE_LOG(LogTemp, Warning, TEXT("EIS_PickUpItem"));
 		if(InteractingItem)
 		{
-			InteractingItem->Destroy();
+			InteractingItem->PickUp();
 			InteractingItem = nullptr;
 
 			InteractionStatus = EInteractionStatus::EIS_Normal;

@@ -44,4 +44,6 @@ protected:
 
 public:
 	void KeyWidgetOn() const;
+
+	void PickUp();
 };

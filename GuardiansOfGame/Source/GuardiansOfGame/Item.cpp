@@ -89,3 +89,9 @@ void AItem::KeyWidgetOn() const
 {
 	KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition());
 }
+
+void AItem::PickUp()
+{
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
+}
