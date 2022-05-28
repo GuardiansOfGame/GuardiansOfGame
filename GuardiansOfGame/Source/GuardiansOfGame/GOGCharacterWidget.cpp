@@ -9,6 +9,7 @@
 void UGOGCharacterWidget::NativeConstruct()
 {
 	ItemSlotArray = { ItemSlot0, ItemSlot1, ItemSlot2, ItemSlot3, ItemSlot4 };
+	PlayAnimation(InventoryPopUp);
 }
 
 void UGOGCharacterWidget::InitQuestLog(const FQuest InputQuest) const

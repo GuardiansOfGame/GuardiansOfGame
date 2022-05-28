@@ -64,7 +64,7 @@ private:
 	UPROPERTY(meta = (BindWidgetAnim), Transient)
 	UWidgetAnimation* InventoryPopUp;
 
-	UPROPERTY(VisibleAnywhere, Category = Inventory)
+	UPROPERTY()
 	TArray<UItemSlot*> ItemSlotArray;
 
 public:
