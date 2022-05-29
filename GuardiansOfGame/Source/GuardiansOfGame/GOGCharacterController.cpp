@@ -179,6 +179,40 @@ void AGOGCharacterController::SetStaminaBarColor(const EStaminaStatus Status) co
 	GOGCharacterWidget->SetStaminaBarColor(Status);
 }
 
+void AGOGCharacterController::ToggleInventory(const bool bVisible)
+{
+	if(bVisible)
+	{
+		SetInputMode(FInputModeGameAndUI());
+		bShowMouseCursor = true;
+
+		GOGCharacter->SetInventoryOpened(true);
+		GOGCharacter->SetInventoryAnimPlaying(true);
+
+		GOGCharacterWidget->ViewInventory();
+
+		FTimerHandle UIAnimDelayTimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(UIAnimDelayTimerHandle, FTimerDelegate::CreateLambda([&]() {
+			GOGCharacter->SetInventoryAnimPlaying(false);
+		}), 0.3f, false);
+	}
+	else
+	{
+		SetInputMode(FInputModeGameOnly());
+		bShowMouseCursor = false;
+
+		GOGCharacter->SetInventoryOpened(false);
+		GOGCharacter->SetInventoryAnimPlaying(true);
+
+		GOGCharacterWidget->HideInventory();
+
+		FTimerHandle UIAnimDelayTimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(UIAnimDelayTimerHandle, FTimerDelegate::CreateLambda([&]() {
+			GOGCharacter->SetInventoryAnimPlaying(false);
+		}), 0.3f, false);
+	}
+}
+
 void AGOGCharacterController::InitQuestLog(const class UGOGCharacterStatComponent* StatComponent, const int CurQuestNum) const
 {
 	GOGCharacterWidget->InitQuestLog(StatComponent->GetQuests()[CurQuestNum]);

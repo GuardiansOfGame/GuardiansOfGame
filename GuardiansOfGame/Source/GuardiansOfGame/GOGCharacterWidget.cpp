@@ -3,13 +3,18 @@
 #include "GOGCharacterWidget.h"
 
 #include "HealthBar.h"
+#include "ItemSlot.h"
 #include "QuestLogWidget.h"
 #include "StaminaBar.h"
 
 void UGOGCharacterWidget::NativeConstruct()
 {
 	ItemSlotArray = { ItemSlot0, ItemSlot1, ItemSlot2, ItemSlot3, ItemSlot4 };
-	PlayAnimation(InventoryPopUp);
+
+	for (UItemSlot* ItemSlot : ItemSlotArray)
+	{
+		ItemSlot->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 void UGOGCharacterWidget::InitQuestLog(const FQuest InputQuest) const
@@ -30,4 +35,27 @@ void UGOGCharacterWidget::SetStaminaBarPercent(const float CurrentStamina, const
 void UGOGCharacterWidget::SetStaminaBarColor(const EStaminaStatus Status) const
 {
 	StaminaBar->SetStaminaBarColor(Status);
+}
+
+void UGOGCharacterWidget::ViewInventory()
+{
+	for (UItemSlot* ItemSlot : ItemSlotArray)
+	{
+		ItemSlot->SetVisibility(ESlateVisibility::Visible);
+	}
+
+	PlayAnimation(InventoryPopUp);
+}
+
+void UGOGCharacterWidget::HideInventory()
+{
+	PlayAnimation(InventoryPopUp, 0.0f, 1, EUMGSequencePlayMode::Reverse);
+
+	FTimerHandle UIAnimDelayTimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(UIAnimDelayTimerHandle, FTimerDelegate::CreateLambda([&]() {
+		for (UItemSlot* ItemSlot : ItemSlotArray)
+		{
+			ItemSlot->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}), 0.3f, false);
 }

@@ -172,6 +172,12 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 	float MinSprintStamina;
 
+	UPROPERTY(VisibleAnywhere, Category = Inventory)
+	bool bInventoryOpened;
+
+	UPROPERTY(VisibleAnywhere, Category = Inventory)
+	bool bInventoryAnimPlaying;
+
 protected:
 	void MoveForward(const float Value);
 	void MoveRight(const float Value);
@@ -194,6 +200,8 @@ protected:
 
 	void ShiftKeyDown();
 	void ShiftKeyUp();
+
+	void InventoryOnOff();
 
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -243,6 +251,10 @@ public:
 
 	FORCEINLINE float GetMaxStamina() const { return MaxStamina; }
 	FORCEINLINE float GetCurrentStamina() const { return CurrentStamina; }
+
+	FORCEINLINE void SetInventoryOpened(const bool bValue) { bInventoryOpened = bValue; }
+
+	FORCEINLINE void SetInventoryAnimPlaying(const bool bValue) { bInventoryAnimPlaying = bValue; }
 
 	void SetMovementStatus(const EMovementStatus Status);
 

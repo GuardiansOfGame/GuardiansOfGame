@@ -110,6 +110,9 @@ AGOGCharacter::AGOGCharacter()
 
 	StaminaDrainRate = 15.0f;
 	MinSprintStamina = 30.0f;
+
+	bInventoryOpened = false;
+	bInventoryAnimPlaying = false;
 }
 
 // Called when the game starts or when spawned
@@ -269,6 +272,8 @@ void AGOGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AGOGCharacter::ShiftKeyDown);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AGOGCharacter::ShiftKeyUp);
+
+	PlayerInputComponent->BindAction("Inventory",IE_Pressed, this, &AGOGCharacter::InventoryOnOff);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGOGCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGOGCharacter::MoveRight);
@@ -446,6 +451,14 @@ void AGOGCharacter::ShiftKeyDown()
 void AGOGCharacter::ShiftKeyUp()
 {
 	bShiftKeyDown = false;
+}
+
+void AGOGCharacter::InventoryOnOff()
+{
+	if(!bInventoryAnimPlaying)
+	{
+		GOGController->ToggleInventory(!bInventoryOpened);
+	}
 }
 
 void AGOGCharacter::SetMovementStatus(const EMovementStatus Status)

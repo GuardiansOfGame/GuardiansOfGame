@@ -60,4 +60,6 @@ public:
 	void UpdateQuestLog(UGOGCharacterStatComponent* StatComponent, const int TaskNum) const;
 
 	void SetQuestLogVisibillity(const UGOGCharacterStatComponent* StatComponent, const bool bForceHidden = false) const;
+
+	void ToggleInventory(const bool bVisible);
 };

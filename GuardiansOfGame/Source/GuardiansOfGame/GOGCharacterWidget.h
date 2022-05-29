@@ -76,4 +76,7 @@ public:
 	void SetStaminaBarPercent(const float CurrentStamina, const float MaxStamina) const;
 
 	void SetStaminaBarColor(const EStaminaStatus Status) const;
+
+	void ViewInventory();
+	void HideInventory();
 };
