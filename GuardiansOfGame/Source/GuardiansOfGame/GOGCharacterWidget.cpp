@@ -15,6 +15,8 @@ void UGOGCharacterWidget::NativeConstruct()
 	{
 		ItemSlot->SetVisibility(ESlateVisibility::Hidden);
 	}
+
+	Inventory = {};
 }
 
 void UGOGCharacterWidget::InitQuestLog(const FQuest InputQuest) const
@@ -58,4 +60,20 @@ void UGOGCharacterWidget::HideInventory()
 			ItemSlot->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}), 0.3f, false);
+}
+
+void UGOGCharacterWidget::AddItem(const FCustomItemInfo ItemInfo)
+{
+	if(Inventory.Num() < MAX_ITEM_NUM)
+	{
+		Inventory.Add(ItemInfo);
+	}
+}
+
+void UGOGCharacterWidget::RefreshInventory()
+{
+	for(int i = 0; i < MAX_ITEM_NUM; ++i)
+	{
+		
+	}
 }

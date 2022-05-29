@@ -67,6 +67,9 @@ private:
 	UPROPERTY()
 	TArray<UItemSlot*> ItemSlotArray;
 
+	UPROPERTY()
+	TArray<FCustomItemInfo> Inventory;
+
 public:
 	FORCEINLINE UQuestLogWidget* GetQuestLogWidget() const { return QuestLog; }
 
@@ -79,4 +82,8 @@ public:
 
 	void ViewInventory();
 	void HideInventory();
+
+	void AddItem(const FCustomItemInfo ItemInfo);
+
+	void RefreshInventory();
 };

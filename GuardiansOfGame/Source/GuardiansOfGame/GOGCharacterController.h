@@ -3,6 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "CustomStruct.h"
+
 #include "GameFramework/PlayerController.h"
 #include "GOGCharacterController.generated.h"
 
@@ -62,4 +65,6 @@ public:
 	void SetQuestLogVisibillity(const UGOGCharacterStatComponent* StatComponent, const bool bForceHidden = false) const;
 
 	void ToggleInventory(const bool bVisible);
+
+	void PickUpItem(const FCustomItemInfo ItemInfo) const;
 };

@@ -352,6 +352,10 @@ void AGOGCharacter::Interaction()
 		if(InteractingItem)
 		{
 			InteractingItem->PickUp();
+
+			const FCustomItemInfo InteractingItemInfo = InteractingItem->GetItemInfo();
+			GOGController->PickUpItem(InteractingItemInfo);
+
 			InteractingItem = nullptr;
 
 			InteractionStatus = EInteractionStatus::EIS_Normal;

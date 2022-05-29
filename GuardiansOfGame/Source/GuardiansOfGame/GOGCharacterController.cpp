@@ -5,7 +5,6 @@
 #include "DialogueWidget.h"
 #include "GOGCharacter.h"
 #include "GOGCharacterStatComponent.h"
-#include "GOGGameInstance.h"
 #include "GOGCharacterWidget.h"
 #include "HealthBar.h"
 #include "PauseWidget.h"
@@ -211,6 +210,11 @@ void AGOGCharacterController::ToggleInventory(const bool bVisible)
 			GOGCharacter->SetInventoryAnimPlaying(false);
 		}), 0.3f, false);
 	}
+}
+
+void AGOGCharacterController::PickUpItem(const FCustomItemInfo ItemInfo) const
+{
+	GOGCharacterWidget->AddItem(ItemInfo);
 }
 
 void AGOGCharacterController::InitQuestLog(const class UGOGCharacterStatComponent* StatComponent, const int CurQuestNum) const
