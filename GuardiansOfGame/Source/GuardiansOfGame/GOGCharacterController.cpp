@@ -6,6 +6,7 @@
 #include "GOGCharacter.h"
 #include "GOGCharacterStatComponent.h"
 #include "GOGCharacterWidget.h"
+#include "GOGGameInstance.h"
 #include "HealthBar.h"
 #include "PauseWidget.h"
 #include "QuestLogWidget.h"
@@ -109,6 +110,13 @@ void AGOGCharacterController::BeginPlay()
 		{
 			SetQuestLogVisibillity(StatComponent);
 		}
+	}
+
+	GameInstance = Cast<UGOGGameInstance>(GetWorld()->GetGameInstance());
+	if(GameInstance)
+	{
+		SetInventory(GameInstance->GetInventory());
+		GOGCharacterWidget->RefreshInventory();
 	}
 }
 

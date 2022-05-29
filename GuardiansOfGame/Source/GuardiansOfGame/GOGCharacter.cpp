@@ -577,7 +577,7 @@ void AGOGCharacter::SwitchLevel(const FName LevelName) const
 	FString CurLevelName = GetWorld()->GetMapName();
 	CurLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
 
-	Stat->Save();
+	Stat->Save(GOGController);
 
 	UGameplayStatics::OpenLevel(GetWorld(), FName(LevelName));
 }

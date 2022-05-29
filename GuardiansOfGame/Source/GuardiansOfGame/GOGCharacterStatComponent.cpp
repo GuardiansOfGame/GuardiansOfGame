@@ -2,6 +2,7 @@
 
 #include "GOGCharacterStatComponent.h"
 
+#include "GOGCharacterController.h"
 #include "GOGGameInstance.h"
 
 // Sets default values for this component's properties
@@ -50,7 +51,7 @@ void UGOGCharacterStatComponent::Init()
 	}
 }
 
-void UGOGCharacterStatComponent::Save() const
+void UGOGCharacterStatComponent::Save(const AGOGCharacterController* Controller) const
 {
 	if (GameInstance)
 	{
@@ -58,5 +59,7 @@ void UGOGCharacterStatComponent::Save() const
 		GameInstance->SetCurQuestNum(CurQuestNum);
 
 		GameInstance->SetQuests(Quests);
+
+		GameInstance->SetInventory(Controller->GetInventory());
 	}
 }

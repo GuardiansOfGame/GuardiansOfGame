@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 
 #include "CustomStruct.h"
+#include "GOGCharacterWidget.h"
 
 #include "GameFramework/PlayerController.h"
 #include "GOGCharacterController.generated.h"
@@ -49,6 +50,9 @@ private:
 	class UHealthBar* MonsterHealthWidget;
 
 public:
+	FORCEINLINE TArray<FCustomItemInfo> GetInventory() const { return GOGCharacterWidget->GetInventory(); }
+	FORCEINLINE void SetInventory(const TArray<FCustomItemInfo> CurrentInventory) const { GOGCharacterWidget->SetInventory(CurrentInventory); }
+
 	void BeginChat(const TArray<FString> Strings, const FString Name);
 	void EndChat();
 

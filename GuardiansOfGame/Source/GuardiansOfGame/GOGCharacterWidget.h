@@ -73,6 +73,9 @@ private:
 public:
 	FORCEINLINE UQuestLogWidget* GetQuestLogWidget() const { return QuestLog; }
 
+	FORCEINLINE TArray<FCustomItemInfo> GetInventory() const { return Inventory; }
+	FORCEINLINE void SetInventory(const TArray<FCustomItemInfo> CurrentInventory) { Inventory = CurrentInventory; }
+
 	void InitQuestLog(const FQuest InputQuest) const;
 
 	void SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const;

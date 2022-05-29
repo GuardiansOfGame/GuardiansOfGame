@@ -29,6 +29,8 @@ UGOGGameInstance::UGOGGameInstance()
 	{
 		Quests[i].Tasks.SetNum(TASK_NUM);
 	}
+
+	Inventory = {};
 }
 
 void UGOGGameInstance::Init()

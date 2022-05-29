@@ -38,6 +38,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Quest)
 	TArray<FQuest> Quests;
 
+	UPROPERTY(VisibleAnywhere, Category = Inventory)
+	TArray<FCustomItemInfo> Inventory;
+
 public:
 	FORCEINLINE FQuestBooleans GetQuestProgress() const { return QuestProgress; }
 	FORCEINLINE void SetQuestProgress(const FQuestBooleans Quest) { QuestProgress = Quest; }
@@ -47,4 +50,7 @@ public:
 
 	FORCEINLINE int GetCurQuestNum() const { return CurQuestNum; }
 	FORCEINLINE void SetCurQuestNum(const int Num) { CurQuestNum = Num; }
+
+	FORCEINLINE TArray<FCustomItemInfo> GetInventory() const { return Inventory; }
+	FORCEINLINE void SetInventory(const TArray<FCustomItemInfo> CurrentInventory) { Inventory = CurrentInventory; }
 };

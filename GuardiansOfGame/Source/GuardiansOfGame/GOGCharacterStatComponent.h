@@ -54,5 +54,5 @@ public:
 	void SetTaskCompleted(const int TaskNum);
 
 	void Init();
-	void Save() const;
+	void Save(const class AGOGCharacterController* Controller) const;
 };
