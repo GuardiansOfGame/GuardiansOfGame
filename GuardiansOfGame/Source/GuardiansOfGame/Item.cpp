@@ -41,6 +41,9 @@ AItem::AItem()
 
 		KeyWidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	}
+
+	UTexture2D* ItemImage = LoadObject<UTexture2D>(nullptr, TEXT("Texture2D'/Game/CustomContent/Image/Item/TetrisBlock1.TetrisBlock1'"));
+	ItemInfo = FCustomItemInfo(this, ItemImage);
 }
 
 // Called when the game starts or when spawned

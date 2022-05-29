@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 
+#include "CustomStruct.h"
 #include "ItemInterface.h"
 
 #include "GameFramework/Actor.h"
@@ -39,6 +40,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Widget)
 	class UKeyWidget* KeyWidget;
 
+	UPROPERTY(VisibleAnywhere, Category = Info)
+	FCustomItemInfo ItemInfo;
+
 protected:
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -46,6 +50,8 @@ protected:
 	virtual void OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 public:
+	FORCEINLINE FCustomItemInfo GetItemInfo() const { return ItemInfo; }
+
 	void KeyWidgetOn() const;
 
 	void PickUp();
