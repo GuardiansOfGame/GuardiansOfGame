@@ -74,6 +74,13 @@ void UGOGCharacterWidget::RefreshInventory()
 {
 	for(int i = 0; i < MAX_ITEM_NUM; ++i)
 	{
-		
+		if(i < Inventory.Num())
+		{
+			ItemSlotArray[i]->SetItemImage(Inventory[i].Image);
+		}
+		else
+		{
+			ItemSlotArray[i]->SetItemImage(nullptr);
+		}
 	}
 }

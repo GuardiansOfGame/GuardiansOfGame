@@ -29,3 +29,11 @@ void UItemSlot::ItemSlotClicked()
 		ItemSlotClicked_Dynamic.Broadcast(SlotNumber);
 	}
 }
+
+void UItemSlot::SetItemImage(UTexture2D* Texture)
+{
+	ItemTexture = Texture;
+
+	ItemImageBrush = UWidgetBlueprintLibrary::MakeBrushFromTexture(ItemTexture);
+	ItemImage->SetBrush(ItemImageBrush);
+}

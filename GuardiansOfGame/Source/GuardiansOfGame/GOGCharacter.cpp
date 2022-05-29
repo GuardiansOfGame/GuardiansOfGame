@@ -351,11 +351,10 @@ void AGOGCharacter::Interaction()
 		UE_LOG(LogTemp, Warning, TEXT("EIS_PickUpItem"));
 		if(InteractingItem)
 		{
-			InteractingItem->PickUp();
-
 			const FCustomItemInfo InteractingItemInfo = InteractingItem->GetItemInfo();
 			GOGController->PickUpItem(InteractingItemInfo);
 
+			InteractingItem->PickUp();
 			InteractingItem = nullptr;
 
 			InteractionStatus = EInteractionStatus::EIS_Normal;

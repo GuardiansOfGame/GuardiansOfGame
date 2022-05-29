@@ -43,4 +43,6 @@ protected:
 public:
 	UPROPERTY(BlueprintAssignable, VisibleAnywhere, BlueprintCallable, Category = Event)
 	FDele_Dynamic_OneParam ItemSlotClicked_Dynamic;
+
+	void SetItemImage(UTexture2D* Texture);
 };

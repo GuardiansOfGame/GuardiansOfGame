@@ -215,6 +215,7 @@ void AGOGCharacterController::ToggleInventory(const bool bVisible)
 void AGOGCharacterController::PickUpItem(const FCustomItemInfo ItemInfo) const
 {
 	GOGCharacterWidget->AddItem(ItemInfo);
+	GOGCharacterWidget->RefreshInventory();
 }
 
 void AGOGCharacterController::InitQuestLog(const class UGOGCharacterStatComponent* StatComponent, const int CurQuestNum) const
