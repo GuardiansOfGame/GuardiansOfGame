@@ -161,6 +161,6 @@ struct FCustomItemInfo
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	AActor* Item;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UTexture2D* Image;
 };

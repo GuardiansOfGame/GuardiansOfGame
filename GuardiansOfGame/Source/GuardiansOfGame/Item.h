@@ -28,7 +28,7 @@ public:
 	virtual void Tick(const float DeltaTime) override;
 
 private:
-	UPROPERTY(VisibleAnywhere, Category = Mesh)
+	UPROPERTY(EditAnywhere, Category = Mesh)
 	class UStaticMeshComponent* Mesh;
 
 	UPROPERTY(VisibleAnywhere, Category = Collision)
@@ -40,7 +40,7 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Widget)
 	class UKeyWidget* KeyWidget;
 
-	UPROPERTY(VisibleAnywhere, Category = Info)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Info, meta = (AllowPrivateAccess = "true"))
 	FCustomItemInfo ItemInfo;
 
 protected:
@@ -56,5 +56,5 @@ public:
 
 	void PickUp();
 
-	virtual void UseItem() override;
+	virtual bool UseItem() override;
 };
