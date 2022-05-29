@@ -82,17 +82,15 @@ void AWeapon::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* O
 {
 	if(OtherActor)
 	{
-		AGOGMonster* Monster = Cast<AGOGMonster>(OtherActor);
-		if(Monster)
-		{
-			UGameplayStatics::ApplyDamage(Monster, Damage, WeaponInstigator, this, nullptr);
-		}
+		
+		UGameplayStatics::ApplyDamage(OtherActor, 1000.f, WeaponInstigator, this, nullptr);
+		
 	}
 }
 
 void AWeapon::ActiveCollision() const
 {
-	CombatCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	CombatCollision->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 
 void AWeapon::DeactiveCollision() const
