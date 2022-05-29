@@ -61,6 +61,27 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UItemSlot* ItemSlot4;
 
+	UPROPERTY(meta = (BindWidget))
+	UVerticalBox* ItemActionMenuBox;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* UseItemButton;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* DropItemButton;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* ItemActionCancelButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* UseText;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* DropText;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* CancelText;
+
 	UPROPERTY(meta = (BindWidgetAnim), Transient)
 	UWidgetAnimation* InventoryPopUp;
 
@@ -69,6 +90,16 @@ private:
 
 	UPROPERTY()
 	TArray<FCustomItemInfo> Inventory;
+
+protected:
+	UFUNCTION()
+	void UseItemButtonClicked();
+
+	UFUNCTION()
+	void DropItemButtonClicked();
+
+	UFUNCTION()
+	void ItemActionCancelButtonClicked();
 
 public:
 	FORCEINLINE UQuestLogWidget* GetQuestLogWidget() const { return QuestLog; }
@@ -89,4 +120,7 @@ public:
 	void AddItem(const FCustomItemInfo ItemInfo);
 
 	void RefreshInventory();
+
+	UFUNCTION()
+	void ViewItemActionMenuBox(const int SlotNumber);
 };

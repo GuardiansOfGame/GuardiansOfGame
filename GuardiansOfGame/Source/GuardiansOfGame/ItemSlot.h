@@ -41,6 +41,8 @@ protected:
 	void ItemSlotClicked();
 
 public:
+	FORCEINLINE void SetSlotNumber(const int Number) { SlotNumber = Number; }
+
 	UPROPERTY(BlueprintAssignable, VisibleAnywhere, BlueprintCallable, Category = Event)
 	FDele_Dynamic_OneParam ItemSlotClicked_Dynamic;
 

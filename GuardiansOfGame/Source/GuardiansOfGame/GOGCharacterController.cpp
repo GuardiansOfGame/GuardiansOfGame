@@ -13,7 +13,7 @@
 
 AGOGCharacterController::AGOGCharacterController()
 {
-	static ConstructorHelpers::FClassFinder<UGOGCharacterWidget> GOGCharacterWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/GOGCharacterWidget_BP.GOGCharacterWidget_BP_C'"));
+	static ConstructorHelpers::FClassFinder<UGOGCharacterWidget> GOGCharacterWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/GOGCharacterWidget_BP'"));
 	if (GOGCharacterWidgetAsset.Succeeded())
 	{
 		GOGCharacterWidgetClass = GOGCharacterWidgetAsset.Class;

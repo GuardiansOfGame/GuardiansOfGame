@@ -2,6 +2,9 @@
 
 #include "GOGCharacterWidget.h"
 
+#include "Components/Button.h"
+#include "Components/VerticalBox.h"
+
 #include "HealthBar.h"
 #include "ItemSlot.h"
 #include "QuestLogWidget.h"
@@ -11,12 +14,33 @@ void UGOGCharacterWidget::NativeConstruct()
 {
 	ItemSlotArray = { ItemSlot0, ItemSlot1, ItemSlot2, ItemSlot3, ItemSlot4 };
 
-	for (UItemSlot* ItemSlot : ItemSlotArray)
+	for(int i = 0; i < ItemSlotArray.Num(); ++i)
 	{
-		ItemSlot->SetVisibility(ESlateVisibility::Hidden);
+		ItemSlotArray[i]->SetVisibility(ESlateVisibility::Hidden);
+
+		ItemSlotArray[i]->SetSlotNumber(i);
+		ItemSlotArray[i]->ItemSlotClicked_Dynamic.AddDynamic(this, &UGOGCharacterWidget::ViewItemActionMenuBox);
 	}
 
 	Inventory = {};
+
+	ItemActionMenuBox->SetVisibility(ESlateVisibility::Hidden);
+
+	UseItemButton->OnClicked.AddDynamic(this, &UGOGCharacterWidget::UseItemButtonClicked);
+	DropItemButton->OnClicked.AddDynamic(this, &UGOGCharacterWidget::DropItemButtonClicked);
+	ItemActionCancelButton->OnClicked.AddDynamic(this, &UGOGCharacterWidget::ItemActionCancelButtonClicked);
+}
+
+void UGOGCharacterWidget::UseItemButtonClicked()
+{
+}
+
+void UGOGCharacterWidget::DropItemButtonClicked()
+{
+}
+
+void UGOGCharacterWidget::ItemActionCancelButtonClicked()
+{
 }
 
 void UGOGCharacterWidget::InitQuestLog(const FQuest InputQuest) const
@@ -51,6 +75,8 @@ void UGOGCharacterWidget::ViewInventory()
 
 void UGOGCharacterWidget::HideInventory()
 {
+	ItemActionMenuBox->SetVisibility(ESlateVisibility::Hidden);
+
 	PlayAnimation(InventoryPopUp, 0.0f, 1, EUMGSequencePlayMode::Reverse);
 
 	FTimerHandle UIAnimDelayTimerHandle;
@@ -83,4 +109,9 @@ void UGOGCharacterWidget::RefreshInventory()
 			ItemSlotArray[i]->SetItemImage(nullptr);
 		}
 	}
+}
+
+void UGOGCharacterWidget::ViewItemActionMenuBox(const int SlotNumber)
+{
+	UE_LOG(LogTemp, Warning, TEXT("%d"), SlotNumber);
 }
