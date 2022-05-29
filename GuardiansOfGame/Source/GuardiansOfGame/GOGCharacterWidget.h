@@ -91,6 +91,8 @@ private:
 	UPROPERTY()
 	TArray<FCustomItemInfo> Inventory;
 
+	int ClickedSlotNumber;
+
 protected:
 	UFUNCTION()
 	void UseItemButtonClicked();

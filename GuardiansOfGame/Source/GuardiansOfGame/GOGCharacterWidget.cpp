@@ -6,6 +6,7 @@
 #include "Components/VerticalBox.h"
 
 #include "HealthBar.h"
+#include "ItemInterface.h"
 #include "ItemSlot.h"
 #include "QuestLogWidget.h"
 #include "StaminaBar.h"
@@ -29,18 +30,42 @@ void UGOGCharacterWidget::NativeConstruct()
 	UseItemButton->OnClicked.AddDynamic(this, &UGOGCharacterWidget::UseItemButtonClicked);
 	DropItemButton->OnClicked.AddDynamic(this, &UGOGCharacterWidget::DropItemButtonClicked);
 	ItemActionCancelButton->OnClicked.AddDynamic(this, &UGOGCharacterWidget::ItemActionCancelButtonClicked);
+
+	ClickedSlotNumber = 0;
 }
 
 void UGOGCharacterWidget::UseItemButtonClicked()
 {
+	if(Inventory.IsValidIndex(ClickedSlotNumber))
+	{
+		AActor* Item = Inventory[ClickedSlotNumber].Item;
+		IItemInterface* ItemInterface = Cast<IItemInterface>(Item);
+		if(ItemInterface)
+		{
+			ItemInterface->UseItem();
+		}
+
+		Inventory.RemoveAtSwap(ClickedSlotNumber);
+		RefreshInventory();
+
+		ItemActionMenuBox->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 void UGOGCharacterWidget::DropItemButtonClicked()
 {
+	if(Inventory.IsValidIndex(ClickedSlotNumber))
+	{
+		Inventory.RemoveAtSwap(ClickedSlotNumber);
+		RefreshInventory();
+
+		ItemActionMenuBox->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 void UGOGCharacterWidget::ItemActionCancelButtonClicked()
 {
+	ItemActionMenuBox->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UGOGCharacterWidget::InitQuestLog(const FQuest InputQuest) const

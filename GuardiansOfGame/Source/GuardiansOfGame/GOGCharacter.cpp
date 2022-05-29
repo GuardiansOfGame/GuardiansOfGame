@@ -347,8 +347,6 @@ void AGOGCharacter::Interaction()
 		break;
 
 	case EInteractionStatus::EIS_PickUpItem:
-		// TODO: 아이템 획득 기능 추가하기
-		UE_LOG(LogTemp, Warning, TEXT("EIS_PickUpItem"));
 		if(InteractingItem)
 		{
 			const FCustomItemInfo InteractingItemInfo = InteractingItem->GetItemInfo();

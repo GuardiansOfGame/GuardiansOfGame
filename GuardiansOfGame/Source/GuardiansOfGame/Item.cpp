@@ -101,4 +101,5 @@ void AItem::PickUp()
 
 void AItem::UseItem()
 {
+	UE_LOG(LogTemp, Warning, TEXT("UseItem"));
 }
