@@ -15,6 +15,8 @@ UGOGCharacterAnimInstance::UGOGCharacterAnimInstance()
 
 	Speed = 0.0f;
 	bIsInAir = false;
+	MovementStatus = EMovementStatus::EMS_Normal;
+
 	bWeaponEquipped = false;
 
 	VaultHeight = 30.0f;
@@ -103,6 +105,7 @@ void UGOGCharacterAnimInstance::NativeUpdateAnimation(const float DeltaSeconds)
 	{
 		Speed = GOGCharacter->GetVelocity().Size2D();
 		bIsInAir = GOGCharacter->GetMovementComponent()->IsFalling();
+		MovementStatus = GOGCharacter->GetMovementStatus();
 	}
 }
 
