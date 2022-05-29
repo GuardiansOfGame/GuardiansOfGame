@@ -178,6 +178,12 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Inventory)
 	bool bInventoryAnimPlaying;
 
+	UPROPERTY(VisibleAnywhere, Category = Game)
+	bool bCanBlockUse;
+
+	UPROPERTY(VisibleAnywhere, Category = Game)
+	TArray<bool> UsedBlocks;
+
 protected:
 	void MoveForward(const float Value);
 	void MoveRight(const float Value);
@@ -256,6 +262,9 @@ public:
 
 	FORCEINLINE void SetInventoryAnimPlaying(const bool bValue) { bInventoryAnimPlaying = bValue; }
 
+	FORCEINLINE bool GetCanBlockUsed() const { return bCanBlockUse; }
+	FORCEINLINE void SetCanBlockUsed(const bool bValue) { bCanBlockUse = bValue; }
+
 	void SetMovementStatus(const EMovementStatus Status);
 
 	void UIOn() const;
@@ -272,4 +281,6 @@ public:
 
 	void StartComboAttack();
 	void EndComboAttack();
+
+	void SetUsedBlocks(const int BlockIndex, const bool bUsed);
 };

@@ -22,5 +22,5 @@ class GUARDIANSOFGAME_API IItemInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void UseItem() = 0;
+	virtual bool UseItem() = 0;
 };

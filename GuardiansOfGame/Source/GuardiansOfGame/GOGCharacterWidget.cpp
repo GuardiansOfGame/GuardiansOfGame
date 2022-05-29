@@ -38,15 +38,20 @@ void UGOGCharacterWidget::UseItemButtonClicked()
 {
 	if(Inventory.IsValidIndex(ClickedSlotNumber))
 	{
+		bool bItemUsed{};
+
 		AActor* Item = Inventory[ClickedSlotNumber].Item;
 		IItemInterface* ItemInterface = Cast<IItemInterface>(Item);
 		if(ItemInterface)
 		{
-			ItemInterface->UseItem();
+			bItemUsed = ItemInterface->UseItem();
 		}
 
-		Inventory.RemoveAtSwap(ClickedSlotNumber);
-		RefreshInventory();
+		if(bItemUsed)
+		{
+			Inventory.RemoveAtSwap(ClickedSlotNumber);
+			RefreshInventory();
+		}
 
 		ItemActionMenuBox->SetVisibility(ESlateVisibility::Hidden);
 	}

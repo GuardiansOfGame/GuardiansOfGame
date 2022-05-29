@@ -99,7 +99,9 @@ void AItem::PickUp()
 	SetActorEnableCollision(false);
 }
 
-void AItem::UseItem()
+bool AItem::UseItem()
 {
 	UE_LOG(LogTemp, Warning, TEXT("UseItem"));
+
+	return true;
 }

@@ -113,6 +113,9 @@ AGOGCharacter::AGOGCharacter()
 
 	bInventoryOpened = false;
 	bInventoryAnimPlaying = false;
+
+	bCanBlockUse = false;
+	UsedBlocks.Init(false, 7);
 }
 
 // Called when the game starts or when spawned
@@ -618,4 +621,9 @@ void AGOGCharacter::EndComboAttack()
 	bIsComboInputOn = false;
 
 	CurrentComboNum = 0;
+}
+
+void AGOGCharacter::SetUsedBlocks(const int BlockIndex, const bool bUsed)
+{
+	UsedBlocks[BlockIndex] = bUsed;
 }
