@@ -17,6 +17,7 @@ ADestructibleMyActor::ADestructibleMyActor()
 
 	TriggerComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger Component"));
 	TriggerComponent->SetupAttachment(RootComponent);
+	TriggerComponent->SetHiddenInGame(true);
 
 }
 
@@ -41,6 +42,7 @@ void ADestructibleMyActor::Trigger(UPrimitiveComponent* OverlappedComponent, AAc
 	if (OtherActor && (OtherActor != this)) {
 		Destroy(1000.f, DestructibleComponent->GetComponentLocation(), DestructibleComponent->GetForwardVector(), 1000.f);
 	}
+	
 }
 void ADestructibleMyActor::Destroy(float Damage, FVector HitLocation, FVector ImpulseDir, float Impulse)
 {
