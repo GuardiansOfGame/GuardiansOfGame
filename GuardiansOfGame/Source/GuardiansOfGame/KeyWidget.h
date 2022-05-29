@@ -14,9 +14,6 @@ class GUARDIANSOFGAME_API UKeyWidget final : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
-	explicit UKeyWidget(const FObjectInitializer& ObjectInitializer);
-
 protected:
 	virtual void NativeConstruct() override;
 

@@ -2,17 +2,15 @@
 
 #include "KeyWidget.h"
 
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
-
-UKeyWidget::UKeyWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
-{
-	FrameImage = LoadObject<UTexture2D>(nullptr, TEXT("Texture2D'/Game/CustomContent/Image/UI/KeyFrameImage.KeyFrameImage'"));
-	KeyImage = LoadObject<UTexture2D>(nullptr, TEXT("Texture2D'/Game/CustomContent/Image/UI/FKeyInsideImage.FKeyInsideImage'"));
-}
 
 void UKeyWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+	FrameImage = LoadObject<UTexture2D>(nullptr, TEXT("Texture2D'/Game/CustomContent/Image/UI/KeyFrameImage.KeyFrameImage'"));
+	KeyImage = LoadObject<UTexture2D>(nullptr, TEXT("Texture2D'/Game/CustomContent/Image/UI/FKeyInsideImage.FKeyInsideImage'"));
 
 	Frame->SetBrushFromTexture(FrameImage);
 	Key->SetBrushFromTexture(KeyImage);
