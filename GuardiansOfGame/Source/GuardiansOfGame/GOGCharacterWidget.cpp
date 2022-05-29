@@ -113,5 +113,12 @@ void UGOGCharacterWidget::RefreshInventory()
 
 void UGOGCharacterWidget::ViewItemActionMenuBox(const int SlotNumber)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%d"), SlotNumber);
+	if(SlotNumber < Inventory.Num())
+	{
+		ClickedSlotNumber = SlotNumber;
+		const FVector2D RenderTranslation = ItemSlotArray[ClickedSlotNumber]->RenderTransform.Translation;
+
+		ItemActionMenuBox->SetRenderTranslation(RenderTranslation);
+		ItemActionMenuBox->SetVisibility(ESlateVisibility::Visible);
+	}
 }
