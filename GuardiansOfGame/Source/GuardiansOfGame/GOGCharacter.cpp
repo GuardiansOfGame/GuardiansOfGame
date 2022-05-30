@@ -16,6 +16,7 @@
 #include "OcclusionChecker.h"
 #include "ParkourLineTracer.h"
 #include "QuestNPC.h"
+#include "TetrisBlockWall.h"
 #include "Weapon.h"
 
 // Sets default values
@@ -71,6 +72,7 @@ AGOGCharacter::AGOGCharacter()
 
 	InteractingNPC = nullptr;
 	InteractingItem = nullptr;
+	InteractingObject = nullptr;
 
 	RunningSpeed = 650.0f;
 	SprintingSpeed = 950.0f;
@@ -364,6 +366,20 @@ void AGOGCharacter::Interaction()
 		}
 		break;
 
+	case EInteractionStatus::EIS_InteractObject:
+		if(InteractingObject)
+		{
+			UIOff();
+
+			const ATetrisBlockWall* TetrisBlockWall = Cast<ATetrisBlockWall>(InteractingObject);
+			if (TetrisBlockWall)
+			{
+				DisableInput(GOGController);
+				GOGController->BeginChat(TetrisBlockWall->GetDialogueStrings(), TetrisBlockWall->GetUIName());
+			}
+		}
+		break;
+
 	default:
 		break;
 	}
@@ -582,6 +598,12 @@ void AGOGCharacter::SetQuestProgress(const bool bChatEnded)
 	default:
 		break;
 	}
+}
+
+void AGOGCharacter::EndInteractionWithObject()
+{
+	UIOn();
+	EnableInput(GOGController);
 }
 
 void AGOGCharacter::SwitchLevel(const FName LevelName) const

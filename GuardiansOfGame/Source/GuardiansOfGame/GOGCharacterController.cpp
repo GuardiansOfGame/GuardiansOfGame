@@ -140,7 +140,14 @@ void AGOGCharacterController::EndChat()
 
 	DialogueWidget->SetVisibility(ESlateVisibility::Hidden);
 
-	GOGCharacter->SetQuestProgress(true);
+	if(GOGCharacter->GetInteractionStatus() == EInteractionStatus::EIS_TalkWithNPC)
+	{
+		GOGCharacter->SetQuestProgress(true);
+	}
+	else if(GOGCharacter->GetInteractionStatus() == EInteractionStatus::EIS_InteractObject)
+	{
+		GOGCharacter->EndInteractionWithObject();
+	}
 }
 
 void AGOGCharacterController::TogglePause(const bool bPause)

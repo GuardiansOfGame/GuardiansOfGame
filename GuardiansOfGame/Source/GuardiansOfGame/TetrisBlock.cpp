@@ -16,7 +16,7 @@ bool ATetrisBlock::UseItem()
 	AGOGCharacter* Char = Cast<AGOGCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	if(Char)
 	{
-		if(Char->GetCanBlockUsed())
+		if(Char->GetCanBlockUse())
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Use Block"));
 			Char->SetUsedBlocks(BlockNumber, true);

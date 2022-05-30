@@ -12,6 +12,7 @@ enum class EInteractionStatus : uint8
 	EIS_Normal			UMETA(DisplayName = "Normal"),
 	EIS_TalkWithNPC		UMETA(DisplayName = "TalkWithNPC"),
 	EIS_PickUpItem		UMETA(DisplayName = "PickUpItem"),
+	EIS_InteractObject  UMETA(DisplayName = "InteractObject"),
 
 	EIS_MAX
 };
@@ -96,6 +97,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Status)
 	class AItem* InteractingItem;
+
+	UPROPERTY(VisibleAnywhere, Category = Status)
+	AActor* InteractingObject;
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	float RunningSpeed;
@@ -233,6 +237,9 @@ public:
 	FORCEINLINE AItem* GetInteractingItem() const { return InteractingItem; }
 	FORCEINLINE void SetInteractingItem(AItem* Item) { InteractingItem = Item; }
 
+	FORCEINLINE AActor* GetInteractingObject() const { return InteractingObject; }
+	FORCEINLINE void SetInteractingObject(AActor* Object) { InteractingObject = Object; }
+
 	FORCEINLINE void SetIsBattling(const bool bValue) { bIsBattling = bValue; }
 
 	FORCEINLINE void SetIsRolling(const bool bValue) { bIsRolling = bValue; }
@@ -264,8 +271,8 @@ public:
 
 	FORCEINLINE void SetInventoryAnimPlaying(const bool bValue) { bInventoryAnimPlaying = bValue; }
 
-	FORCEINLINE bool GetCanBlockUsed() const { return bCanBlockUse; }
-	FORCEINLINE void SetCanBlockUsed(const bool bValue) { bCanBlockUse = bValue; }
+	FORCEINLINE bool GetCanBlockUse() const { return bCanBlockUse; }
+	FORCEINLINE void SetCanBlockUse(const bool bValue) { bCanBlockUse = bValue; }
 
 	void SetMovementStatus(const EMovementStatus Status);
 
@@ -275,6 +282,8 @@ public:
 	bool CanMove(const float Value) const;
 
 	void SetQuestProgress(const bool bChatEnded = false);
+
+	void EndInteractionWithObject();
 
 	void SwitchLevel(const FName LevelName) const;
 
