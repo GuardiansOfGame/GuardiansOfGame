@@ -513,6 +513,16 @@ void AGOGCharacter::UIOn() const
 		InteractingNPC->GetKeyWidgetComponent()->SetVisibility(true);
 		InteractingNPC->KeyWidgetOn();
 	}
+
+	if (InteractingObject)
+	{
+		const ATetrisBlockWall* Wall = Cast<ATetrisBlockWall>(InteractingObject);
+		if (Wall)
+		{
+			Wall->GetKeyWidgetComponent()->SetVisibility(true);
+			Wall->KeyWidgetOn();
+		}
+	}
 }
 
 void AGOGCharacter::UIOff() const
@@ -520,6 +530,15 @@ void AGOGCharacter::UIOff() const
 	if (InteractingNPC)
 	{
 		InteractingNPC->GetKeyWidgetComponent()->SetVisibility(false);
+	}
+
+	if(InteractingObject)
+	{
+		const ATetrisBlockWall* Wall = Cast<ATetrisBlockWall>(InteractingObject);
+		if(Wall)
+		{
+			Wall->GetKeyWidgetComponent()->SetVisibility(false);
+		}
 	}
 }
 
