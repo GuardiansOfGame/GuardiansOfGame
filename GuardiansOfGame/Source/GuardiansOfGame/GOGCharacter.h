@@ -274,6 +274,8 @@ public:
 	FORCEINLINE bool GetCanBlockUse() const { return bCanBlockUse; }
 	FORCEINLINE void SetCanBlockUse(const bool bValue) { bCanBlockUse = bValue; }
 
+	FORCEINLINE TArray<bool> GetUsedBlocks() const { return UsedBlocks; }
+
 	void SetMovementStatus(const EMovementStatus Status);
 
 	void UIOn() const;

@@ -55,4 +55,6 @@ public:
 	FORCEINLINE TArray<FString> GetDialogueStrings() const { return DialogueStrings; }
 
 	void KeyWidgetOn() const;
+
+	bool CheckCorrectBlockUsed() const;
 };

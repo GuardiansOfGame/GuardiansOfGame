@@ -4,6 +4,7 @@
 
 #include "Components/BoxComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "GOGCharacter.h"
 #include "KeyWidget.h"
@@ -12,7 +13,8 @@
 ATetrisBlockWall::ATetrisBlockWall()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = false;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	SetRootComponent(Mesh);
@@ -65,6 +67,10 @@ void ATetrisBlockWall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if(CheckCorrectBlockUsed())
+	{
+		Destroy();
+	}
 }
 
 void ATetrisBlockWall::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -72,7 +78,7 @@ void ATetrisBlockWall::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 	AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
 	if(Char)
 	{
-		PrimaryActorTick.bCanEverTick = true;
+		PrimaryActorTick.SetTickFunctionEnable(true);
 		Char->SetCanBlockUse(true);
 
 		Char->SetInteractionStatus(EInteractionStatus::EIS_InteractObject);
@@ -87,7 +93,7 @@ void ATetrisBlockWall::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
 	if (Char)
 	{
-		PrimaryActorTick.bCanEverTick = false;
+		PrimaryActorTick.SetTickFunctionEnable(false);
 		Char->SetCanBlockUse(false);
 
 		Char->SetInteractionStatus(EInteractionStatus::EIS_Normal);
@@ -100,4 +106,16 @@ void ATetrisBlockWall::OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AA
 void ATetrisBlockWall::KeyWidgetOn() const
 {
 	KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition());
+}
+
+bool ATetrisBlockWall::CheckCorrectBlockUsed() const
+{
+	const AGOGCharacter* Char = Cast<AGOGCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	if(Char)
+	{
+		TArray<bool> UsedBlocks = Char->GetUsedBlocks();
+		return UsedBlocks[0] && UsedBlocks[3] && UsedBlocks[4];
+	}
+	
+	return false;
 }
