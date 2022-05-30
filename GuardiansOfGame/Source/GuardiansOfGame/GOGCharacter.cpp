@@ -578,6 +578,18 @@ void AGOGCharacter::SwitchLevel(const FName LevelName) const
 	FString CurLevelName = GetWorld()->GetMapName();
 	CurLevelName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
 
+	if(LevelName == TEXT("Stage1") || LevelName == TEXT("Stage2"))
+	{
+		Stat->SetTaskCompleted(0);
+		GOGController->UpdateQuestLog(Stat, 0);
+	}
+
+	if(LevelName == TEXT("BossStage1") || LevelName == TEXT("BossStage2"))
+	{
+		Stat->SetTaskCompleted(2);
+		GOGController->UpdateQuestLog(Stat, 2);
+	}
+
 	Stat->Save(GOGController);
 
 	UGameplayStatics::OpenLevel(GetWorld(), FName(LevelName));
