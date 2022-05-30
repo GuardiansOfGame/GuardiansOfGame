@@ -209,6 +209,8 @@ protected:
 
 	void InventoryOnOff();
 
+	void TaskCompleteCheat();
+
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }

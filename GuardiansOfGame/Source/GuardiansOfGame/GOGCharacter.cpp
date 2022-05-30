@@ -278,6 +278,8 @@ void AGOGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAction("Inventory",IE_Pressed, this, &AGOGCharacter::InventoryOnOff);
 
+	PlayerInputComponent->BindAction("Cheat", IE_Pressed, this, &AGOGCharacter::TaskCompleteCheat);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGOGCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGOGCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &AGOGCharacter::Turn);
@@ -462,6 +464,15 @@ void AGOGCharacter::InventoryOnOff()
 	if(!bInventoryAnimPlaying)
 	{
 		GOGController->ToggleInventory(!bInventoryOpened);
+	}
+}
+
+void AGOGCharacter::TaskCompleteCheat()
+{
+	for(int i = 0; i < TASK_NUM; ++i)
+	{
+		Stat->SetTaskCompleted(i);
+		GOGController->UpdateQuestLog(Stat, i);
 	}
 }
 
