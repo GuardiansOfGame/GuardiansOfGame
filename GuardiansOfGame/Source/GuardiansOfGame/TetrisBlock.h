@@ -21,6 +21,15 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Info, meta = (AllowPrivateAccess = "true"))
 	int BlockNumber;
 
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	FString WarningString;
+
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	class UWidgetComponent* WidgetComponent;
+
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	class UWarningWidget* WarningWidget;
+
 public:
 	virtual bool UseItem() override;
 };

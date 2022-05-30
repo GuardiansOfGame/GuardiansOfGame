@@ -1,10 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TetrisBlock.h"
 
+#include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "GOGCharacter.h"
+#include "WarningWidget.h"
 
 ATetrisBlock::ATetrisBlock()
 {
