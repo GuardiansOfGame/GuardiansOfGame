@@ -15,7 +15,7 @@ ABattleVolume::ABattleVolume()
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
 	SetRootComponent(BoxCollision);
 	BoxCollision->SetBoxExtent(FVector(500.0f, 500.0f, 32.0f));
-	BoxCollision->bHiddenInGame = false;
+	BoxCollision->bHiddenInGame = true;
 }
 
 // Called when the game starts or when spawned

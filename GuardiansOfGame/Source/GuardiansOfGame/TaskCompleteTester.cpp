@@ -27,7 +27,7 @@ ATaskCompleteTester::ATaskCompleteTester()
 	BoxCollision->SetupAttachment(GetRootComponent());
 	BoxCollision->SetBoxExtent(FVector(128.0f, 100.0f, 32.0f));
 	BoxCollision->SetRelativeLocation(FVector(0.0f, 82.0f, 33.0f));
-	BoxCollision->bHiddenInGame = false;
+	BoxCollision->bHiddenInGame = true;
 }
 
 // Called when the game starts or when spawned

@@ -28,7 +28,7 @@ AWeapon::AWeapon()
 	CombatCollision->SetupAttachment(GetRootComponent());
 	CombatCollision->SetBoxExtent(FVector(25.0f, 15.0f, 15.0f));
 	CombatCollision->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f));
-	CombatCollision->bHiddenInGame = false;
+	CombatCollision->bHiddenInGame = true;
 
 	Damage = 20.0f;
 }

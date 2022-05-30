@@ -30,7 +30,7 @@ ATetrisBlockWall::ATetrisBlockWall()
 	BoxCollision->SetupAttachment(GetRootComponent());
 	BoxCollision->SetBoxExtent(FVector(1000.0f, 500.0f, 100.0f));
 	BoxCollision->SetRelativeLocation(FVector(-466.0f, -424.0f, -186.0f));
-	BoxCollision->SetHiddenInGame(false);
+	BoxCollision->SetHiddenInGame(true);
 
 	KeyWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("KeyWidgetComponent"));
 	KeyWidgetComponent->SetupAttachment(GetRootComponent());

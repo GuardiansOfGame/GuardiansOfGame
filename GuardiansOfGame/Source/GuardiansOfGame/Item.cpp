@@ -26,7 +26,7 @@ AItem::AItem()
 	Collision = CreateDefaultSubobject<USphereComponent>(TEXT("Collision"));
 	Collision->SetupAttachment(GetRootComponent());
 	Collision->SetSphereRadius(150.0f);
-	Collision->bHiddenInGame = false;
+	Collision->bHiddenInGame = true;
 
 	KeyWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("KeyWidgetComponent"));
 	KeyWidgetComponent->SetupAttachment(GetRootComponent());
