@@ -62,6 +62,9 @@ private:
 	UItemSlot* ItemSlot4;
 
 	UPROPERTY(meta = (BindWidget))
+	class UWarningWidget* WarningWidget;
+
+	UPROPERTY(meta = (BindWidget))
 	UVerticalBox* ItemActionMenuBox;
 
 	UPROPERTY(meta = (BindWidget))

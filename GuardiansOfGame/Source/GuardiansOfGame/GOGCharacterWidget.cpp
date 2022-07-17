@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GOGCharacterWidget.h"
 
@@ -10,6 +10,7 @@
 #include "ItemSlot.h"
 #include "QuestLogWidget.h"
 #include "StaminaBar.h"
+#include "WarningWidget.h"
 
 void UGOGCharacterWidget::NativeConstruct()
 {
@@ -32,6 +33,9 @@ void UGOGCharacterWidget::NativeConstruct()
 	ItemActionCancelButton->OnClicked.AddDynamic(this, &UGOGCharacterWidget::ItemActionCancelButtonClicked);
 
 	ClickedSlotNumber = 0;
+
+	WarningWidget->SetVisibility(ESlateVisibility::Hidden);
+	WarningWidget->SetWarningText(TEXT("해당 아이템을 사용할 수 있는 위치가 아닙니다."));
 }
 
 void UGOGCharacterWidget::UseItemButtonClicked()
@@ -51,6 +55,20 @@ void UGOGCharacterWidget::UseItemButtonClicked()
 		{
 			Inventory.RemoveAtSwap(ClickedSlotNumber);
 			RefreshInventory();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Can't use Item"));
+
+			WarningWidget->SetWarningText(TEXT("해당 아이템을 사용할 수 있는 위치가 아닙니다."));
+			WarningWidget->SetVisibility(ESlateVisibility::Visible);
+
+			WarningWidget->PlayPopUpAnimation();
+
+			FTimerHandle UIAnimDelayTimerHandle;
+			GetWorld()->GetTimerManager().SetTimer(UIAnimDelayTimerHandle, FTimerDelegate::CreateLambda([&]() {
+				WarningWidget->SetVisibility(ESlateVisibility::Hidden);
+			}), 0.6f, false);
 		}
 
 		ItemActionMenuBox->SetVisibility(ESlateVisibility::Hidden);

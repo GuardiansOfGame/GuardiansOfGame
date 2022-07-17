@@ -13,5 +13,4 @@ void UWarningWidget::SetWarningText(const FString WarningString) const
 void UWarningWidget::PlayPopUpAnimation()
 {
 	PlayAnimation(PopUp);
-	SetVisibility(ESlateVisibility::Hidden);
 }
