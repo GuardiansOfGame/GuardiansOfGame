@@ -49,10 +49,6 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Widget)
 	class UHealthBar* MonsterHealthWidget;
 
-	TSubclassOf<class UWarningWidget> WarningWidgetClass;
-	UPROPERTY(VisibleAnywhere, Category = Widget)
-	class UWarningWidget* WarningWidget;
-
 public:
 	FORCEINLINE TArray<FCustomItemInfo> GetInventory() const { return GOGCharacterWidget->GetInventory(); }
 	FORCEINLINE void SetInventory(const TArray<FCustomItemInfo> CurrentInventory) const { GOGCharacterWidget->SetInventory(CurrentInventory); }

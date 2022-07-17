@@ -37,12 +37,6 @@ AGOGCharacterController::AGOGCharacterController()
 	{
 		MonsterHealthWidgetClass = MonsterHealthWidgetAsset.Class;
 	}
-
-	static ConstructorHelpers::FClassFinder<UWarningWidget> WarningWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/WarningWidget_BP'"));
-	if(WarningWidgetAsset.Succeeded())
-	{
-		WarningWidgetClass = WarningWidgetAsset.Class;
-	}
 }
 
 void AGOGCharacterController::OnPossess(APawn* InPawn)
@@ -84,15 +78,6 @@ void AGOGCharacterController::OnPossess(APawn* InPawn)
 
 		const FVector2D Alignment(0.0f, 0.0f);
 		MonsterHealthWidget->SetAlignmentInViewport(Alignment);
-	}
-
-	if(WarningWidgetClass)
-	{
-		WarningWidget = CreateWidget<UWarningWidget>(this, WarningWidgetClass);
-		WarningWidget->SetWarningText(TEXT("사용할 수 있는 위치가 아닙니다."));
-
-		WarningWidget->AddToViewport();
-		WarningWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
 
