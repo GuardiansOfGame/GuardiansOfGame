@@ -2,7 +2,6 @@
 
 #include "TetrisBlock.h"
 
-#include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "GOGCharacter.h"

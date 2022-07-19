@@ -58,8 +58,6 @@ void UGOGCharacterWidget::UseItemButtonClicked()
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Can't use Item"));
-
 			WarningWidget->SetWarningText(TEXT("해당 아이템을 사용할 수 있는 위치가 아닙니다."));
 			WarningWidget->SetVisibility(ESlateVisibility::Visible);
 
