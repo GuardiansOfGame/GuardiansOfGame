@@ -84,6 +84,8 @@ void ATetrisBlockWall::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 		Char->SetInteractionStatus(EInteractionStatus::EIS_InteractObject);
 		Char->SetInteractingObject(this);
 
+		KeyWidgetComponent->SetWorldLocation(Char->GetActorLocation() + FVector(0.0f, 0.0f, 125.0f));
+
 		KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition());
 	}
 }

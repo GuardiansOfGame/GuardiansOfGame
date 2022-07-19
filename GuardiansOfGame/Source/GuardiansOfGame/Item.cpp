@@ -69,6 +69,8 @@ void AItem::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 	AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
 	if(Char)
 	{
+		KeyWidgetComponent->SetWorldLocation(Char->GetActorLocation() + FVector(0.0f, 0.0f, 125.0f));
+
 		KeyWidget->PlayAnimation(KeyWidget->GetPopUpAnimaition());
 
 		Char->SetInteractionStatus(EInteractionStatus::EIS_PickUpItem);
