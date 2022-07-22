@@ -3,7 +3,10 @@
 #include "GOGMonsterAnimInstance.h"
 
 #include "GOGMonster.h"
-
+//UGOGMonsterAnimInstance::UGOGMonsterAnimInstance()
+//{
+//	EnemyMovementStatus = EEnemyMovementStatus::EMS_Idle;
+//}
 void UGOGMonsterAnimInstance::NativeInitializeAnimation()
 {
 	if (!Char)

@@ -2,16 +2,19 @@
 
 
 #include "MonsterAI.h"
+#include "AIController.h"
 #include "NavigationSystem.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "AI/NavigationSystemBase.h"
+#include "GOGCharacter.h"
 
 void AMonsterAI::BeginPlay()
 {
 	Super::BeginPlay();
 
 	GoToRandomWaypoint();
+	
 }
 
 void AMonsterAI::GoToRandomWaypoint()
@@ -45,3 +48,4 @@ void AMonsterAI::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingRes
 
 	GoToRandomWaypoint();
 }
+
