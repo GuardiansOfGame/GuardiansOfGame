@@ -1,21 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "GOGMonster.h"
+
+#include "GOGBoss.h"
 #include "MonsterAI.h"
 #include "AIController.h"
 #include "Components/sphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "NavigationSystem.h"
-#include "ProjectileBullet.h"
 #include "Kismet/GameplayStatics.h"
+#include "ProjectileBullet.h"
 #include "GOGCharacter.h"
-
+#include "GOGMonster.h"
 // Sets default values
-AGOGMonster::AGOGMonster()
+AGOGBoss::AGOGBoss()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 	AgroSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AgroSphere"));
 	AgroSphere->SetupAttachment(GetRootComponent());
 	AgroSphere->InitSphereRadius(700.f);
@@ -23,48 +23,42 @@ AGOGMonster::AGOGMonster()
 	CombatSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CombatSphere"));
 	CombatSphere->SetupAttachment(GetRootComponent());
 	CombatSphere->InitSphereRadius(400.f);
-	
-	
-
-	MaxHealth = 40.f;
-	CurrentHealth = MaxHealth;
 
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> DieP(TEXT("ParticleSystem'/Game/CustomContent/Monster/Monster713/MonsterEffect/p_bubble_2.p_bubble_2'"));
 	if (DieP.Succeeded()) {
 		DieParticle = DieP.Object;
 	}
-	
 }
 
 // Called when the game starts or when spawned
-void AGOGMonster::BeginPlay()
+void AGOGBoss::BeginPlay()
 {
 	Super::BeginPlay();
-
 	
 	AIController = Cast<AMonsterAI>(GetController());
 
-
-	AgroSphere->OnComponentBeginOverlap.AddDynamic(this, &AGOGMonster::AgroSphereOnOverlapBegin);
-	AgroSphere->OnComponentEndOverlap.AddDynamic(this, &AGOGMonster::AgroSphereOnOverlapEnd);
+	
+	AgroSphere->OnComponentBeginOverlap.AddDynamic(this, &AGOGBoss::AgroSphereOnOverlapBegin);
+	AgroSphere->OnComponentEndOverlap.AddDynamic(this, &AGOGBoss::AgroSphereOnOverlapEnd);
 
 	AgroSphere->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Ignore);
 
-	CombatSphere->OnComponentBeginOverlap.AddDynamic(this, &AGOGMonster::CombatSphereOnOverlapBegin);
-	CombatSphere->OnComponentEndOverlap.AddDynamic(this, &AGOGMonster::CombatSphereOnOverlapEnd);
+	CombatSphere->OnComponentBeginOverlap.AddDynamic(this, &AGOGBoss::CombatSphereOnOverlapBegin);
+	CombatSphere->OnComponentEndOverlap.AddDynamic(this, &AGOGBoss::CombatSphereOnOverlapEnd);
 
-	//CombatSphere->SetCollisionEnabled(ECollisionEnabled::);
-	//CombatSphere->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
-	//CombatSphere->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	CombatSphere->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Ignore);
+
+
+	MaxHealth = 40.f;
+	CurrentHealth = MaxHealth;
 }
 
-float AGOGMonster::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+float AGOGBoss::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	const float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	CurrentHealth -= Damage;
 
-	if(CurrentHealth <= 0.0f)
+	if (CurrentHealth <= 0.0f)
 	{
 		Die();
 	}
@@ -73,43 +67,43 @@ float AGOGMonster::TakeDamage(float DamageAmount, FDamageEvent const& DamageEven
 }
 
 // Called every frame
-void AGOGMonster::Tick(float DeltaTime)
+void AGOGBoss::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-
-void AGOGMonster::SetEnemyMovementStatus(const EEnemyMovementStatus Status)
+// Called to bind functionality to input
+void AGOGBoss::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	EnemyMovementStatus = Status;
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
 
-void AGOGMonster::AgroSphereOnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AGOGBoss::AgroSphereOnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor) 
+	if (OtherActor)
 	{
 		const AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
-		if (Char) 
+		if (Char)
 		{
 			MoveToTarget(Char);
 		}
 	}
 }
 
-void AGOGMonster::AgroSphereOnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+void AGOGBoss::AgroSphereOnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	const UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetNavigationSystem(GetWorld());
 	FNavLocation NextLocation;
 
-	if(NavSystem->GetRandomPointInNavigableRadius(FVector::ZeroVector, 200.0f, NextLocation))
+	if (NavSystem->GetRandomPointInNavigableRadius(FVector::ZeroVector, 200.0f, NextLocation))
 	{
 		AIController->MoveToLocation(NextLocation.Location);
 	}
 }
 
-void AGOGMonster::CombatSphereOnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AGOGBoss::CombatSphereOnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor)
 	{
@@ -119,18 +113,18 @@ void AGOGMonster::CombatSphereOnOverlapBegin(UPrimitiveComponent* OverlappedComp
 			Attack();
 		}
 	}
+
+}
+
+void AGOGBoss::CombatSphereOnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+}
+
+void AGOGBoss::MoveToTarget(const AGOGCharacter* Target)
+{
 	
-}
 
-void AGOGMonster::CombatSphereOnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-}
-
-void AGOGMonster::MoveToTarget(const AGOGCharacter* Target)
-{
-	SetEnemyMovementStatus(EEnemyMovementStatus::EMS_MoveToTarget);
-
-	if (AIController) 
+	if (AIController)
 	{
 		FAIMoveRequest MoveRequest;
 		MoveRequest.SetGoalActor(Target);
@@ -142,8 +136,7 @@ void AGOGMonster::MoveToTarget(const AGOGCharacter* Target)
 	}
 }
 
-
-void AGOGMonster::Attack()
+void AGOGBoss::Attack()
 {
 	if (ProjectileClass)
 	{
@@ -161,8 +154,8 @@ void AGOGMonster::Attack()
 			FActorSpawnParameters SpawnParams;
 			SpawnParams.Owner = this;
 			SpawnParams.Instigator = GetInstigator();
-		
-			
+
+
 			AProjectileBullet* Projectile = World->SpawnActor<AProjectileBullet>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
 			if (Projectile)
 			{
@@ -171,16 +164,15 @@ void AGOGMonster::Attack()
 			}
 		}
 	}
-
 }
 
-void AGOGMonster::Die()
+void AGOGBoss::Die()
 {
-	
 	if (DieParticle) {
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DieParticle, GetActorLocation());
-		
+
 	}
-	
+
 	Destroy();
 }
+

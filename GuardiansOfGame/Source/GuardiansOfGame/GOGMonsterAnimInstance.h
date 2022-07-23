@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "GOGMonster.h"
 #include "GOGMonsterAnimInstance.generated.h"
 
 /**
@@ -14,8 +15,13 @@ class GUARDIANSOFGAME_API UGOGMonsterAnimInstance final : public UAnimInstance
 {
 	GENERATED_BODY()
 
+
 protected:
 	virtual void NativeInitializeAnimation() override;
+//private:
+//	
+//	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+//	EEnemyMovementStatus EnemyMovementStatus;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = AnimationProperties)
