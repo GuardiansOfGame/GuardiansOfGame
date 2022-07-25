@@ -61,6 +61,8 @@ public:
 
 	virtual void PostInitializeComponents() override;
 
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;

@@ -293,6 +293,23 @@ void AGOGCharacter::PostInitializeComponents()
 	Super::PostInitializeComponents();
 }
 
+float AGOGCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	const float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	CurrentHealth -= Damage;
+	if (CurrentHealth >= 0)
+	{
+		GOGController->SetHealthBarPercent(CurrentHealth, MaxHealth);
+	}
+	else
+	{
+		GOGController->SetHealthBarPercent(0.0f, MaxHealth);
+	}
+
+	return Damage;
+}
+
 void AGOGCharacter::MoveForward(const float Value)
 {
 	bMovingForward = false;
