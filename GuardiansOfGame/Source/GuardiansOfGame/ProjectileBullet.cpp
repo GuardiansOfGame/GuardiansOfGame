@@ -15,13 +15,13 @@ AProjectileBullet::AProjectileBullet()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	CollisionComponent = CreateAbstractDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
-	CollisionComponent->InitSphereRadius(15.0f);
+	CollisionComponent->InitSphereRadius(100.0f);
 	RootComponent = CollisionComponent;
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 	ProjectileMovementComponent->InitialSpeed = 3000.0f;
-	ProjectileMovementComponent->MaxSpeed = 500.0f;
+	ProjectileMovementComponent->MaxSpeed = 1000.0f;
 }
 
 void AProjectileBullet::BulletDirection(const FVector& Direction)
@@ -53,9 +53,8 @@ void AProjectileBullet::CollisionComponentOnOverlapBegin(UPrimitiveComponent* Ov
 		if (Char)
 		{
 			UGameplayStatics::ApplyDamage(OtherActor, 1000.f, BulletInstigator, this, nullptr);
-			
+			Destroy();
 		}
-		
 	}
 }
 
