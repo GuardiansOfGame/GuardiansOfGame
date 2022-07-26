@@ -33,6 +33,9 @@ void AProjectileBullet::BulletDirection(const FVector& Direction)
 void AProjectileBullet::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CollisionComponent->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
+	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectileBullet::CollisionComponentOnOverlapBegin);
 	CollisionComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Ignore);

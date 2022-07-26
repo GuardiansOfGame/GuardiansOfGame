@@ -82,9 +82,7 @@ void AWeapon::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* O
 {
 	if(OtherActor)
 	{
-		
-		UGameplayStatics::ApplyDamage(OtherActor, 1000.f, WeaponInstigator, this, nullptr);
-		
+		UGameplayStatics::ApplyDamage(OtherActor, Damage, WeaponInstigator, this, nullptr);
 	}
 }
 
