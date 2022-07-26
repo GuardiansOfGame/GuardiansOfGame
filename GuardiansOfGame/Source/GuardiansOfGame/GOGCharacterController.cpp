@@ -10,7 +10,6 @@
 #include "HealthBar.h"
 #include "PauseWidget.h"
 #include "QuestLogWidget.h"
-#include "WarningWidget.h"
 
 AGOGCharacterController::AGOGCharacterController()
 {
