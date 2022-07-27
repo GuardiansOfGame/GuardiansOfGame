@@ -283,7 +283,9 @@ public:
 	void UIOn() const;
 	void UIOff() const;
 
-	bool CanMove(const float Value) const;
+	bool CanMove() const;
+
+	void Dead();
 
 	void SetQuestProgress(const bool bChatEnded = false);
 

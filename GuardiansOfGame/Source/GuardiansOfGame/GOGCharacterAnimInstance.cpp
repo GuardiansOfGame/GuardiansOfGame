@@ -88,6 +88,12 @@ UGOGCharacterAnimInstance::UGOGCharacterAnimInstance()
 	{
 		AttackMontage = AttackMontageAsset.Object;
 	}
+
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> DeathMontageAsset(TEXT("AnimMontage'/Game/CustomContent/CharacterAnimations/Combat/Death_Montage.Death_Montage'"));
+	if (DeathMontageAsset.Succeeded())
+	{
+		DeathMontage = DeathMontageAsset.Object;
+	}
 }
 
 void UGOGCharacterAnimInstance::NativeInitializeAnimation()
@@ -214,6 +220,11 @@ void UGOGCharacterAnimInstance::JumpToAttackMontageSection(const int SectionNum)
 	Montage_JumpToSection(SectionName, AttackMontage);
 }
 
+void UGOGCharacterAnimInstance::PlayDeathMontage()
+{
+	Montage_Play(DeathMontage);
+}
+
 void UGOGCharacterAnimInstance::AnimNotify_RollStart() const
 {
 	GOGCharacter->SetIsRolling(true);
@@ -281,4 +292,9 @@ void UGOGCharacterAnimInstance::AnimNotify_Hit() const
 void UGOGCharacterAnimInstance::AnimNotify_HitEnd() const
 {
 	GOGCharacter->GetWeapon()->DeactiveCollision();
+}
+
+void UGOGCharacterAnimInstance::AnimNotify_DeathEnd() const
+{
+	GOGCharacter->Dead();
 }

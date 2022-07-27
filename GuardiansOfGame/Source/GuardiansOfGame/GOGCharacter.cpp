@@ -307,6 +307,7 @@ float AGOGCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 		else
 		{
 			GOGController->SetHealthBarPercent(0.0f, MaxHealth);
+			AnimInstance->PlayDeathMontage();
 		}
 	}
 
@@ -562,17 +563,30 @@ void AGOGCharacter::UIOff() const
 	}
 }
 
-bool AGOGCharacter::CanMove(const float Value) const
+bool AGOGCharacter::CanMove() const
 {
 	if(GOGController)
 	{
-		return Value
-			   && !bIsRolling
+		return !bIsRolling
 			   && !bIsSliding
-			   && !bIsAttacking;
+			   && !bIsAttacking
+			   && MovementStatus != EMovementStatus::EMS_Dead;
 	}
 
 	return false;
+}
+
+void AGOGCharacter::Dead()
+{
+	if(MovementStatus == EMovementStatus::EMS_Dead)
+	{
+		return;
+	}
+
+	MovementStatus = EMovementStatus::EMS_Dead;
+
+	GetMesh()->bPauseAnims = true;
+	GetMesh()->bNoSkeletonUpdate = true;
 }
 
 void AGOGCharacter::SetQuestProgress(const bool bChatEnded)

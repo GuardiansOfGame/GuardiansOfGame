@@ -77,6 +77,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Combat)
 	UAnimMontage* AttackMontage;
 
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	UAnimMontage* DeathMontage;
+
 public:
 	FORCEINLINE UAnimMontage* GetClimbMontage() const { return ClimbMontage; }
 	FORCEINLINE UAnimMontage* GetSlideMontage() const { return SlideMontage; }
@@ -92,6 +95,8 @@ public:
 
 	void PlayAttackMontage();
 	void JumpToAttackMontageSection(const int SectionNum);
+
+	void PlayDeathMontage();
 
 	UFUNCTION()
 	void AnimNotify_RollStart() const;
@@ -115,4 +120,7 @@ public:
 	void AnimNotify_Hit() const;
 	UFUNCTION()
 	void AnimNotify_HitEnd() const;
+
+	UFUNCTION()
+	void AnimNotify_DeathEnd() const;
 };
