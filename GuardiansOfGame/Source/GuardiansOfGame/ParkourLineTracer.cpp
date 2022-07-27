@@ -45,7 +45,7 @@ void UParkourLineTracer::CheckObstacle(const AGOGCharacter* Char)
 			bool bTraceResult2 = GetWorld()->LineTraceSingleByChannel(HitResult, End, ObstacleLocation, ECC_GameTraceChannel1, Params);
 			if (bTraceResult2)
 			{
-				DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
+				// DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
 
 				FVector HitEndLocation = HitResult.Location;
 				ObstacleLength = HitEndLocation - ObstacleLocation;
@@ -55,7 +55,7 @@ void UParkourLineTracer::CheckObstacle(const AGOGCharacter* Char)
 		}
 		else
 		{
-			DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
+			// DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
 			CheckOverObstacle(Char);
 		}
 	}
@@ -81,7 +81,7 @@ void UParkourLineTracer::CheckOverObstacle(const AGOGCharacter* Char)
 			bool bTraceResult2 = GetWorld()->LineTraceSingleByChannel(HitResult, End, HitLocation, ECC_GameTraceChannel1, Params);
 			if (bTraceResult2)
 			{
-				DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
+				// DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
 
 				FVector HitEndLocation = HitResult.Location;
 				ObstacleLength = HitEndLocation - HitLocation;
@@ -93,7 +93,7 @@ void UParkourLineTracer::CheckOverObstacle(const AGOGCharacter* Char)
 		}
 		else
 		{
-			DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
+			// DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
 		}
 	}
 }
@@ -113,7 +113,7 @@ void UParkourLineTracer::CheckObstacleHeight(const AGOGCharacter* Char)
 		bool bTraceResult = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel1, Params);
 		if (bTraceResult)
 		{
-			DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
+			// DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
 
 			ObstacleHeight = HitResult.Location;
 
@@ -139,7 +139,7 @@ void UParkourLineTracer::CheckObstacleHeight(const AGOGCharacter* Char)
 		}
 		else
 		{
-			DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
+			// DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
 		}
 	}
 }
@@ -159,11 +159,11 @@ float UParkourLineTracer::CheckObstacleLeft(const AGOGCharacter* Char) const
 		bool bTraceResult = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel1, Params);
 		if (bTraceResult)
 		{
-			DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
+			// DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
 		}
 		else
 		{
-			DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
+			// DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
 		}
 	}
 
@@ -185,11 +185,11 @@ float UParkourLineTracer::CheckObstacleRight(const AGOGCharacter* Char) const
 		bool bTraceResult = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel1, Params);
 		if (bTraceResult)
 		{
-			DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
+			// DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.5f);
 		}
 		else
 		{
-			DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
+			// DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.5f);
 		}
 	}
 
