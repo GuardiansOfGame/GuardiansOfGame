@@ -318,7 +318,7 @@ void AGOGCharacter::MoveForward(const float Value)
 {
 	bMovingForward = false;
 
-	if (CanMove(Value))
+	if (Value && CanMove())
 	{
 		bMovingForward = true;
 
@@ -334,7 +334,7 @@ void AGOGCharacter::MoveRight(const float Value)
 {
 	bMovingRight = false;
 
-	if (CanMove(Value))
+	if (Value && CanMove())
 	{
 		bMovingRight = true;
 
@@ -358,6 +358,11 @@ void AGOGCharacter::LookUp(const float Rate)
 
 void AGOGCharacter::Interaction()
 {
+	if (!CanMove())
+	{
+		return;
+	}
+
 	switch (InteractionStatus)
 	{
 	case EInteractionStatus::EIS_TalkWithNPC:
@@ -408,6 +413,11 @@ void AGOGCharacter::Interaction()
 
 void AGOGCharacter::SpaceDown()
 {
+	if (!CanMove())
+	{
+		return;
+	}
+
 	if (bIsBattling)
 	{
 		if (bIsRolling || bIsAttacking)
@@ -439,7 +449,7 @@ void AGOGCharacter::SpaceUp()
 
 void AGOGCharacter::LCtrlDown()
 {
-	if (MovementStatus == EMovementStatus::EMS_Parkour || bIsAttacking)
+	if (MovementStatus == EMovementStatus::EMS_Parkour || bIsAttacking || !CanMove())
 	{
 		return;
 	}
@@ -449,12 +459,22 @@ void AGOGCharacter::LCtrlDown()
 
 void AGOGCharacter::Equip()
 {
+	if(!CanMove())
+	{
+		return;
+	}
+
 	// Z Key
 	bWeaponEquipped ? AnimInstance->PlayUnEquipMontage() : AnimInstance->PlayEquipMontage();
 }
 
 void AGOGCharacter::Attack()
 {
+	if (!CanMove())
+	{
+		return;
+	}
+
 	// Left Mouse Button
 	if (!bWeaponEquipped)
 	{
@@ -488,17 +508,23 @@ void AGOGCharacter::Pause()
 
 void AGOGCharacter::ShiftKeyDown()
 {
-	bShiftKeyDown = true;
+	if (CanMove())
+	{
+		bShiftKeyDown = true;
+	}
 }
 
 void AGOGCharacter::ShiftKeyUp()
 {
-	bShiftKeyDown = false;
+	if (CanMove())
+	{
+		bShiftKeyDown = false;
+	}
 }
 
 void AGOGCharacter::InventoryOnOff()
 {
-	if(!bInventoryAnimPlaying)
+	if(!bInventoryAnimPlaying && CanMove())
 	{
 		GOGController->ToggleInventory(!bInventoryOpened);
 	}
