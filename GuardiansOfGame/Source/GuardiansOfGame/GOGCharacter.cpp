@@ -470,11 +470,6 @@ void AGOGCharacter::Equip()
 
 void AGOGCharacter::Attack()
 {
-	if (!CanMove())
-	{
-		return;
-	}
-
 	// Left Mouse Button
 	if (!bWeaponEquipped)
 	{
@@ -516,15 +511,12 @@ void AGOGCharacter::ShiftKeyDown()
 
 void AGOGCharacter::ShiftKeyUp()
 {
-	if (CanMove())
-	{
-		bShiftKeyDown = false;
-	}
+	bShiftKeyDown = false;
 }
 
 void AGOGCharacter::InventoryOnOff()
 {
-	if(!bInventoryAnimPlaying && CanMove())
+	if(!bInventoryAnimPlaying)
 	{
 		GOGController->ToggleInventory(!bInventoryOpened);
 	}

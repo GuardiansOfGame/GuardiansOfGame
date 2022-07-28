@@ -280,7 +280,7 @@ void UGOGCharacterAnimInstance::AnimNotify_NextAttack()
 	if(GOGCharacter->GetIsComboInputOn())
 	{
 		GOGCharacter->StartComboAttack();
-		JumpToAttackMontageSection(GOGCharacter->GetCurrentComboNum());
+		JumpToAttackMontageSection(GOGCharacter->GetCurrentComboNum());	
 	}
 }
 
