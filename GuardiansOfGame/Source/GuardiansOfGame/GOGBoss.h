@@ -26,8 +26,20 @@ public:
 	class AMonsterAI* AIController;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Particle)
-	class UParticleSystem* DieParticle;
+	class UNiagaraSystem* DieParticle;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly,Category = Movement)
+	class UAnimMontage* DieMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound)
+	class USoundCue* BossAttackedSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound)
+	class USoundCue* BossDieSound;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound)
+	class USoundCue* BulletSound;
+
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 	float MaxHealth;
 
@@ -36,8 +48,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bullet)
 	FVector MuzzleOffset;
-	UPROPERTY(EditDefaultsOnly, Category = Bullet)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Bullet)
 	TSubclassOf<class AProjectileBullet> ProjectileClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera)
+	TSubclassOf<class UMatineeCameraShake> AttackShakeclass;
 
 protected:
 	// Called when the game starts or when spawned
@@ -68,6 +83,8 @@ public:
 
 
 	void Die();
+	
+	void CameraShake();
 
 	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }

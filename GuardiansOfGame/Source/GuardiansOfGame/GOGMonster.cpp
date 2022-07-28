@@ -4,10 +4,12 @@
 #include "MonsterAI.h"
 #include "AIController.h"
 #include "Components/sphereComponent.h"
+#include "Engine/Classes/Particles/ParticleSystem.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "NavigationSystem.h"
 #include "ProjectileBullet.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 #include "GOGCharacter.h"
 #include "GOGCharacterController.h"
 
@@ -19,7 +21,7 @@ AGOGMonster::AGOGMonster()
 
 	AgroSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AgroSphere"));
 	AgroSphere->SetupAttachment(GetRootComponent());
-	AgroSphere->InitSphereRadius(700.f);
+	AgroSphere->InitSphereRadius(800.f);
 
 	CombatSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CombatSphere"));
 	CombatSphere->SetupAttachment(GetRootComponent());
@@ -33,6 +35,15 @@ AGOGMonster::AGOGMonster()
 		DieParticle = DieP.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<USoundCue> DieS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/GOGMonsterHitSound_Cue.GOGMonsterHitSound_Cue'"));
+	if (DieS.Succeeded()) {
+		MonsterHitSound = DieS.Object;
+	}
+	static ConstructorHelpers::FObjectFinder<USoundCue> BulletS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/BulletSound_Cue.BulletSound_Cue'"));
+	if (BulletS.Succeeded()) {
+		BulletSound = BulletS.Object;
+	}
+
 	TagNum = 0;
 }
 
@@ -41,9 +52,7 @@ void AGOGMonster::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
 	AIController = Cast<AMonsterAI>(GetController());
-
 
 	AgroSphere->OnComponentBeginOverlap.AddDynamic(this, &AGOGMonster::AgroSphereOnOverlapBegin);
 	AgroSphere->OnComponentEndOverlap.AddDynamic(this, &AGOGMonster::AgroSphereOnOverlapEnd);
@@ -174,6 +183,7 @@ void AGOGMonster::Attack()
 			{
 				FVector LaunchDirection = MuzzleRotation.Vector();
 				Projectile->BulletDirection(LaunchDirection);
+				UGameplayStatics::PlaySoundAtLocation(this, BulletSound, GetActorLocation());
 			}
 		}
 	}
@@ -182,6 +192,8 @@ void AGOGMonster::Attack()
 
 void AGOGMonster::Die()
 {
+	UGameplayStatics::PlaySoundAtLocation(this, MonsterHitSound, GetActorLocation());
+
 	if (DieParticle) 
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DieParticle, GetActorLocation());

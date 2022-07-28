@@ -49,6 +49,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Particle)
 	class UParticleSystem* DieParticle;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound)
+	class USoundCue* MonsterHitSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound)
+	class USoundCue* BulletSound;
 
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 	float MaxHealth;
