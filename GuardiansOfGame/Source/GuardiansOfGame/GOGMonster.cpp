@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GOGMonster.h"
 #include "MonsterAI.h"
@@ -9,6 +9,7 @@
 #include "ProjectileBullet.h"
 #include "Kismet/GameplayStatics.h"
 #include "GOGCharacter.h"
+#include "GOGCharacterController.h"
 
 // Sets default values
 AGOGMonster::AGOGMonster()
@@ -23,8 +24,6 @@ AGOGMonster::AGOGMonster()
 	CombatSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CombatSphere"));
 	CombatSphere->SetupAttachment(GetRootComponent());
 	CombatSphere->InitSphereRadius(400.f);
-	
-	
 
 	MaxHealth = 40.f;
 	CurrentHealth = MaxHealth;
@@ -33,7 +32,8 @@ AGOGMonster::AGOGMonster()
 	if (DieP.Succeeded()) {
 		DieParticle = DieP.Object;
 	}
-	
+
+	TagNum = 0;
 }
 
 // Called when the game starts or when spawned
@@ -66,6 +66,12 @@ float AGOGMonster::TakeDamage(float DamageAmount, FDamageEvent const& DamageEven
 
 	if(CurrentHealth <= 0.0f)
 	{
+		AGOGCharacterController* GOGController = Cast<AGOGCharacterController>(EventInstigator);
+		AGOGCharacter* Char = Cast<AGOGCharacter>(GOGController->GetOwner());
+
+		// TODO: 몬스터 잡은 마리 수 증가시키기
+		// 1. GOGCharacter Stat Component에 몬스터 잡은 마리수 받아서 증가시키는 함수 만들기 (최대 마리 수 도달하면 더 증가하지 않게)
+
 		Die();
 	}
 
@@ -176,10 +182,9 @@ void AGOGMonster::Attack()
 
 void AGOGMonster::Die()
 {
-	
-	if (DieParticle) {
+	if (DieParticle) 
+	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DieParticle, GetActorLocation());
-		
 	}
 	
 	Destroy();

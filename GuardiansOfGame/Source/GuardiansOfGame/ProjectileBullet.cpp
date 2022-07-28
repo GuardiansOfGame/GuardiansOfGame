@@ -55,7 +55,7 @@ void AProjectileBullet::CollisionComponentOnOverlapBegin(UPrimitiveComponent* Ov
 		const AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
 		if (Char)
 		{
-			UGameplayStatics::ApplyDamage(OtherActor, 1000.f, BulletInstigator, this, nullptr);
+			UGameplayStatics::ApplyDamage(OtherActor, 10.0f, BulletInstigator, this, nullptr);
 			Destroy();
 		}
 	}

@@ -56,6 +56,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 	float CurrentHealth;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stat)
+	int TagNum;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
