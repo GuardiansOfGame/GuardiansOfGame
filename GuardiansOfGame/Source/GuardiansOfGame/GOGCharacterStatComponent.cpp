@@ -39,6 +39,17 @@ void UGOGCharacterStatComponent::SetTaskCompleted(const int TaskNum)
 	}
 }
 
+void UGOGCharacterStatComponent::SetBattleTaskProgress(const int TaskNum)
+{
+	++Quests[CurQuestNum].Tasks[TaskNum].Type.Current;
+	const int Goal = Quests[CurQuestNum].Tasks[TaskNum].Type.Goal;
+
+	if(Quests[CurQuestNum].Tasks[TaskNum].Type.Current == Goal)
+	{
+		SetTaskCompleted(TaskNum);
+	}
+}
+
 void UGOGCharacterStatComponent::Init()
 {
 	GameInstance = Cast<UGOGGameInstance>(GetWorld()->GetGameInstance());

@@ -51,7 +51,7 @@ void UGOGGameInstance::Init()
 		Quests[i].Tasks[3].Type.bIsBattleQuest = true;
 
 		// TODO: 잡아야 하는 몬스터 수 임시 설정이므로 나중에 레벨 디자인 후 수정
-		Quests[i].Tasks[1].Type.Goal = 3;
+		Quests[i].Tasks[1].Type.Goal = 5;
 		Quests[i].Tasks[3].Type.Goal = 1;
 	}
 }

@@ -26,6 +26,7 @@ AGOGMonster::AGOGMonster()
 	CombatSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CombatSphere"));
 	CombatSphere->SetupAttachment(GetRootComponent());
 	CombatSphere->InitSphereRadius(400.f);
+	
 
 	MaxHealth = 40.f;
 	CurrentHealth = MaxHealth;
@@ -42,8 +43,6 @@ AGOGMonster::AGOGMonster()
 	if (BulletS.Succeeded()) {
 		BulletSound = BulletS.Object;
 	}
-
-	TagNum = 0;
 }
 
 // Called when the game starts or when spawned
@@ -74,11 +73,16 @@ float AGOGMonster::TakeDamage(float DamageAmount, FDamageEvent const& DamageEven
 
 	if(CurrentHealth <= 0.0f)
 	{
-		AGOGCharacterController* GOGController = Cast<AGOGCharacterController>(EventInstigator);
-		AGOGCharacter* Char = Cast<AGOGCharacter>(GOGController->GetOwner());
+		const AGOGCharacterController* GOGController = Cast<AGOGCharacterController>(EventInstigator);
+		AGOGCharacter* Char = Cast<AGOGCharacter>(GOGController->GetCharacter());
 
-		// TODO: 몬스터 잡은 마리 수 증가시키기
-		// 1. GOGCharacter Stat Component에 몬스터 잡은 마리수 받아서 증가시키는 함수 만들기 (최대 마리 수 도달하면 더 증가하지 않게)
+		if(GOGController && Char)
+		{
+			if(Char)
+			{
+				Char->KillMonster(1);
+			}
+		}
 
 		Die();
 	}
@@ -97,7 +101,6 @@ void AGOGMonster::Tick(float DeltaTime)
 void AGOGMonster::SetEnemyMovementStatus(const EEnemyMovementStatus Status)
 {
 	EnemyMovementStatus = Status;
-
 }
 
 void AGOGMonster::AgroSphereOnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -133,7 +136,6 @@ void AGOGMonster::CombatSphereOnOverlapBegin(UPrimitiveComponent* OverlappedComp
 			Attack();
 		}
 	}
-	
 }
 
 void AGOGMonster::CombatSphereOnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -186,6 +188,7 @@ void AGOGMonster::Attack()
 			}
 		}
 	}
+
 }
 
 void AGOGMonster::Die()

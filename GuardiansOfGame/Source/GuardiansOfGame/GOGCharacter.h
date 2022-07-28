@@ -300,4 +300,6 @@ public:
 	void EndComboAttack();
 
 	void SetUsedBlocks(const int BlockIndex, const bool bUsed);
+
+	void KillMonster(const int TaskNum);
 };

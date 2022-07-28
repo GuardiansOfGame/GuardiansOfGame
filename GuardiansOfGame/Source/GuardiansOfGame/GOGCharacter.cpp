@@ -743,3 +743,9 @@ void AGOGCharacter::SetUsedBlocks(const int BlockIndex, const bool bUsed)
 {
 	UsedBlocks[BlockIndex] = bUsed;
 }
+
+void AGOGCharacter::KillMonster(const int TaskNum)
+{
+	Stat->SetBattleTaskProgress(TaskNum);
+	GOGController->UpdateQuestLog(Stat, TaskNum);
+}
