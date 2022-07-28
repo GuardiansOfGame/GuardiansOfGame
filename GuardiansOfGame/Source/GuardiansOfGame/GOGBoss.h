@@ -51,8 +51,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Bullet)
 	TSubclassOf<class AProjectileBullet> ProjectileClass;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera)
-	TSubclassOf<class UMatineeCameraShake> AttackShakeclass;
+	 UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera)
+	 TSubclassOf<class UMatineeCameraShake> AttackShakeclass;
 
 protected:
 	// Called when the game starts or when spawned

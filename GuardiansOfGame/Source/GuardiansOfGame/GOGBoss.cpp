@@ -10,7 +10,6 @@
 #include "NavigationSystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "ProjectileBullet.h"
-#include "Camera/CameraShake.h"
 #include "MatineeCameraShake.h"
 #include "Animation/AnimMontage.h"
 #include "Animation/AnimInstance.h"
@@ -82,7 +81,7 @@ void AGOGBoss::BeginPlay()
 float AGOGBoss::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 
-	const float Damage = Super::TakeDamage(10, DamageEvent, EventInstigator, DamageCauser);
+	const float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	CurrentHealth -= Damage;
 
 	if (CurrentHealth <= 0.0f)
@@ -215,9 +214,7 @@ void AGOGBoss::Die()
 
 void AGOGBoss::CameraShake()
 {
-	
-	UGameplayStatics::PlayWorldCameraShake(GetWorld(), AttackShakeclass, GetActorLocation(), 800.f, 2500.0f, 1.0f, false);
-	//GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(AttackShakeclass, 1.3f);
-
+	 UGameplayStatics::PlayWorldCameraShake(GetWorld(), AttackShakeclass, GetActorLocation(), 800.f, 2500.0f, 1.0f, false);
+	GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(AttackShakeclass, 1.3f);
 }
 
