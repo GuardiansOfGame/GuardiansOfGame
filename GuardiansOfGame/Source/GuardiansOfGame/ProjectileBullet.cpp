@@ -33,7 +33,10 @@ void AProjectileBullet::BulletDirection(const FVector& Direction)
 void AProjectileBullet::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	CollisionComponent->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
+	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectileBullet::CollisionComponentOnOverlapBegin);
 	CollisionComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Ignore);
 }
@@ -52,10 +55,8 @@ void AProjectileBullet::CollisionComponentOnOverlapBegin(UPrimitiveComponent* Ov
 		const AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
 		if (Char)
 		{
-			UGameplayStatics::ApplyDamage(OtherActor, 1000.f, BulletInstigator, this, nullptr);
-			
+			UGameplayStatics::ApplyDamage(OtherActor, 10.f, BulletInstigator, this, nullptr);
+			Destroy();
 		}
-		
 	}
 }
-
