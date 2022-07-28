@@ -15,13 +15,13 @@ AProjectileBullet::AProjectileBullet()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	CollisionComponent = CreateAbstractDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
-	CollisionComponent->InitSphereRadius(100.0f);
+	CollisionComponent->InitSphereRadius(15.0f);
 	RootComponent = CollisionComponent;
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 	ProjectileMovementComponent->InitialSpeed = 3000.0f;
-	ProjectileMovementComponent->MaxSpeed = 1000.0f;
+	ProjectileMovementComponent->MaxSpeed = 500.0f;
 }
 
 void AProjectileBullet::BulletDirection(const FVector& Direction)
@@ -33,9 +33,6 @@ void AProjectileBullet::BulletDirection(const FVector& Direction)
 void AProjectileBullet::BeginPlay()
 {
 	Super::BeginPlay();
-
-	CollisionComponent->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
-	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectileBullet::CollisionComponentOnOverlapBegin);
 	CollisionComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Ignore);
@@ -55,9 +52,10 @@ void AProjectileBullet::CollisionComponentOnOverlapBegin(UPrimitiveComponent* Ov
 		const AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
 		if (Char)
 		{
-			UGameplayStatics::ApplyDamage(OtherActor, 10.0f, BulletInstigator, this, nullptr);
-			Destroy();
+			UGameplayStatics::ApplyDamage(OtherActor, 1000.f, BulletInstigator, this, nullptr);
+			
 		}
+		
 	}
 }
 

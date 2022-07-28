@@ -1,4 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GOGMonster.h"
 #include "MonsterAI.h"
@@ -34,7 +34,6 @@ AGOGMonster::AGOGMonster()
 	if (DieP.Succeeded()) {
 		DieParticle = DieP.Object;
 	}
-
 	static ConstructorHelpers::FObjectFinder<USoundCue> DieS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/GOGMonsterHitSound_Cue.GOGMonsterHitSound_Cue'"));
 	if (DieS.Succeeded()) {
 		MonsterHitSound = DieS.Object;
@@ -187,15 +186,13 @@ void AGOGMonster::Attack()
 			}
 		}
 	}
-
 }
 
 void AGOGMonster::Die()
 {
 	UGameplayStatics::PlaySoundAtLocation(this, MonsterHitSound, GetActorLocation());
-
-	if (DieParticle) 
-	{
+	
+	if (DieParticle) {
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DieParticle, GetActorLocation());
 	}
 	

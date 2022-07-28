@@ -80,7 +80,6 @@ void AGOGBoss::BeginPlay()
 
 float AGOGBoss::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-
 	const float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	CurrentHealth -= Damage;
 
@@ -217,4 +216,3 @@ void AGOGBoss::CameraShake()
 	 UGameplayStatics::PlayWorldCameraShake(GetWorld(), AttackShakeclass, GetActorLocation(), 800.f, 2500.0f, 1.0f, false);
 	GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(AttackShakeclass, 1.3f);
 }
-
