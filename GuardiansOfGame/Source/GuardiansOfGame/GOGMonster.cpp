@@ -1,4 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "GOGMonster.h"
 #include "MonsterAI.h"
@@ -8,8 +8,8 @@
 #include "NavigationSystem.h"
 #include "ProjectileBullet.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 #include "GOGCharacter.h"
-#include "GOGCharacterController.h"
 
 // Sets default values
 AGOGMonster::AGOGMonster()
@@ -19,11 +19,13 @@ AGOGMonster::AGOGMonster()
 
 	AgroSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AgroSphere"));
 	AgroSphere->SetupAttachment(GetRootComponent());
-	AgroSphere->InitSphereRadius(700.f);
+	AgroSphere->InitSphereRadius(800.f);
 
 	CombatSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CombatSphere"));
 	CombatSphere->SetupAttachment(GetRootComponent());
 	CombatSphere->InitSphereRadius(400.f);
+	
+	
 
 	MaxHealth = 40.f;
 	CurrentHealth = MaxHealth;
@@ -32,8 +34,14 @@ AGOGMonster::AGOGMonster()
 	if (DieP.Succeeded()) {
 		DieParticle = DieP.Object;
 	}
-
-	TagNum = 0;
+	static ConstructorHelpers::FObjectFinder<USoundCue> DieS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/GOGMonsterHitSound_Cue.GOGMonsterHitSound_Cue'"));
+	if (DieS.Succeeded()) {
+		MonsterHitSound = DieS.Object;
+	}
+	static ConstructorHelpers::FObjectFinder<USoundCue> BulletS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/BulletSound_Cue.BulletSound_Cue'"));
+	if (BulletS.Succeeded()) {
+		BulletSound = BulletS.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -66,12 +74,6 @@ float AGOGMonster::TakeDamage(float DamageAmount, FDamageEvent const& DamageEven
 
 	if(CurrentHealth <= 0.0f)
 	{
-		AGOGCharacterController* GOGController = Cast<AGOGCharacterController>(EventInstigator);
-		AGOGCharacter* Char = Cast<AGOGCharacter>(GOGController->GetOwner());
-
-		// TODO: 몬스터 잡은 마리 수 증가시키기
-		// 1. GOGCharacter Stat Component에 몬스터 잡은 마리수 받아서 증가시키는 함수 만들기 (최대 마리 수 도달하면 더 증가하지 않게)
-
 		Die();
 	}
 
@@ -174,6 +176,7 @@ void AGOGMonster::Attack()
 			{
 				FVector LaunchDirection = MuzzleRotation.Vector();
 				Projectile->BulletDirection(LaunchDirection);
+				UGameplayStatics::PlaySoundAtLocation(this, BulletSound, GetActorLocation());
 			}
 		}
 	}
@@ -182,9 +185,11 @@ void AGOGMonster::Attack()
 
 void AGOGMonster::Die()
 {
-	if (DieParticle) 
-	{
+	UGameplayStatics::PlaySoundAtLocation(this, MonsterHitSound, GetActorLocation());
+	
+	if (DieParticle) {
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DieParticle, GetActorLocation());
+		
 	}
 	
 	Destroy();

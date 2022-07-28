@@ -49,15 +49,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Particle)
 	class UParticleSystem* DieParticle;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound)
+	class USoundCue* MonsterHitSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound)
+	class USoundCue* BulletSound;
 
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 	float MaxHealth;
 
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 	float CurrentHealth;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stat)
-	int TagNum;
 
 protected:
 	// Called when the game starts or when spawned
