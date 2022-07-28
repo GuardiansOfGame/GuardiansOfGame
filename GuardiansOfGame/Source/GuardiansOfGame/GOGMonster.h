@@ -4,9 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "MonsterBullet.h"
-#include "Kismet/GameplayStatics.h"
-
 #include "GOGMonster.generated.h"
 
 UENUM(BlueprintType)
@@ -61,9 +58,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 	float CurrentHealth;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stat)
-	int TagNum;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -73,8 +67,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	
 	
 	void SetEnemyMovementStatus(const EEnemyMovementStatus Status);
 	
@@ -92,12 +84,9 @@ public:
 
 	UFUNCTION()
 	void Attack();
-	
-	
+
 	void Die();
 
 	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
-
-	
 };

@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "GOGMonster.h"
 #include "MonsterBullet.generated.h"
 
 class UProjectileMovementComponent;
