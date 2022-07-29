@@ -304,7 +304,8 @@ float AGOGCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 		{
 			GOGController->SetHealthBarPercent(CurrentHealth, MaxHealth);
 		}
-		else
+
+		if(CurrentHealth <= 0)
 		{
 			GOGController->SetHealthBarPercent(0.0f, MaxHealth);
 			AnimInstance->PlayDeathMontage();
