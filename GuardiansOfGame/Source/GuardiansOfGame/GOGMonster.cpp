@@ -37,11 +37,16 @@ AGOGMonster::AGOGMonster()
 	}
 	static ConstructorHelpers::FObjectFinder<USoundCue> DieS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/GOGMonsterHitSound_Cue.GOGMonsterHitSound_Cue'"));
 	if (DieS.Succeeded()) {
-		MonsterHitSound = DieS.Object;
+		MonsterDieSound = DieS.Object;
 	}
+	
 	static ConstructorHelpers::FObjectFinder<USoundCue> BulletS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/BulletSound_Cue.BulletSound_Cue'"));
 	if (BulletS.Succeeded()) {
 		BulletSound = BulletS.Object;
+	}
+	static ConstructorHelpers::FObjectFinder<USoundCue> HitS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/MonsterHitSound_Cue.MonsterHitSound_Cue'"));
+	if (DieS.Succeeded()) {
+		MonsterHitSound = HitS.Object;
 	}
 }
 
@@ -70,7 +75,7 @@ float AGOGMonster::TakeDamage(float DamageAmount, FDamageEvent const& DamageEven
 {
 	const float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	CurrentHealth -= Damage;
-
+	
 	if(CurrentHealth <= 0.0f)
 	{
 		const AGOGCharacterController* GOGController = Cast<AGOGCharacterController>(EventInstigator);
@@ -86,7 +91,7 @@ float AGOGMonster::TakeDamage(float DamageAmount, FDamageEvent const& DamageEven
 
 		Die();
 	}
-
+	UGameplayStatics::PlaySoundAtLocation(this, MonsterHitSound, GetActorLocation());
 	return Damage;
 }
 
@@ -193,7 +198,7 @@ void AGOGMonster::Attack()
 
 void AGOGMonster::Die()
 {
-	UGameplayStatics::PlaySoundAtLocation(this, MonsterHitSound, GetActorLocation());
+	UGameplayStatics::PlaySoundAtLocation(this, MonsterDieSound, GetActorLocation());
 	
 	if (DieParticle) {
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DieParticle, GetActorLocation());
