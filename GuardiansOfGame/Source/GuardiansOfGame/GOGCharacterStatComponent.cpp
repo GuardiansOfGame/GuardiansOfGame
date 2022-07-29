@@ -44,7 +44,7 @@ void UGOGCharacterStatComponent::SetBattleTaskProgress(const int TaskNum)
 	++Quests[CurQuestNum].Tasks[TaskNum].Type.Current;
 	const int Goal = Quests[CurQuestNum].Tasks[TaskNum].Type.Goal;
 
-	if(Quests[CurQuestNum].Tasks[TaskNum].Type.Current == Goal)
+	if(Quests[CurQuestNum].Tasks[TaskNum].Type.Current >= Goal)
 	{
 		SetTaskCompleted(TaskNum);
 	}

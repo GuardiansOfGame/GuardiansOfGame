@@ -15,6 +15,7 @@
 #include "Animation/AnimInstance.h"
 #include "Sound/SoundCue.h"
 #include "GOGCharacter.h"
+#include "GOGCharacterController.h"
 #include "GOGMonster.h"
 // Sets default values
 AGOGBoss::AGOGBoss()
@@ -85,6 +86,17 @@ float AGOGBoss::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, 
 
 	if (CurrentHealth <= 0.0f)
 	{
+		const AGOGCharacterController* GOGController = Cast<AGOGCharacterController>(EventInstigator);
+		AGOGCharacter* Char = Cast<AGOGCharacter>(GOGController->GetCharacter());
+
+		if (GOGController && Char)
+		{
+			if (Char)
+			{
+				Char->KillMonster(3);
+			}
+		}
+
 		Die();
 	}
 	/*else if (CurrentHealth == 10.0f) {

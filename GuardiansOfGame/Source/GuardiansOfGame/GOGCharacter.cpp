@@ -300,7 +300,7 @@ float AGOGCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 	if(EventInstigator != GetController())
 	{
 		CurrentHealth -= Damage;
-		if (CurrentHealth >= 0)
+		if (CurrentHealth > 0)
 		{
 			GOGController->SetHealthBarPercent(CurrentHealth, MaxHealth);
 		}
