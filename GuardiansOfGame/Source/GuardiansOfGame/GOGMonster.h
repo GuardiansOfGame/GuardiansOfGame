@@ -4,9 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "MonsterBullet.h"
-#include "Kismet/GameplayStatics.h"
-
 #include "GOGMonster.generated.h"
 
 UENUM(BlueprintType)
@@ -50,10 +47,13 @@ public:
 	class UParticleSystem* DieParticle;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound)
-	class USoundCue* MonsterHitSound;
+	class USoundCue* MonsterDieSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound)
 	class USoundCue* BulletSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Sound)
+	class USoundCue* MonsterHitSound;
 
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 	float MaxHealth;
@@ -70,8 +70,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	
 	
 	void SetEnemyMovementStatus(const EEnemyMovementStatus Status);
 	
@@ -89,12 +87,9 @@ public:
 
 	UFUNCTION()
 	void Attack();
-	
-	
+
 	void Die();
 
 	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
-
-	
 };

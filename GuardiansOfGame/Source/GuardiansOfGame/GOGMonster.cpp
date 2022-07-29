@@ -4,12 +4,14 @@
 #include "MonsterAI.h"
 #include "AIController.h"
 #include "Components/sphereComponent.h"
+#include "Engine/Classes/Particles/ParticleSystem.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "NavigationSystem.h"
 #include "ProjectileBullet.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
 #include "GOGCharacter.h"
+#include "GOGCharacterController.h"
 
 // Sets default values
 AGOGMonster::AGOGMonster()
@@ -25,7 +27,6 @@ AGOGMonster::AGOGMonster()
 	CombatSphere->SetupAttachment(GetRootComponent());
 	CombatSphere->InitSphereRadius(400.f);
 	
-	
 
 	MaxHealth = 40.f;
 	CurrentHealth = MaxHealth;
@@ -36,11 +37,16 @@ AGOGMonster::AGOGMonster()
 	}
 	static ConstructorHelpers::FObjectFinder<USoundCue> DieS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/GOGMonsterHitSound_Cue.GOGMonsterHitSound_Cue'"));
 	if (DieS.Succeeded()) {
-		MonsterHitSound = DieS.Object;
+		MonsterDieSound = DieS.Object;
 	}
+	
 	static ConstructorHelpers::FObjectFinder<USoundCue> BulletS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/BulletSound_Cue.BulletSound_Cue'"));
 	if (BulletS.Succeeded()) {
 		BulletSound = BulletS.Object;
+	}
+	static ConstructorHelpers::FObjectFinder<USoundCue> HitS(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/MonsterHitSound_Cue.MonsterHitSound_Cue'"));
+	if (DieS.Succeeded()) {
+		MonsterHitSound = HitS.Object;
 	}
 }
 
@@ -49,9 +55,7 @@ void AGOGMonster::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
 	AIController = Cast<AMonsterAI>(GetController());
-
 
 	AgroSphere->OnComponentBeginOverlap.AddDynamic(this, &AGOGMonster::AgroSphereOnOverlapBegin);
 	AgroSphere->OnComponentEndOverlap.AddDynamic(this, &AGOGMonster::AgroSphereOnOverlapEnd);
@@ -71,12 +75,23 @@ float AGOGMonster::TakeDamage(float DamageAmount, FDamageEvent const& DamageEven
 {
 	const float Damage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	CurrentHealth -= Damage;
-
+	
 	if(CurrentHealth <= 0.0f)
 	{
+		const AGOGCharacterController* GOGController = Cast<AGOGCharacterController>(EventInstigator);
+		AGOGCharacter* Char = Cast<AGOGCharacter>(GOGController->GetCharacter());
+
+		if(GOGController && Char)
+		{
+			if(Char)
+			{
+				Char->KillMonster(1);
+			}
+		}
+
 		Die();
 	}
-
+	UGameplayStatics::PlaySoundAtLocation(this, MonsterHitSound, GetActorLocation());
 	return Damage;
 }
 
@@ -91,7 +106,6 @@ void AGOGMonster::Tick(float DeltaTime)
 void AGOGMonster::SetEnemyMovementStatus(const EEnemyMovementStatus Status)
 {
 	EnemyMovementStatus = Status;
-
 }
 
 void AGOGMonster::AgroSphereOnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -127,7 +141,6 @@ void AGOGMonster::CombatSphereOnOverlapBegin(UPrimitiveComponent* OverlappedComp
 			Attack();
 		}
 	}
-	
 }
 
 void AGOGMonster::CombatSphereOnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -185,11 +198,10 @@ void AGOGMonster::Attack()
 
 void AGOGMonster::Die()
 {
-	UGameplayStatics::PlaySoundAtLocation(this, MonsterHitSound, GetActorLocation());
+	UGameplayStatics::PlaySoundAtLocation(this, MonsterDieSound, GetActorLocation());
 	
 	if (DieParticle) {
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DieParticle, GetActorLocation());
-		
 	}
 	
 	Destroy();
