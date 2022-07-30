@@ -119,6 +119,9 @@ private:
 	bool bIsSliding;
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)
+	bool bIsDying;
+
+	UPROPERTY(VisibleAnywhere, Category = Movement)
 	bool bMovingForward;
 
 	UPROPERTY(VisibleAnywhere, Category = Movement)

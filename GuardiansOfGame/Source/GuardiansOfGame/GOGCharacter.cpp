@@ -82,6 +82,7 @@ AGOGCharacter::AGOGCharacter()
 	bIsBattling = false;
 	bIsRolling = false;
 	bIsSliding = false;
+	bIsDying = false;
 
 	bMovingForward = false;
 	bMovingRight = false;
@@ -307,6 +308,8 @@ float AGOGCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEv
 
 		if(CurrentHealth <= 0)
 		{
+			bIsDying = true;
+
 			GOGController->SetHealthBarPercent(0.0f, MaxHealth);
 			AnimInstance->PlayDeathMontage();
 		}
@@ -589,6 +592,7 @@ bool AGOGCharacter::CanMove() const
 		return !bIsRolling
 			   && !bIsSliding
 			   && !bIsAttacking
+			   && !bIsDying
 			   && MovementStatus != EMovementStatus::EMS_Dead;
 	}
 
