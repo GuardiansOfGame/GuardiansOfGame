@@ -35,11 +35,15 @@ private:
 
 	TSubclassOf<class UGOGCharacterWidget> GOGCharacterWidgetClass;
 	UPROPERTY(VisibleAnywhere, Category = Widget)
-	class UGOGCharacterWidget* GOGCharacterWidget;
+	UGOGCharacterWidget* GOGCharacterWidget;
 
 	TSubclassOf<class UPauseWidget> PauseWidgetClass;
 	UPROPERTY(VisibleAnywhere, Category = Widget)
-	class UPauseWidget* PauseWidget;
+	UPauseWidget* PauseWidget;
+
+	TSubclassOf<class UGameOverWidget> GameOverWidgetClass;
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	UGameOverWidget* GameOverWidget;
 
 	TSubclassOf<class UDialogueWidget> DialogueWidgetClass;
 	UPROPERTY(VisibleAnywhere, Category = Widget)

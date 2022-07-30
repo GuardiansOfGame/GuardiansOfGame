@@ -3,6 +3,7 @@
 #include "GOGCharacterController.h"
 
 #include "DialogueWidget.h"
+#include "GameOverWidget.h"
 #include "GOGCharacter.h"
 #include "GOGCharacterStatComponent.h"
 #include "GOGCharacterWidget.h"
@@ -23,6 +24,12 @@ AGOGCharacterController::AGOGCharacterController()
 	if (PauseWidgetAsset.Succeeded())
 	{
 		PauseWidgetClass = PauseWidgetAsset.Class;
+	}
+
+	static ConstructorHelpers::FClassFinder<UGameOverWidget> GameOverWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/GameOverWidget_BP.GameOverWidget_BP_C'"));
+	if (GameOverWidgetAsset.Succeeded())
+	{
+		GameOverWidgetClass = GameOverWidgetAsset.Class;
 	}
 
 	static ConstructorHelpers::FClassFinder<UDialogueWidget> DialogueWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/DialogueWidget_BP.DialogueWidget_BP_C'"));
@@ -58,6 +65,11 @@ void AGOGCharacterController::OnPossess(APawn* InPawn)
 	if (PauseWidgetClass)
 	{
 		PauseWidget = CreateWidget<UPauseWidget>(this, PauseWidgetClass);
+	}
+
+	if(GameOverWidgetClass)
+	{
+		GameOverWidget = CreateWidget<UGameOverWidget>(this, GameOverWidgetClass);
 	}
 
 	if (DialogueWidgetClass)
