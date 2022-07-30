@@ -610,6 +610,8 @@ void AGOGCharacter::Dead()
 
 	GetMesh()->bPauseAnims = true;
 	GetMesh()->bNoSkeletonUpdate = true;
+
+	GOGController->GameOver();
 }
 
 void AGOGCharacter::SetQuestProgress(const bool bChatEnded)

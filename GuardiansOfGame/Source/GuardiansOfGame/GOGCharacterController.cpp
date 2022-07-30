@@ -190,6 +190,17 @@ void AGOGCharacterController::TogglePause(const bool bPause)
 	}
 }
 
+void AGOGCharacterController::GameOver()
+{
+	SetInputMode(FInputModeUIOnly());
+	bShowMouseCursor = true;
+
+	SetPause(true);
+
+	GameOverWidget->AddToViewport();
+	GameOverWidget->PlayPopUpAnimation();
+}
+
 void AGOGCharacterController::SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const
 {
 	GOGCharacterWidget->SetHealthBarPercent(CurrentHealth, MaxHealth);

@@ -62,6 +62,8 @@ public:
 
 	void TogglePause(const bool bPause);
 
+	void GameOver();
+
 	void SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const;
 	void SetStaminaBarPercent(const float CurrentStamina, const float MaxStamina) const;
 
