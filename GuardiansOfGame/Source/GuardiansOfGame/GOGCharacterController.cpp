@@ -9,6 +9,7 @@
 #include "GOGCharacterWidget.h"
 #include "GOGGameInstance.h"
 #include "HealthBar.h"
+#include "LoadingWidget.h"
 #include "PauseWidget.h"
 #include "QuestLogWidget.h"
 
@@ -18,6 +19,12 @@ AGOGCharacterController::AGOGCharacterController()
 	if (GOGCharacterWidgetAsset.Succeeded())
 	{
 		GOGCharacterWidgetClass = GOGCharacterWidgetAsset.Class;
+	}
+
+	static ConstructorHelpers::FClassFinder<ULoadingWidget> LoadingWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/LoadingWidget_BP.LoadingWidget_BP_C'"));
+	if (LoadingWidgetAsset.Succeeded())
+	{
+		LoadingWidgetClass = LoadingWidgetAsset.Class;
 	}
 
 	static ConstructorHelpers::FClassFinder<UPauseWidget> PauseWidgetAsset(TEXT("WidgetBlueprint'/Game/CustomContent/Widgets/PauseWidget_BP.PauseWidget_BP_C'"));
@@ -60,6 +67,11 @@ void AGOGCharacterController::OnPossess(APawn* InPawn)
 
 		GOGCharacterWidget->AddToViewport();
 		GOGCharacterWidget->GetQuestLogWidget()->SetVisibility(ESlateVisibility::Hidden);
+	}
+
+	if(LoadingWidgetClass)
+	{
+		LoadingWidget = CreateWidget<ULoadingWidget>(this, LoadingWidgetClass);
 	}
 
 	if (PauseWidgetClass)
@@ -129,6 +141,22 @@ void AGOGCharacterController::BeginPlay()
 	{
 		SetInventory(GameInstance->GetInventory());
 		GOGCharacterWidget->RefreshInventory();
+	}
+
+	Loading(true, true);
+}
+
+void AGOGCharacterController::Loading(const bool bReversed, const bool bUIRemoved) const
+{
+	LoadingWidget->AddToViewport();
+	LoadingWidget->PlayPopUpAnimation(bReversed);
+
+	if(bUIRemoved)
+	{
+		FTimerHandle UIAnimDelayTimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(UIAnimDelayTimerHandle, FTimerDelegate::CreateLambda([&]() {
+			LoadingWidget->RemoveFromParent();
+		}), 1.0f, false);
 	}
 }
 
@@ -214,6 +242,8 @@ void AGOGCharacterController::Respawn()
 	GetWorld()->GetTimerManager().SetTimer(UIAnimDelayTimerHandle, FTimerDelegate::CreateLambda([&]() {
 		GameOverWidget->RemoveFromParent();
 	}), 0.25f, false);
+
+	Loading(true, true);
 
 	GOGCharacter->Respawn();
 }

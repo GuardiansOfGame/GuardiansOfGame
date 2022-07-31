@@ -37,6 +37,10 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Widget)
 	UGOGCharacterWidget* GOGCharacterWidget;
 
+	TSubclassOf<class ULoadingWidget> LoadingWidgetClass;
+	UPROPERTY(VisibleAnywhere, Category = Widget)
+	ULoadingWidget* LoadingWidget;
+
 	TSubclassOf<class UPauseWidget> PauseWidgetClass;
 	UPROPERTY(VisibleAnywhere, Category = Widget)
 	UPauseWidget* PauseWidget;
@@ -56,6 +60,8 @@ private:
 public:
 	FORCEINLINE TArray<FCustomItemInfo> GetInventory() const { return GOGCharacterWidget->GetInventory(); }
 	FORCEINLINE void SetInventory(const TArray<FCustomItemInfo> CurrentInventory) const { GOGCharacterWidget->SetInventory(CurrentInventory); }
+
+	void Loading(const bool bReversed, const bool bUIRemoved) const;
 
 	void BeginChat(const TArray<FString> Strings, const FString Name);
 	void EndChat();
