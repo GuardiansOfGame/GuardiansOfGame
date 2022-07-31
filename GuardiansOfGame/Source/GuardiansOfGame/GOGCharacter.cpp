@@ -766,8 +766,6 @@ void AGOGCharacter::KillMonster(const int TaskNum)
 
 void AGOGCharacter::Respawn()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Respawn"));
-
 	MovementStatus = EMovementStatus::EMS_Normal;
 	GetMesh()->bPauseAnims = false;
 	GetMesh()->bNoSkeletonUpdate = false;
