@@ -5,6 +5,8 @@
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
 
+#include "GOGCharacterController.h"
+
 void UGameOverWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -16,6 +18,12 @@ void UGameOverWidget::NativeConstruct()
 
 void UGameOverWidget::RetryButtonClicked()
 {
+	AGOGCharacterController* Controller = Cast<AGOGCharacterController>(GetOwningPlayer());
+
+	if(Controller)
+	{
+		Controller->Respawn();
+	}
 }
 
 void UGameOverWidget::TitleButtonClicked()
@@ -28,7 +36,14 @@ void UGameOverWidget::QuitButtonClicked()
 	UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, false);
 }
 
-void UGameOverWidget::PlayPopUpAnimation()
+void UGameOverWidget::PlayPopUpAnimation(const bool bReversed)
 {
-	PlayAnimation(PopUp);
+	if (bReversed)
+	{
+		PlayAnimation(PopUp, 0.0f, 1, EUMGSequencePlayMode::Reverse);
+	}
+	else
+	{
+		PlayAnimation(PopUp);
+	}
 }

@@ -187,11 +187,14 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Inventory)
 	bool bInventoryAnimPlaying;
 
-	UPROPERTY(VisibleAnywhere, Category = Game)
+	UPROPERTY(VisibleAnywhere, Category = Gameplay)
 	bool bCanBlockUse;
 
-	UPROPERTY(VisibleAnywhere, Category = Game)
+	UPROPERTY(VisibleAnywhere, Category = Gameplay)
 	TArray<bool> UsedBlocks;
+
+	UPROPERTY(VisibleAnywhere, Category = Gameplay)
+	FVector RespawnLocation;
 
 protected:
 	void MoveForward(const float Value);
@@ -281,6 +284,9 @@ public:
 
 	FORCEINLINE TArray<bool> GetUsedBlocks() const { return UsedBlocks; }
 
+	FORCEINLINE FVector GetRespawnLocation() const { return RespawnLocation; }
+	FORCEINLINE void SetRespawnLocation(const FVector Location) { RespawnLocation = Location; }
+
 	void SetMovementStatus(const EMovementStatus Status);
 
 	void UIOn() const;
@@ -305,4 +311,6 @@ public:
 	void SetUsedBlocks(const int BlockIndex, const bool bUsed);
 
 	void KillMonster(const int TaskNum);
+
+	void Respawn();
 };

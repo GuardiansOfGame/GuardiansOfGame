@@ -65,5 +65,5 @@ protected:
 	void QuitButtonClicked();
 
 public:
-	void PlayPopUpAnimation();
+	void PlayPopUpAnimation(const bool bReversed);
 };

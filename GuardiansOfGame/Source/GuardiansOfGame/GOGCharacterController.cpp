@@ -198,7 +198,24 @@ void AGOGCharacterController::GameOver()
 	SetPause(true);
 
 	GameOverWidget->AddToViewport();
-	GameOverWidget->PlayPopUpAnimation();
+	GameOverWidget->PlayPopUpAnimation(false);
+}
+
+void AGOGCharacterController::Respawn()
+{
+	SetInputMode(FInputModeGameOnly());
+	bShowMouseCursor = false;
+
+	SetPause(false);
+
+	GameOverWidget->PlayPopUpAnimation(true);
+
+	FTimerHandle UIAnimDelayTimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(UIAnimDelayTimerHandle, FTimerDelegate::CreateLambda([&]() {
+		GameOverWidget->RemoveFromParent();
+	}), 0.25f, false);
+
+	GOGCharacter->Respawn();
 }
 
 void AGOGCharacterController::SetHealthBarPercent(const float CurrentHealth, const float MaxHealth) const

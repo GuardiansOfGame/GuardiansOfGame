@@ -119,6 +119,8 @@ AGOGCharacter::AGOGCharacter()
 
 	bCanBlockUse = false;
 	UsedBlocks.Init(false, 7);
+
+	RespawnLocation = FVector(0.0f);
 }
 
 // Called when the game starts or when spawned
@@ -136,6 +138,8 @@ void AGOGCharacter::BeginPlay()
 	{
 		Weapon->EquipToBack(this);
 	}
+
+	RespawnLocation = GetActorLocation();
 }
 
 // Called every frame
@@ -331,6 +335,9 @@ void AGOGCharacter::MoveForward(const float Value)
 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
+	}
+	else
+	{
 	}
 }
 
@@ -593,7 +600,7 @@ bool AGOGCharacter::CanMove() const
 			   && !bIsSliding
 			   && !bIsAttacking
 			   && !bIsDying
-			   && MovementStatus != EMovementStatus::EMS_Dead;
+			   && !(MovementStatus == EMovementStatus::EMS_Dead);
 	}
 
 	return false;
@@ -755,4 +762,20 @@ void AGOGCharacter::KillMonster(const int TaskNum)
 {
 	Stat->SetBattleTaskProgress(TaskNum);
 	GOGController->UpdateQuestLog(Stat, TaskNum);
+}
+
+void AGOGCharacter::Respawn()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Respawn"));
+
+	MovementStatus = EMovementStatus::EMS_Normal;
+	GetMesh()->bPauseAnims = false;
+	GetMesh()->bNoSkeletonUpdate = false;
+
+	bIsDying = false;
+
+	CurrentHealth = MaxHealth;
+	GOGController->SetHealthBarPercent(CurrentHealth, MaxHealth);
+
+	SetActorLocation(RespawnLocation);
 }
