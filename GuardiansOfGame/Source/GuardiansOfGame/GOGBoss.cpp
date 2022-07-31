@@ -75,7 +75,7 @@ void AGOGBoss::BeginPlay()
 	CombatSphere->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Ignore);
 
 
-	MaxHealth = 30.f;
+	MaxHealth = 100.f;
 	CurrentHealth = MaxHealth;
 }
 
