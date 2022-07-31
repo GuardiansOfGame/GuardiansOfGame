@@ -24,6 +24,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	class UProjectileMovementComponent* ProjectileMovementComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Combat)
+	float Damage;
+
 	void BulletDirection(const FVector& Direction);
 
 protected:

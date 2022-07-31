@@ -8,7 +8,6 @@
 #include "GOGCharacter.h"
 #include "GOGMonster.h"
 
-
 // Sets default values
 AProjectileBullet::AProjectileBullet()
 {
@@ -21,7 +20,13 @@ AProjectileBullet::AProjectileBullet()
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 	ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
 	ProjectileMovementComponent->InitialSpeed = 3000.0f;
-	ProjectileMovementComponent->MaxSpeed = 500.0f;
+	ProjectileMovementComponent->MaxSpeed = 600.0f;
+
+	ProjectileMovementComponent->bShouldBounce = true;
+	ProjectileMovementComponent->Bounciness = 0.8f;
+	ProjectileMovementComponent->Friction = 0.3f;
+
+	Damage = 10.0f;
 }
 
 void AProjectileBullet::BulletDirection(const FVector& Direction)
@@ -39,6 +44,11 @@ void AProjectileBullet::BeginPlay()
 
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectileBullet::CollisionComponentOnOverlapBegin);
 	CollisionComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Ignore);
+
+	FTimerHandle BulletDestroyTimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(BulletDestroyTimerHandle, FTimerDelegate::CreateLambda([&]() {
+		Destroy();
+	}), 2.0f, false);
 }
 
 // Called every frame
@@ -55,7 +65,7 @@ void AProjectileBullet::CollisionComponentOnOverlapBegin(UPrimitiveComponent* Ov
 		const AGOGCharacter* Char = Cast<AGOGCharacter>(OtherActor);
 		if (Char)
 		{
-			UGameplayStatics::ApplyDamage(OtherActor, 10.f, BulletInstigator, this, nullptr);
+			UGameplayStatics::ApplyDamage(OtherActor, Damage, BulletInstigator, this, nullptr);
 			Destroy();
 		}
 	}
