@@ -303,6 +303,11 @@ void AGOGCharacterController::PickUpItem(const FCustomItemInfo ItemInfo) const
 	GOGCharacterWidget->RefreshInventory();
 }
 
+void AGOGCharacterController::Ending() const
+{
+	GOGCharacterWidget->RemoveFromParent();
+}
+
 void AGOGCharacterController::InitQuestLog(const class UGOGCharacterStatComponent* StatComponent, const int CurQuestNum) const
 {
 	GOGCharacterWidget->InitQuestLog(StatComponent->GetQuests()[CurQuestNum]);

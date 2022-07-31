@@ -84,4 +84,6 @@ public:
 	void ToggleInventory(const bool bVisible);
 
 	void PickUpItem(const FCustomItemInfo ItemInfo) const;
+
+	void Ending() const;
 };

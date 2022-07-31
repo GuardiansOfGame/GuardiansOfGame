@@ -196,6 +196,18 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Gameplay)
 	FVector RespawnLocation;
 
+	UPROPERTY(VisibleAnywhere, Category = Gameplay)
+	class ULevelSequence* EndingSequence;
+
+	UPROPERTY(VisibleAnywhere, Category = Gameplay)
+	class ALevelSequenceActor* LevelSequenceActor;
+
+	UPROPERTY(VisibleAnywhere, Category = Gameplay)
+	class ULevelSequencePlayer* EndingSequencePlayer;
+
+	UPROPERTY(VisibleAnywhere, Category = Gameplay)
+	class USoundCue* EndingSound;
+
 protected:
 	void MoveForward(const float Value);
 	void MoveRight(const float Value);
@@ -222,6 +234,9 @@ protected:
 	void InventoryOnOff();
 
 	void TaskCompleteCheat();
+
+	UFUNCTION()
+	void GoTitle();
 
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

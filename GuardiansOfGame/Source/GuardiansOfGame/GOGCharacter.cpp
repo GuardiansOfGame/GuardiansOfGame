@@ -8,6 +8,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "LevelSequenceActor.h"
+#include "LevelSequencePlayer.h"
+#include "Sound/SoundCue.h"
 
 #include "GOGCharacterAnimInstance.h"
 #include "GOGCharacterController.h"
@@ -121,6 +124,17 @@ AGOGCharacter::AGOGCharacter()
 	UsedBlocks.Init(false, 7);
 
 	RespawnLocation = FVector(0.0f);
+
+	static ConstructorHelpers::FObjectFinder<ULevelSequence> EndingSequenceAsset(TEXT("LevelSequence'/Game/CustomContent/Sequence/Ending.Ending'"));
+	if (EndingSequenceAsset.Succeeded())
+	{
+		EndingSequence = EndingSequenceAsset.Object;
+	}
+
+	static ConstructorHelpers::FObjectFinder<USoundCue> EndingSoundAsset(TEXT("SoundCue'/Game/CustomContent/Monster/Monster713/MonsterEffect/sound/fireworksound_Cue.fireworksound_Cue'"));
+	if (EndingSoundAsset.Succeeded()) {
+		EndingSound = EndingSoundAsset.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -140,6 +154,13 @@ void AGOGCharacter::BeginPlay()
 	}
 
 	RespawnLocation = GetActorLocation();
+
+	EndingSequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(
+		GetWorld(),
+		EndingSequence,
+		FMovieSceneSequencePlaybackSettings(),
+		LevelSequenceActor
+	);
 }
 
 // Called every frame
@@ -542,6 +563,11 @@ void AGOGCharacter::TaskCompleteCheat()
 	}
 }
 
+void AGOGCharacter::GoTitle()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), FName("Title"));
+}
+
 void AGOGCharacter::SetMovementStatus(const EMovementStatus Status)
 {
 	MovementStatus = Status;
@@ -661,6 +687,19 @@ void AGOGCharacter::SetQuestProgress(const bool bChatEnded)
 				{
 					Stat->SetCurQuestNum(MAX_QUEST_NUM);
 					GOGController->SetQuestLogVisibillity(Stat, true);
+
+					if(EndingSequence)
+					{
+						FTimerHandle SequenceDelayTimerHandle;
+						GetWorld()->GetTimerManager().SetTimer(SequenceDelayTimerHandle, FTimerDelegate::CreateLambda([&]() {
+							GoTitle();
+						}), 5.5f, false);
+
+						UGameplayStatics::PlaySound2D(GetWorld(), EndingSound);
+						UIOff();
+						GOGController->Ending();
+						EndingSequencePlayer->Play();
+					}
 				}
 			}
 			else
